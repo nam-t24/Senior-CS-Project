@@ -47,12 +47,23 @@ export const signUp = async (formData: FormData) => {
 };
 
 export const signInWithGoogle = async () => {
+    const origin = headers().get("origin");
     const supabase = createClient();
-    const { data, error } = await supabase.auth.signInWithOAuth({ provider: 'google' })
+
+    const { data, error } = await supabase.auth.signInWithOAuth({ 
+      provider: 'google',
+      options: {
+        redirectTo: `${origin}/auth/callback`,
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
+        },
+      },
+    })
 
     if (error) {
       return redirect("/login?message=Could not authenticate using Google");
     }
 
-    return redirect("/protected");
+    redirect(data.url)
 }

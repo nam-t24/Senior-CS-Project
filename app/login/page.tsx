@@ -46,7 +46,7 @@ export default function Login({
           {/* Form Section */}
           <div className="text-neutral-600 mt-6 w-full">
             <p className="text-xs">EMAIL ADDRESS</p>
-            <input className="w-full text-heading border-b-2 border-neutral-600 bg-transparent pb-2 mt-2 focus:outline-none placeholder:text-neutral-500" placeholder="name@example.com" onChange={(e) => (setEmail(e.target.value))}/>
+            <input className="w-full text-heading border-b-2 border-neutral-600 bg-transparent pb-2 mt-2 focus:outline-none placeholder:text-neutral-500" placeholder="name@example.com" type="email "onChange={(e) => (setEmail(e.target.value))}/>
             <p className="text-xs mt-4">PASSWORD</p>
             <div className="relative">
               <input className="w-full text-heading border-b-2 border-neutral-600 bg-transparent pb-2 mt-2 focus:outline-none placeholder:text-neutral-500" placeholder="password" type={showPassword ? "text" : "password"} onChange={(e) => (setPassword(e.target.value))}/>
