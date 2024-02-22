@@ -2,6 +2,18 @@
 
 Bridging the gap between non-profits and donors to fund projects.
 
+## Tech Stack
+### Front End
+- Next.js 14
+- TypeScript
+- Tailwind CSS
+
+### Database and Auth
+- Supabase
+
+### Deployment
+- Vercel
+
 ## Initialization
 ### Connecting to Supabase Database
 
