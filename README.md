@@ -33,7 +33,7 @@ Bridging the gap between non-profits and donors to fund projects.
 
 ### Running the Project
 
-3. Install Packages  
+3. Install Packages (requires node version >= 18.17.0) 
 
    ```bash
    npm install
