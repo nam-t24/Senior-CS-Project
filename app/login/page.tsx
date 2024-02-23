@@ -19,7 +19,6 @@ export default function Login({
   const [login, setLogin] = useState(true);
   const LogInCard = useRef<any>(null);
 
-
   // Form data
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,9 +32,8 @@ export default function Login({
     }
   }
 
-
   return (
-    <div className="2xl:bg-[url('/assets/loginBG_desktop.svg')] bg-[url('/assets/loginBG_laptop.svg')] bg-cover bg-center bg-no-repeat h-screen min-h-screen w-full relative flex justify-center items-center">
+    <div className="2xl:bg-[url('/assets/backgrounds/loginBG_desktop.svg')] bg-[url('/assets/backgrounds/loginBG_laptop.svg')] bg-cover bg-center bg-no-repeat h-screen min-h-screen w-full relative flex justify-center items-center">
         <div className="pt-4 pl-6 absolute top-0 left-0"><Link href="/" className={`${caveat.className} text-5xl text-primary font-medium`}>Minted</Link></div>
         
         {/* Log In Card */}
@@ -45,18 +43,20 @@ export default function Login({
 
           {/* Form Section */}
           <div className="text-neutral-600 mt-6 w-full">
+            <form onSubmit={e => e.preventDefault()}>
             <p className="text-xs">EMAIL ADDRESS</p>
-            <input className="w-full text-heading border-b-2 border-neutral-600 bg-transparent pb-2 mt-2 focus:outline-none placeholder:text-neutral-500" placeholder="name@example.com" type="email "onChange={(e) => (setEmail(e.target.value))}/>
+            <input className="w-full text-heading border-b-2 border-neutral-600 bg-transparent pb-2 mt-2 focus:outline-none placeholder:text-neutral-500" placeholder="name@example.com" type="email" autoComplete="email" onChange={(e) => (setEmail(e.target.value))}/>
             <p className="text-xs mt-4">PASSWORD</p>
             <div className="relative">
-              <input className="w-full text-heading border-b-2 border-neutral-600 bg-transparent pb-2 mt-2 focus:outline-none placeholder:text-neutral-500" placeholder="password" type={showPassword ? "text" : "password"} onChange={(e) => (setPassword(e.target.value))}/>
+              <input className="w-full text-heading border-b-2 border-neutral-600 bg-transparent pb-2 mt-2 focus:outline-none placeholder:text-neutral-500 pr-8" placeholder="password" type={showPassword ? "text" : "password"} autoComplete="current-password" onChange={(e) => (setPassword(e.target.value))}/>
               <button className="absolute right-0 top-1/2 -translate-y-1/2" onClick={() => {setShowPassword(!showPassword)}}>{showPassword ? <VisibilityOffIcon/> : <VisibilityIcon/>}</button>
             </div>
 
-            {login ? <button className="bg-darkmaroon text-primary w-full p-3 rounded-md font-medium my-6 text-lg hover:brightness-125" onClick={() => signIn({email, password})}>Log In</button>
+            {login ? <button type="button" className="bg-darkmaroon text-primary w-full p-3 rounded-md font-medium my-6 text-lg hover:brightness-125" onClick={() => signIn({email, password})}>Log In</button>
             :
-            <button className="bg-darkmaroon text-primary w-full p-3 rounded-md font-medium my-6 text-lg hover:brightness-125" onClick={() => signUp({email, password})}>Create Account</button>
+            <button type="button" className="bg-darkmaroon text-primary w-full p-3 rounded-md font-medium my-6 text-lg hover:brightness-125" onClick={() => signUp({email, password})}>Create Account</button>
             }
+            </form>
 
             {/* Error message */}
             {searchParams?.message && (<div className="flex justify-center items-center mb-2 space-x-2 > * + * mt-[-6px] mb-4 text-heading">
@@ -71,7 +71,7 @@ export default function Login({
             </div>
 
             <button className="text-center w-full bg-primary p-3 rounded-md text-heading font-medium text-lg my-6 relative hover:brightness-95" onClick={() => signInWithGoogle()}>
-              <Image src={'/assets/google.svg'} alt="Google" className="absolute left-4 top-1/2 -translate-y-1/2" width={30} height={30}/>
+              <Image src={'/assets/googleIcon.svg'} alt="Google" className="absolute left-4 top-1/2 -translate-y-1/2" width={30} height={30}/>
               Continue in with Google
             </button>
           </div>
