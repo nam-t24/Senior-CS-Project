@@ -64,9 +64,9 @@ export default function SideNav() {
             {/* Log Out */}
             <div className="2xl:mt-44 mt-36">
                 <HorizontalLine/>
-                <button className = "flex flex-nowrap justify-start items-center space-x-4 > * + * my-2 2xl:text-xl text-lg w-auto font-light px-3 2xl:mt-4 hover:brightness-75" onClick={() => signOut()}>
-                    <p className="">Log out</p>
+                <button className = "flex flex-nowrap justify-start items-center space-x-3 > * + * my-2 2xl:text-xl text-lg w-auto font-light px-3 2xl:mt-4 hover:brightness-75" onClick={() => signOut()}>
                     <LogoutIcon fontSize="inherit"/>
+                    <p className="">Log out</p>
                 </button>
             </div>
         </div>

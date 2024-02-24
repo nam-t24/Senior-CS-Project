@@ -3,7 +3,8 @@ import AuthButton from "@/components/AuthButton";
 import FetchDataSteps from "@/components/tutorial/FetchDataSteps";
 import Header from "@/components/Header";
 
-export default async function ProtectedPage() {
+// Profile page, default dashboard page
+export default function DashboardProfile() {
   return (
     <div className="flex-1 w-full flex flex-col gap-20 items-center">
       <div className="w-full">
