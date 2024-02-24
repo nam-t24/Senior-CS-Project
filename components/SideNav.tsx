@@ -1,64 +1,73 @@
-import Image from "next/image";
+"use client";
 import { Caveat } from "next/font/google" 
-import { Poppins } from "next/font/google"
-import {LogOutButton} from "./svg"
+import LogoutIcon from '@mui/icons-material/Logout';
+import { signOut } from "./SignOutFunction";
+
 const caveat = Caveat({
     subsets: ['latin'],
     weight: ['400'],
 })
-const poppins = Poppins({
-    subsets: ['latin'],
-    weight: ['200', '300'],
-})
-function HorizontalLine() {
+
+const HorizontalLine = () => {
     return (
-        <div className="border w-8/12 ml-6"/>
+        <div className="border-b border-neutral-400"/>
     )
 }
-export default function SideNav() {
+
+const NavSection = ({sectionName} : {sectionName: string}) => {
     return (
-        <div className="sticky top-0 w-[12%] bg-[#590D24] text-white h-screen">
-            <div className="ml-5 indent-6">
-                <div style={{fontSize: "3.5vw"}} className={caveat.className}>
-                    Minted
-                </div>
-                <div className="my-6">
-                    <div style={{fontSize: ".8vw", fontWeight:"200"}} className={poppins.className}>
-                        Account
-                    </div>
+        <div className="2xl:text-lg text-base font-extralight text-neutral-400 my-1 2xl:pl-3 pl-2">
+            {sectionName}
+        </div>
+    )
+}
+
+export default function SideNav() {
+
+    return (
+        <div className="fixed left-0 top-0 2xl:w-96 w-64 bg-darkmaroon text-white h-screen 2xl:py-8 py-6 2xl:px-8 px-6">
+            <div className={`${caveat.className} 2xl:text-6xl text-5xl`}>
+                Minted
+            </div>
+            
+            {/* Navigation Links */}
+            <div className="w-11/12">
+                {/* Account Section */}
+                <div className="my-6 2xl:mt-16 mt-10">
+                    <NavSection sectionName="Account"/>
                     <HorizontalLine/>
-                    <div style={{fontSize: "1vw", fontWeight:"300"}} className={poppins.className}>
-                        <p className="rounded-lg w-11/12 my-2 hover:bg-[#B47B84]">Profile</p>
+                    <div  className="font-light 2xl:text-2xl text-lg">
+                        <p className="rounded-lg my-2 hover:bg-lightmaroon 2xl:py-2 py-1 2xl:px-3 px-2">Profile</p>
                     </div>
                 </div>
+                {/* Org Section */}
                 <div className="my-6">
-                    <div style={{fontSize: ".8vw", fontWeight:"200"}} className={poppins.className}>
-                        Organization
-                    </div>
+                    <NavSection sectionName="Organization"/>
                     <HorizontalLine/>
-                    <div style={{fontSize: "1vw", fontWeight:"300" }} className={poppins.className}>
-                        <p className="rounded-lg w-11/12 my-2 hover:bg-[#B47B84]"> Overview</p>
-                        <p className="rounded-lg w-11/12 my-2 hover:bg-[#B47B84]"> Grants</p>
-                        <p className="rounded-lg w-11/12 my-2 hover:bg-[#B47B84]"> History</p>
+                    <div className="font-light 2xl:text-2xl text-lg">
+                        <p className="rounded-lg my-2 hover:bg-lightmaroon 2xl:py-2 py-1 2xl:px-3 px-2"> Overview</p>
+                        <p className="rounded-lg my-2 hover:bg-lightmaroon 2xl:py-2 py-1 2xl:px-3 px-2"> Grants</p>
+                        <p className="rounded-lg my-2 hover:bg-lightmaroon 2xl:py-2 py-1 2xl:px-3 px-2"> History</p>
                     </div>
                 </div>
+                {/* Browse Section */}
                 <div className="my-6">
-                    <div style={{fontSize: ".8vw", fontWeight:"200"}} className={poppins.className}>
-                        Browse
-                    </div>
+                    <NavSection sectionName="Browse"/>
                     <HorizontalLine/>
-                    <div style={{fontSize: "1vw", fontWeight:"300" }} className={poppins.className}>
-                        <p className="rounded-lg w-11/12 my-2 hover:bg-[#B47B84]">Open Grants</p>
-                        <p className="rounded-lg w-11/12 my-2 hover:bg-[#B47B84]">Search</p>
+                    <div className="font-light 2xl:text-2xl text-lg">
+                        <p className="rounded-lg my-2 hover:bg-lightmaroon 2xl:py-2 py-1 2xl:px-3 px-2">Open Grants</p>
+                        <p className="rounded-lg my-2 hover:bg-lightmaroon 2xl:py-2 py-1 2xl:px-3 px-2">Search</p>
                     </div>
                 </div>
-                <div className="my-44">
-                    <div className="border w-11/12"/>
-                    <div className = "flex flex-row flex-nowrap justify-start rounded-lg w-11/12 my-2 hover:bg-[#B47B84]">
-                        <p style={{fontSize: "1vw", fontWeight:"300", marginRight:"10px" }} className={poppins.className}> Log out </p>
-                        <LogOutButton/>
-                    </div>
-                </div>
+            </div>
+            
+            {/* Log Out */}
+            <div className="my-44">
+                <HorizontalLine/>
+                <button className = "flex flex-nowrap justify-start items-center space-x-4 > * + * my-2 2xl:text-2xl text-lg w-auto font-light px-3" onClick={() => signOut()}>
+                    <p className="">Log out</p>
+                    <LogoutIcon fontSize="inherit"/>
+                </button>
             </div>
         </div>
     )
