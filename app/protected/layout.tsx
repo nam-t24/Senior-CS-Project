@@ -1,14 +1,26 @@
-import SideNav from "@/components/SideNav";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
+import SideNav from "@/components/dashboard/SideNav";
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return redirect("/login");
+  }
+
   return (
     <div className="w-full">
       <SideNav />
-      <main className="2xl:ml-96 ml-60">{children}</main>
+      <main className="2xl:ml-80 ml-60">{children}</main>
     </div>
   );
 }

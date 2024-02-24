@@ -1,6 +1,6 @@
-# Minted <br><br><sup><sup>Senior Design Project by the Shadow Wizard Money Gang</sup></sup>
+# Minted <br><br><sup><sup>Senior Design Project by the Shadow Wizard Money Gang</sup></sup><br>[![Made with Supabase](https://supabase.com/badge-made-with-supabase-dark.svg)](https://supabase.com)
 
-Bridging the gap between non-profits and donors to fund projects.
+#### Bridging the gap between non-profits and donors to fund projects.
 
 ## Tech Stack
 ### Front End

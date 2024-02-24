@@ -67,3 +67,9 @@ export const signInWithGoogle = async () => {
 
     redirect(data.url)
 }
+
+export const signOut = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    return redirect("/login");
+};
