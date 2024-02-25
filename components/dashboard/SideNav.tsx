@@ -2,7 +2,7 @@
 import { Caveat } from "next/font/google" 
 import Link from "next/link";
 import LogoutIcon from '@mui/icons-material/Logout';
-import { signOut } from "../scripts/accountFunctions";
+import { signOut } from "../../utils/scripts/accountFunctions";
 import NavLink from "./NavLink"
 
 const caveat = Caveat({
