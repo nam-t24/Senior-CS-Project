@@ -22,7 +22,7 @@ export const signIn = async (formData: FormData) => {
       return redirect("/login?message=Could not authenticate user");
     }
 
-    return redirect("/protected");
+    return redirect("/dashboard");
 };
 
 export const signUp = async (formData: FormData) => {
@@ -67,3 +67,9 @@ export const signInWithGoogle = async () => {
 
     redirect(data.url)
 }
+
+export const signOut = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    return redirect("/login");
+};
