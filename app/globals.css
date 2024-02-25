@@ -23,3 +23,34 @@ input:-webkit-autofill:active {
     transform: translateY(0);
   }
 }
+
+.animateDown {
+  animation: animateDown 0.3s ease 0.15s both;
+}
+
+@keyframes animateDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hoverRaise:hover{
+  animation: raise 0.7s ease-out;
+}
+
+@keyframes raise {
+  0% {
+    transform: translatey(0px);
+  }
+  30% {
+    transform: translatey(-3px);
+  }
+  100% {
+    transform: translatey(0px);
+  }
+}
