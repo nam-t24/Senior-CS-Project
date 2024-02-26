@@ -14,12 +14,13 @@ export const getUserOrganizationID = async () => {
 }
 
 export const createOrganization = async (orgName: string, orgEmail: string, orgBio: string, orgType: number) => {
-     const supabase = createClient();
+    const supabase = createClient();
     const { data: { user }} = await supabase.auth.getUser();
     const userID = user?.id;
 
     const isNonProfit = orgType == 0 ? true : false;
 
+    // Add org foreign key to user
     const updateUserOrg = async (data) => {
         const { error: updateError } = await supabase
         .from('profiles')
@@ -31,6 +32,7 @@ export const createOrganization = async (orgName: string, orgEmail: string, orgB
         }
     }
 
+    // Creates org and adds foreign key
     const error = await supabase
     .from('organizations')
     .insert({ name: orgName, email: orgEmail, bio: orgBio, isNonProfit: isNonProfit, owner: userID}).select().then(({data}) => updateUserOrg(data));
@@ -38,5 +40,4 @@ export const createOrganization = async (orgName: string, orgEmail: string, orgB
     if (error){
         return error;
     }
-
 }
