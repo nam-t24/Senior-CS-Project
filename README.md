@@ -72,3 +72,5 @@ theme: {
 ```
 
 Use Material UI icons found [here](https://mui.com/material-ui/material-icons/) for any svg icons
+
+Minted uses [shadcn/ui](https://ui.shadcn.com/) for UI components

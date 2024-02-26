@@ -22,9 +22,14 @@ export default function OrganizationOverview() {
     return(
         <div className="">
             <PageHeading header="Overview" description="Your organization"/>
+            
             {/* Redirects user to correct org page(sign up or overview) */}
             {
-                userOrg.length === 0 ? <div className="text-center mt-8 text-darkmaroon">Getting organization data</div> 
+                userOrg.length === 0 ? 
+                <div className="text-center 2xl:mt-72 mt-52 text-darkmaroon">
+                    <div className="text-xl font-medium">Getting organization data</div>
+                    <div className="loadingAnimation"><div></div><div></div><div></div></div>
+                </div> 
                 : (userOrg[0]?.FK_organizations == null ?  <div></div> : <OrgOverviewPage/>)
             }
         </div>
