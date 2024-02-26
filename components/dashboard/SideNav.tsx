@@ -2,7 +2,8 @@
 import { Caveat } from "next/font/google" 
 import Link from "next/link";
 import LogoutIcon from '@mui/icons-material/Logout';
-import { signOut } from "../scripts/accountFunctions";
+import { signOut } from "../../utils/scripts/accountFunctions";
+import NavLink from "./NavLink"
 
 const caveat = Caveat({
     subsets: ['latin'],
@@ -37,7 +38,7 @@ export default function SideNav() {
                     <NavSection sectionName="Account"/>
                     <HorizontalLine/>
                     <div  className="font-light 2xl:text-xl text-lg">
-                        <p className="rounded-lg my-2 hover:bg-lightmaroon 2xl:py-2 py-1 2xl:px-3 px-2">Profile</p>
+                        <NavLink href="/dashboard" exact={true} activeOptions="bg-lightmaroon" className="rounded-lg my-2 2xl:py-2 py-1 2xl:px-3 px-2 hoverRaise">Profile</NavLink>
                     </div>
                 </div>
                 {/* Org Section */}
@@ -45,9 +46,9 @@ export default function SideNav() {
                     <NavSection sectionName="Organization"/>
                     <HorizontalLine/>
                     <div className="font-light 2xl:text-xl text-lg">
-                        <p className="rounded-lg my-2 hover:bg-lightmaroon 2xl:py-2 py-1 2xl:px-3 px-2"> Overview</p>
-                        <p className="rounded-lg my-2 hover:bg-lightmaroon 2xl:py-2 py-1 2xl:px-3 px-2"> Grants</p>
-                        <p className="rounded-lg my-2 hover:bg-lightmaroon 2xl:py-2 py-1 2xl:px-3 px-2"> History</p>
+                        <NavLink href="/dashboard/organization/overview" exact={true} activeOptions="bg-lightmaroon" className="rounded-lg my-2 2xl:py-2 py-1 2xl:px-3 px-2 hoverRaise">Overview</NavLink>
+                        <NavLink href="/dashboard/organization/grants" exact={true} activeOptions="bg-lightmaroon" className="rounded-lg my-2 2xl:py-2 py-1 2xl:px-3 px-2 hoverRaise">Grants</NavLink>
+                        <NavLink href="/dashboard/organization/history" exact={true} activeOptions="bg-lightmaroon" className="rounded-lg my-2 2xl:py-2 py-1 2xl:px-3 px-2 hoverRaise">History</NavLink>
                     </div>
                 </div>
                 {/* Browse Section */}
@@ -55,8 +56,8 @@ export default function SideNav() {
                     <NavSection sectionName="Browse"/>
                     <HorizontalLine/>
                     <div className="font-light 2xl:text-xl text-lg">
-                        <p className="rounded-lg my-2 hover:bg-lightmaroon 2xl:py-2 py-1 2xl:px-3 px-2">Open Grants</p>
-                        <p className="rounded-lg my-2 hover:bg-lightmaroon 2xl:py-2 py-1 2xl:px-3 px-2">Search</p>
+                        <NavLink href="/dashboard/browse/opengrants" exact={true} activeOptions="bg-lightmaroon" className="rounded-lg my-2 2xl:py-2 py-1 2xl:px-3 px-2 hoverRaise">Open Grants</NavLink>
+                        <NavLink href="/dashboard/browse/search" exact={true} activeOptions="bg-lightmaroon" className="rounded-lg my-2 2xl:py-2 py-1 2xl:px-3 px-2 hoverRaise">Search</NavLink>
                     </div>
                 </div>
             </div>

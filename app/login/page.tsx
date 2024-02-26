@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useRef } from "react";
 import { Caveat } from 'next/font/google';
-import { signIn, signUp, signInWithGoogle } from "@/components/scripts/accountFunctions";
+import { signIn, signUp, signInWithGoogle } from "@/utils/scripts/accountFunctions";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
