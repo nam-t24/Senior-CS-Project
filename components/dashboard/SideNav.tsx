@@ -46,7 +46,7 @@ export default function SideNav() {
                     <NavSection sectionName="Organization"/>
                     <HorizontalLine/>
                     <div className="font-light 2xl:text-xl text-lg">
-                        <NavLink href="/dashboard/organization/overview" exact={true} activeOptions="bg-lightmaroon" className="rounded-lg my-2 2xl:py-2 py-1 2xl:px-3 px-2 hoverRaise">Overview</NavLink>
+                        <NavLink href="/dashboard/organization/overview" exact={false} activeOptions="bg-lightmaroon" className="rounded-lg my-2 2xl:py-2 py-1 2xl:px-3 px-2 hoverRaise">Overview</NavLink>
                         <NavLink href="/dashboard/organization/grants" exact={true} activeOptions="bg-lightmaroon" className="rounded-lg my-2 2xl:py-2 py-1 2xl:px-3 px-2 hoverRaise">Grants</NavLink>
                         <NavLink href="/dashboard/organization/history" exact={true} activeOptions="bg-lightmaroon" className="rounded-lg my-2 2xl:py-2 py-1 2xl:px-3 px-2 hoverRaise">History</NavLink>
                     </div>

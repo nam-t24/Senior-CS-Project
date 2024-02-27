@@ -17,6 +17,7 @@ export type Database = {
           isNonProfit: boolean
           name: string | null
           owner: string
+          website: string | null
         }
         Insert: {
           bio?: string | null
@@ -25,6 +26,7 @@ export type Database = {
           isNonProfit?: boolean
           name?: string | null
           owner: string
+          website?: string | null
         }
         Update: {
           bio?: string | null
@@ -33,6 +35,7 @@ export type Database = {
           isNonProfit?: boolean
           name?: string | null
           owner?: string
+          website?: string | null
         }
         Relationships: []
       }
