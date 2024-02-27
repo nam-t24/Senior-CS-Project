@@ -1,7 +1,7 @@
 "use client"
 import PageHeading from "@/components/dashboard/PageHeading";
 import { useState, useEffect } from "react";
-import { getUserOrgData, updateOrg, getUserOrganizationID, isUserOwner, getOrgTeam } from "@/utils/scripts/organization";
+import { getUserOrgData, updateOrg, getUserIDandOrgID, isUserOwner, getOrgTeam } from "@/utils/scripts/organization";
 import { useToast } from "@/components/ui/use-toast";
 import OrgTeam from "./orgTeam";
 
@@ -15,6 +15,7 @@ type orgDataType = {
 
 export default function OrganizationOverview() {
     const { toast } = useToast();
+    const [userID, setUserID] = useState("");
     const [orgData, setOrgData] = useState<orgDataType>(null);
 
     const [orgName, setOrgName] = useState("");
@@ -28,10 +29,17 @@ export default function OrganizationOverview() {
     const [orgTeam, setOrgTeam] = useState(null);
 
     useEffect(() => {
-        getUserOrgData().then(({data}) => setOrgData(data[0])).catch((error) => (displayErrorToast(error)));
-        isUserOwner().then(setIsOwner);
-        getUserOrganizationID().then(setUserOrgID);
-        getOrgTeam().then(setOrgTeam);
+        const getAllData = async () => {
+            const {userUUID, orgID} = await getUserIDandOrgID();
+            setUserID(userUUID)
+            setUserOrgID(orgID);
+
+            getUserOrgData(orgID).then(({data}) => setOrgData(data[0])).catch((error) => (displayErrorToast(error)));
+            isUserOwner(userUUID, orgID).then(setIsOwner);
+            getOrgTeam(orgID).then(setOrgTeam);
+        }
+
+        getAllData();
     }, [])
 
     useEffect(() => {

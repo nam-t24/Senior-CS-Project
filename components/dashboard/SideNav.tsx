@@ -5,7 +5,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { signOut } from "../../utils/scripts/accountFunctions";
 import NavLink from "./NavLink"
 import { useEffect, useState } from "react";
-import { getUserOrganizationID } from "@/utils/scripts/organization";
+import { getUserIDandOrgID } from "@/utils/scripts/organization";
 
 const caveat = Caveat({
     subsets: ['latin'],
@@ -30,7 +30,7 @@ export default function SideNav() {
     const [isInOrg, setIsInOrg] = useState(false);
 
     useEffect(() => {
-        getUserOrganizationID().then((FK_organization) => {setIsInOrg(FK_organization === null ? false : true)});
+        getUserIDandOrgID().then(({orgID}) => {setIsInOrg(orgID === null ? false : true)});
     }, [])
     
 

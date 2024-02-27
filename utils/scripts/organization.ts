@@ -3,14 +3,16 @@ import { createClient } from "@/utils/supabase/server";
 
 // SQL functions for organizations table
 
-
-export const getUserOrganizationID = async () => {
+export const getUserIDandOrgID = async () => {
     const supabase = createClient();
     const { data: { user }} = await supabase.auth.getUser();
-    const userID = user?.id;
+    const userUUID = user.id;
 
-    const { data, error } = await supabase.from("profiles").select("FK_organizations").eq("id", userID);
-    return data[0]?.FK_organizations;
+    const { data, error } = await supabase.from("profiles").select('FK_organizations').eq("id", userUUID);
+
+    const orgID = data[0].FK_organizations
+
+    return {userUUID, orgID};
 }
 
 export const createOrganization = async (orgName: string, orgEmail: string, orgBio: string, orgWebsite: string, orgType: number) => {
@@ -44,10 +46,10 @@ export const createOrganization = async (orgName: string, orgEmail: string, orgB
     }
 }
 
-export const getUserOrgData = async () => {
+export const getUserOrgData = async (orgID: number) => {
     const supabase = createClient();
 
-    const data = getUserOrganizationID().then((FK_organizations) => supabase.from('organizations').select('name, email, bio, website, isNonProfit').eq('id', FK_organizations));
+    const data = supabase.from('organizations').select('name, email, bio, website, isNonProfit').eq('id', orgID);
 
     return data;
 }
@@ -69,10 +71,9 @@ export const updateOrg = async (orgName: string, orgEmail: string, orgBio: strin
 }
 
 // Return id of the org owner of user's current org
-const getOrgOwner = async () => {
+const getOrgOwner = async (orgID: number) => {
     const supabase = createClient();
 
-    const orgID = await getUserOrganizationID();
     const { data, error } = await supabase.from('organizations').select('owner').eq('id', orgID);
 
     if(error){
@@ -84,12 +85,10 @@ const getOrgOwner = async () => {
     return data[0].owner;
 }
 
-export const isUserOwner = async () => {
+export const isUserOwner = async (userID: string, orgID: number) => {
     const supabase = createClient();
-    const { data: { user }} = await supabase.auth.getUser();
-    const userID = user?.id;
 
-    const ownerID = await getOrgOwner();
+    const ownerID = await getOrgOwner(orgID);
 
     if(ownerID == null){
         return false;
@@ -97,17 +96,16 @@ export const isUserOwner = async () => {
     return ownerID === userID;
 }
 
-export const getOrgTeam = async () => {
+export const getOrgTeam = async (orgID: number) => {
     const supabase = createClient();
-    const FK_organizations = await getUserOrganizationID();
-    const ownewID = await getOrgOwner();
+    const ownerID = await getOrgOwner(orgID);
 
-    const { data, error } = await supabase.from('profiles').select('id, full_name, email').eq('FK_organizations', FK_organizations);
+    const { data, error } = await supabase.from('profiles').select('id, full_name, email').eq('FK_organizations', orgID);
 
     const getOwnerIndex = () => {
         let index = 0;
         for (const profile of data){
-            if(profile.id == ownewID){
+            if(profile.id == ownerID){
                 return index;
             }
             index++;
