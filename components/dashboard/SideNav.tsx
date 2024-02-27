@@ -4,6 +4,8 @@ import Link from "next/link";
 import LogoutIcon from '@mui/icons-material/Logout';
 import { signOut } from "../../utils/scripts/accountFunctions";
 import NavLink from "./NavLink"
+import { useEffect, useState } from "react";
+import { getUserOrganizationID } from "@/utils/scripts/organization";
 
 const caveat = Caveat({
     subsets: ['latin'],
@@ -25,6 +27,13 @@ const NavSection = ({sectionName} : {sectionName: string}) => {
 }
 
 export default function SideNav() {
+    const [isInOrg, setIsInOrg] = useState(false);
+
+    useEffect(() => {
+        getUserOrganizationID().then((FK_organization) => {setIsInOrg(FK_organization === null ? false : true)});
+    }, [])
+    
+
     return (
         <div className="fixed left-0 top-0 2xl:w-80 w-64 bg-darkmaroon text-white h-screen py-6 2xl:px-8 px-6">
             <Link href="/" className={`${caveat.className} text-5xl`}>
@@ -46,9 +55,13 @@ export default function SideNav() {
                     <NavSection sectionName="Organization"/>
                     <HorizontalLine/>
                     <div className="font-light 2xl:text-xl text-lg">
-                        <NavLink href="/dashboard/organization/overview" exact={false} activeOptions="bg-lightmaroon" className="rounded-lg my-2 2xl:py-2 py-1 2xl:px-3 px-2 hoverRaise">Overview</NavLink>
+                        <NavLink href={isInOrg ? "/dashboard/organization/overview" : "/dashboard/organization/overview/orgSignUp"} exact={false} activeOptions="bg-lightmaroon" className="rounded-lg my-2 2xl:py-2 py-1 2xl:px-3 px-2 hoverRaise">Overview</NavLink>
+                        {isInOrg && 
                         <NavLink href="/dashboard/organization/grants" exact={true} activeOptions="bg-lightmaroon" className="rounded-lg my-2 2xl:py-2 py-1 2xl:px-3 px-2 hoverRaise">Grants</NavLink>
+                        }
+                        {isInOrg &&
                         <NavLink href="/dashboard/organization/history" exact={true} activeOptions="bg-lightmaroon" className="rounded-lg my-2 2xl:py-2 py-1 2xl:px-3 px-2 hoverRaise">History</NavLink>
+                        }
                     </div>
                 </div>
                 {/* Browse Section */}

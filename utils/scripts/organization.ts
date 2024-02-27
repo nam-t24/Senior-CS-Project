@@ -67,3 +67,56 @@ export const updateOrg = async (orgName: string, orgEmail: string, orgBio: strin
 
     return null;
 }
+
+// Return id of the org owner of user's current org
+const getOrgOwner = async () => {
+    const supabase = createClient();
+
+    const orgID = await getUserOrganizationID();
+    const { data, error } = await supabase.from('organizations').select('owner').eq('id', orgID);
+
+    if(error){
+        console.log("Error in getting org owner ID");
+        console.log(error.message);
+        return null;
+    }
+
+    return data[0].owner;
+}
+
+export const isUserOwner = async () => {
+    const supabase = createClient();
+    const { data: { user }} = await supabase.auth.getUser();
+    const userID = user?.id;
+
+    const ownerID = await getOrgOwner();
+
+    if(ownerID == null){
+        return false;
+    }
+    return ownerID === userID;
+}
+
+export const getOrgTeam = async () => {
+    const supabase = createClient();
+    const FK_organizations = await getUserOrganizationID();
+    const ownewID = await getOrgOwner();
+
+    const { data, error } = await supabase.from('profiles').select('id, full_name, email').eq('FK_organizations', FK_organizations);
+
+    const getOwnerIndex = () => {
+        let index = 0;
+        for (const profile of data){
+            if(profile.id == ownewID){
+                return index;
+            }
+            index++;
+        }
+    }
+
+    const ownerIndex = getOwnerIndex();
+
+    [data[0], data[ownerIndex]] = [data[ownerIndex], data[0]]
+
+    return data;
+}
