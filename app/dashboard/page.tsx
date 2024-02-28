@@ -46,7 +46,7 @@ export default function DashboardProfile() {
       setName(res?.full_name || "");
       setEmail(res?.email || "");
       setBio(res?.bio || "");
-      setOrg(res?.organizations?.name || "You are not part of an organization. Go to organization overview to create or join an organization.");
+      setOrg(res?.organizations?.name || "You are not a part of an organization. Go to \"Organization Overview\" to create or join an organization.");
       setLoading(false);
     }).catch((error) => (displayErrorToast(error)));
   }, [])
@@ -60,7 +60,7 @@ export default function DashboardProfile() {
           <div className="loadingAnimation"><div></div><div></div><div></div></div>
         </div>
         :
-        <div className="flex flex-col 2xl:gap-y-12 2xl:w-[1200px] gap-y-10 w-[645px]">
+        <div className="flex flex-col 2xl:gap-y-12 2xl:w-[1200px] gap-y-10 w-[600px]">
           {/* Name */}
           <div className="h-24 text-wrap">
             <div className="2xl:text-3xl text-2xl font-medium mb-4">
@@ -69,22 +69,21 @@ export default function DashboardProfile() {
             <input type="text" minLength={4} value={name} onChange={(e) => { setName(e.target.value) }} className="outline-none w-full bg-inherit 2xl:text-lg text-body border-b border-body" />
             {name.length == 0 && <p className="text-red-800 mt-1 2xl:text-base text-sm">Name cannot be empty</p>}
           </div>
-          {/* Email */}
-          <div className="h-24 text-wrap">
-            <div className="2xl:text-3xl text-2xl font-medium mb-4">
-              Display Email
-            </div>
-            <div className="outline-none w-full bg-inherit 2xl:text-lg text-body border-b border-body" >
-              {email}
-            </div>
-          </div>
           {/* Bio */}
           <div className="h-44 text-wrap">
             <div className="2xl:text-3xl text-2xl font-medium mb-4">
               Bio
             </div>
             <textarea required={true} value={bio} rows={4} onChange={(e) => { setBio(e.target.value) }} className="outline-none w-full bg-inherit 2xl:text-lg text-body resize-none border-b border-body" />
-            {bio.length == 0 && <p className="text-red-800 mt-1 2xl:text-base text-sm">Bio cannot empty</p>}
+          </div>
+          {/* Email */}
+          <div className="h-24 text-wrap">
+            <div className="2xl:text-3xl text-2xl font-medium mb-4">
+              Display Email
+            </div>
+            <div className="outline-none w-full bg-inherit 2xl:text-lg text-body " >
+              {email}
+            </div>
           </div>
           {/* Organization */}
           <div className=" text-wrap">
@@ -96,7 +95,7 @@ export default function DashboardProfile() {
             </div>
           </div>
           {/* Update Profile */}
-          <button disabled={name.length == 0 || !email.match(isValidEmail) || bio.length == 0} onClick={() => handleUpdateProfile()} className="disabled:cursor-not-allowed bg-[#CAA6A6] rounded-lg w-[400px] h-16 hover:bg-[#944E63] text-white text-2xl ">{!updating ? "Update Profile" : "Updating Profile..."}</button>
+          <button disabled={name.length == 0} onClick={() => handleUpdateProfile()} className="disabled:cursor-not-allowed bg-brown rounded-lg 2xl:w-[400px] w-[200px] 2xl:h-16 h-12 hover:bg-maroon text-white text-2xl ">{!updating ? "Update Profile" : "Updating Profile..."}</button>
         </div>
       }
     </div>
