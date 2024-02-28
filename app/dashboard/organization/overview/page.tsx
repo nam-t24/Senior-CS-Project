@@ -1,9 +1,23 @@
 "use client"
 import PageHeading from "@/components/dashboard/PageHeading";
 import { useState, useEffect } from "react";
-import { getUserOrgData, updateOrg, getUserIDandOrgID, isUserOwner, getOrgTeam } from "@/utils/scripts/organization";
+import { getUserOrgData, updateOrg, getUserIDandOrgID, isUserOwner, getOrgTeam, removeUserFromOrg } from "@/utils/scripts/organization";
 import { useToast } from "@/components/ui/use-toast";
 import OrgTeam from "./orgTeam";
+import { useRouter } from "next/navigation";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
 
 type orgDataType = {
     name: any;
@@ -14,6 +28,7 @@ type orgDataType = {
 }
 
 export default function OrganizationOverview() {
+    const router = useRouter();
     const { toast } = useToast();
     const [userID, setUserID] = useState("");
     const [orgData, setOrgData] = useState<orgDataType>(null);
@@ -33,6 +48,10 @@ export default function OrganizationOverview() {
             const {userUUID, orgID} = await getUserIDandOrgID();
             setUserID(userUUID)
             setUserOrgID(orgID);
+
+            if(orgID === null){
+                router.push("/dashboard/organization/overview/orgSignup")
+            }
 
             getUserOrgData(orgID).then(({data}) => setOrgData(data[0])).catch((error) => (displayErrorToast(error)));
             isUserOwner(userUUID, orgID).then(setIsOwner);
@@ -87,6 +106,25 @@ export default function OrganizationOverview() {
             title: "Organization Successfully Updated",
             })
     }
+
+    const leaveOrg = async () => {
+        const error = await removeUserFromOrg(userID);
+
+        if (error){
+            console.log(error.message);
+            toast({
+            variant: "destructive",
+            title: "Unable to leave org",
+            description: "Check log for error",
+            })
+        }
+        else{
+            toast({
+            title: "Successfully Left Organization",
+            })
+            router.push("/dashboard/organization/overview/orgSignUp");
+        }
+    }
     return(
         <div className="">
             <PageHeading header="Overview" description="Your organization"/>
@@ -96,6 +134,7 @@ export default function OrganizationOverview() {
                 <div className="loadingAnimation"><div></div><div></div><div></div></div>
             </div> 
             :
+            <div>
             <div className="flex items-stretch mt-8 2xl:space-x-6 > * + * space-x-4 > * + * animate-in">
                 {/* Org Info Section */}
                 <div className="w-3/5 2xl:px-10 px-6 2xl:py-8 py-6 bg-lightmaroon/20 rounded-md 2xl:text-lg">
@@ -144,6 +183,29 @@ export default function OrganizationOverview() {
                 </div>
                 {/* Team Section */}
                 <OrgTeam orgTeam={orgTeam || []} isOwner = {isOwner || false}/>
+            </div>
+            {/* End Org info section */}
+            <div className="mt-24">
+                <div className="text-2xl">Danger Zone</div>
+                <div className="w-96 border-b-[1px] border-body mt-1 mb-3"></div>
+                <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                        <button className="bg-red-100 px-2 px-2 rounded-md border-2 border-red-900 text-red-900 text-lg hover:brightness-95">Leave Organization</button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            Click continue to leave organization.
+                        </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={() => leaveOrg()}>Continue</AlertDialogAction>
+                    </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+            </div>
             </div>
             }
         </div>

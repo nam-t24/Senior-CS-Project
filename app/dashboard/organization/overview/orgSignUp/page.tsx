@@ -1,6 +1,6 @@
 "use client"
-import { useState } from "react";
-import { createOrganization } from "@/utils/scripts/organization";
+import { useEffect, useState } from "react";
+import { createOrganization, getUserIDandOrgID } from "@/utils/scripts/organization";
 import { useToast } from "@/components/ui/use-toast"
 import { useRouter } from 'next/navigation'
 import PageHeading from "@/components/dashboard/PageHeading";
@@ -17,6 +17,17 @@ export default function OrgSignUpPage() {
     const [orgType, setOrgType] = useState(0); //0 for non-profit, 1 for donor org
     const [formError, setFormError] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        // redirect user to org overview if user is in org, user does not belong here
+        const getInititalData = async () => {
+            const {userUUID, orgID} = await getUserIDandOrgID();
+            if(orgID !== null){
+                router.push("/dashboard/organization/overview")
+            }
+        }
+        getInititalData();
+    }, [])
 
     const createOrg = async () => {
         if(orgName == "" || orgEmail == ""){

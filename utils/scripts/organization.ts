@@ -102,19 +102,33 @@ export const getOrgTeam = async (orgID: number) => {
 
     const { data, error } = await supabase.from('profiles').select('id, full_name, email').eq('FK_organizations', orgID);
 
+    let ownerFound = false;
     const getOwnerIndex = () => {
         let index = 0;
         for (const profile of data){
             if(profile.id == ownerID){
+                ownerFound = true;
                 return index;
             }
             index++;
         }
     }
 
+    // Puts owner at beginning of list
     const ownerIndex = getOwnerIndex();
-
-    [data[0], data[ownerIndex]] = [data[ownerIndex], data[0]]
+    if (ownerFound){
+        [data[0], data[ownerIndex]] = [data[ownerIndex], data[0]]
+    }
 
     return data;
+}
+
+export const removeUserFromOrg = async (userID: string) => {
+    const supabase = createClient();
+
+    const {error} = await supabase.from('profiles').update({FK_organizations: null}).eq('id', userID);
+    if(error){
+        return error;
+    }
+    return null;
 }
