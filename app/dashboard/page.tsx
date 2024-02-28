@@ -62,7 +62,7 @@ export default function DashboardProfile() {
         :
         <div className="flex flex-col 2xl:gap-y-12 2xl:w-[1200px] gap-y-10 w-[600px]">
           {/* Name */}
-          <div className="h-24 text-wrap">
+          <div className="h-20 text-wrap">
             <div className="2xl:text-3xl text-2xl font-medium mb-4">
               Name
             </div>
@@ -95,7 +95,7 @@ export default function DashboardProfile() {
             </div>
           </div>
           {/* Update Profile */}
-          <button disabled={name.length == 0} onClick={() => handleUpdateProfile()} className="disabled:cursor-not-allowed bg-brown rounded-lg 2xl:w-[400px] w-[200px] 2xl:h-16 h-12 hover:bg-maroon text-white text-2xl ">{!updating ? "Update Profile" : "Updating Profile..."}</button>
+          <button disabled={name.length == 0} onClick={() => handleUpdateProfile()} className="disabled:cursor-not-allowed bg-brown rounded-lg w-[200px] 2xl:h-16 h-12 hover:bg-maroon text-white text-2xl ">{!updating ? "Update Profile" : "Updating Profile..."}</button>
         </div>
       }
     </div>
