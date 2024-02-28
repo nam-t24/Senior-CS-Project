@@ -15,7 +15,7 @@ module.exports = {
         //Color palette from figma
         maroon : "#944E63",
         lightmaroon: "#B47B84",
-        brown: "CAA6A6",
+        brown: "#CAA6A6",
         peach: "#FFE7E7",
 
         //Text colors

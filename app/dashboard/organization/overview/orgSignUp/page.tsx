@@ -42,7 +42,7 @@ export default function OrgSignUpPage() {
     const displaySuccessToast = () => {
         toast({
             title: "Organization Successfully Created",
-            description: "View organization info under the organization overview tab",
+            description: "View organization info under the Organization Overview tab",
             })
         setTimeout(() => {router.push("/dashboard/organization/overview")}, 1000);
     }
@@ -58,7 +58,7 @@ export default function OrgSignUpPage() {
 
     return(
         <div>
-        <PageHeading header="Overview" description="Your are currently not part of any organization"/>
+        <PageHeading header="Overview" description="You are not currently part of any organization"/>
         {/* Create org section */}
         <div className="bg-lightmaroon/20 2xl:w-[60rem] w-[50rem] 2xl:mt-14 mt-6 rounded-lg 2xl:px-14 px-10 2xl:py-14 py-6 2xl:text-lg animate-in">
             <h1 className="2xl:text-4xl text-3xl 2xl:mb-10 mb-6">Create an Organization</h1>
