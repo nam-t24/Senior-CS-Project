@@ -187,7 +187,7 @@ export default function OrganizationOverview() {
             {/* End Org info section */}
             <div className="mt-24">
                 <div className="text-2xl">Danger Zone</div>
-                <div className="w-96 border-b-[1px] border-body mt-1 mb-3"></div>
+                <div className="w-96 border-b-[1px] border-body mt-1 mb-5"></div>
                 <AlertDialog>
                     <AlertDialogTrigger asChild>
                         <button className="bg-red-100 px-2 px-2 rounded-md border-2 border-red-900 text-red-900 text-lg hover:brightness-95">Leave Organization</button>
