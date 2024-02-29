@@ -60,7 +60,18 @@ export const getUserOrgData = async (orgID: number) => {
     const supabase = createClient();
 
     const {data, error} = await supabase.from('organizations').select('name, email, bio, website, owner, isNonProfit, admins').eq('id', orgID).returns<orgDataType>();
-    const orgData = data[0]
+    let orgData={
+        name: "",
+        email: "",
+        bio: null,
+        website: null,
+        isNonProfit: false,
+        owner: "",
+        admins: [],
+        }
+    if(orgData !== null){
+        orgData = data[0];
+    }
     return {orgData, error};
 }
 

@@ -44,6 +44,7 @@ export default function OrganizationOverview() {
     const [loading, setLoading] = useState(true);
     const [isOwner, setIsOwner] = useState(null);
     const [orgTeam, setOrgTeam] = useState([]);
+    const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
         const getAllData = async () => {
@@ -52,7 +53,7 @@ export default function OrganizationOverview() {
             setUserOrgID(orgID);
 
             if(orgID === null){
-                router.push("/dashboard/organization/overview/orgSignup")
+                router.push("/dashboard/organization/overview/orgSignUp")
             }
 
             const res = await getUserOrgData(orgID);
@@ -61,10 +62,14 @@ export default function OrganizationOverview() {
                 return;
             }
             setOrgData(res.orgData);
-            setLoading(false);
             if(res.orgData.owner === userUUID){
                 setIsOwner(true);
             }
+            if(res.orgData.admins.includes(userUUID)){
+                setIsAdmin(true);
+            }
+            
+            setLoading(false);
 
             getOrgTeam(orgID, res.orgData.admins).then(setOrgTeam);
         }
@@ -145,7 +150,7 @@ export default function OrganizationOverview() {
                     <div className="2xl:text-4xl text-3xl 2xl:mb-10 mb-4">Organization Info</div>
 
                     <div className="text-body mb-1">Organization Name*</div>
-                    {isOwner ?
+                    {isOwner || isAdmin ?
                     <input className="bg-transparent border-b border-heading focus:outline-none 2xl:w-1/2 w-3/5" value={orgName} onChange={e => setOrgName(e.target.value)}/>
                     :
                     <div>{orgName}</div>
@@ -153,7 +158,7 @@ export default function OrganizationOverview() {
                     {formError && orgName==="" && <div className="text-red-800 mt-1 2xl:text-base text-sm">Field required</div>}
 
                     <div className="text-body mb-1 2xl:mt-10 mt-8">Organization Email*</div>
-                    {isOwner ?
+                    {isOwner || isAdmin ?
                     <input className="bg-transparent border-b border-heading focus:outline-none 2xl:w-1/2 w-3/5" value={orgEmail} onChange={e => setOrgEmail(e.target.value)}/>
                     :
                     <div>{orgEmail}</div>
@@ -162,14 +167,14 @@ export default function OrganizationOverview() {
                     {formError && orgEmail==="" && <div className="text-red-800 mt-1 2xl:text-base text-sm">Field required</div>}
 
                     <div className="text-body mb-1 2xl:mt-10 mt-8">Organization Website</div>
-                    {isOwner ?
+                    {isOwner || isAdmin ?
                     <input className="bg-transparent border-b border-heading focus:outline-none 2xl:w-1/2 w-3/5" value={orgWebsite} onChange={e => setOrgWebsite(e.target.value)}/>
                     :
                     <div>{orgWebsite}</div>
                     }
 
                     <div className="text-body mb-1 2xl:mt-10 mt-8">Organization Bio</div>
-                    {isOwner ?
+                    {isOwner || isAdmin ?
                     <textarea className="bg-transparent border-b border-heading focus:outline-none 2xl:w-1/2 w-3/5 min-h-[5rem]" value={orgBio} onChange={e => setOrgBio(e.target.value)}/>
                     :
                     <div className="w-3/5 min-h-[5rem]">{orgBio}</div>
@@ -178,7 +183,7 @@ export default function OrganizationOverview() {
                     <div>{orgData?.isNonProfit ? "Receiving Funding" : "Giving Funding"}</div>
 
                     {
-                    isOwner &&
+                    (isOwner || isAdmin) &&
                     <button className="block px-3 py-1 border-2 border-darkmaroon text-darkmaroon 2xl:text-xl text-lg rounded-xl 2xl:mt-14 mt-6 hover:bg-darkmaroon/20 transition duration-300" onClick={() => handleUpdateOrg()}>{
                         !loading ? "Update Info" : "Updating Info..."}
                     </button>
@@ -198,14 +203,15 @@ export default function OrganizationOverview() {
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>
-                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogTitle>{(isOwner && orgTeam.length > 1) ? "Unable to leave org" : "Are you absolutely sure?"}</AlertDialogTitle>
                         <AlertDialogDescription>
-                            Click continue to leave organization.
+                            {(isOwner && orgTeam.length > 1) ? "You must transfer ownership before leaving the organization" : "Click continue to leave organization"}
                         </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={() => leaveOrg()}>Continue</AlertDialogAction>
+                        {!(isOwner && orgTeam.length > 1) && <AlertDialogCancel>Cancel</AlertDialogCancel>}
+                        {!(isOwner && orgTeam.length > 1) && <AlertDialogAction onClick={() => leaveOrg()}>Continue</AlertDialogAction>}
+                        {(isOwner && orgTeam.length > 1) && <AlertDialogCancel>Ok</AlertDialogCancel>}
                     </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>
