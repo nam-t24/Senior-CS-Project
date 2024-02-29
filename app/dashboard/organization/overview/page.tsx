@@ -20,17 +20,19 @@ import {
 
 
 type orgDataType = {
-    name: any;
-    email: any;
-    bio: any;
-    website: any;
-    isNonProfit: any;
+    name: string;
+    email: string;
+    bio: string | null;
+    website: string | null;
+    isNonProfit: boolean;
+    owner: string;
+    admins: Array<string>;
 }
 
 export default function OrganizationOverview() {
     const router = useRouter();
     const { toast } = useToast();
-    const [userID, setUserID] = useState("");
+    const [userID, setUserID] = useState(null);
     const [orgData, setOrgData] = useState<orgDataType>(null);
 
     const [orgName, setOrgName] = useState("");
@@ -41,7 +43,7 @@ export default function OrganizationOverview() {
     const [userOrgID, setUserOrgID] = useState(-1);
     const [loading, setLoading] = useState(true);
     const [isOwner, setIsOwner] = useState(null);
-    const [orgTeam, setOrgTeam] = useState(null);
+    const [orgTeam, setOrgTeam] = useState([]);
 
     useEffect(() => {
         const getAllData = async () => {
@@ -53,9 +55,18 @@ export default function OrganizationOverview() {
                 router.push("/dashboard/organization/overview/orgSignup")
             }
 
-            getUserOrgData(orgID).then(({data}) => setOrgData(data[0])).catch((error) => (displayErrorToast(error)));
-            isUserOwner(userUUID, orgID).then(setIsOwner);
-            getOrgTeam(orgID).then(setOrgTeam);
+            const res = await getUserOrgData(orgID);
+            if(res.error){
+                displayErrorToast(res.error);
+                return;
+            }
+            setOrgData(res.orgData);
+            setLoading(false);
+            if(res.orgData.owner === userUUID){
+                setIsOwner(true);
+            }
+
+            getOrgTeam(orgID, res.orgData.admins).then(setOrgTeam);
         }
 
         getAllData();
@@ -67,13 +78,6 @@ export default function OrganizationOverview() {
         setOrgBio(orgData?.bio || "");
         setOrgWebsite(orgData?.website || "");
     }, [orgData])
-
-    // For loading screen
-    useEffect(() => {
-        if(orgData !== null &&  userOrgID !== -1 && orgTeam !== null){
-            setLoading(false);
-        }
-    }, [orgData, userOrgID, orgTeam])
 
     const handleUpdateOrg = async () => {
         if(orgName == "" || orgEmail == ""){
@@ -108,7 +112,7 @@ export default function OrganizationOverview() {
     }
 
     const leaveOrg = async () => {
-        const error = await removeUserFromOrg(userID);
+        const error = await removeUserFromOrg(userID, userOrgID);
 
         if (error){
             console.log(error.message);
@@ -142,7 +146,7 @@ export default function OrganizationOverview() {
 
                     <div className="text-body mb-1">Organization Name*</div>
                     {isOwner ?
-                    <input className="bg-transparent border-b border-heading focus:outline-none w-3/5" value={orgName} onChange={e => setOrgName(e.target.value)}/>
+                    <input className="bg-transparent border-b border-heading focus:outline-none 2xl:w-1/2 w-3/5" value={orgName} onChange={e => setOrgName(e.target.value)}/>
                     :
                     <div>{orgName}</div>
                     }
@@ -150,7 +154,7 @@ export default function OrganizationOverview() {
 
                     <div className="text-body mb-1 2xl:mt-10 mt-8">Organization Email*</div>
                     {isOwner ?
-                    <input className="bg-transparent border-b border-heading focus:outline-none w-3/5" value={orgEmail} onChange={e => setOrgEmail(e.target.value)}/>
+                    <input className="bg-transparent border-b border-heading focus:outline-none 2xl:w-1/2 w-3/5" value={orgEmail} onChange={e => setOrgEmail(e.target.value)}/>
                     :
                     <div>{orgEmail}</div>
                     }
@@ -159,14 +163,14 @@ export default function OrganizationOverview() {
 
                     <div className="text-body mb-1 2xl:mt-10 mt-8">Organization Website</div>
                     {isOwner ?
-                    <input className="bg-transparent border-b border-heading focus:outline-none w-3/5" value={orgWebsite} onChange={e => setOrgWebsite(e.target.value)}/>
+                    <input className="bg-transparent border-b border-heading focus:outline-none 2xl:w-1/2 w-3/5" value={orgWebsite} onChange={e => setOrgWebsite(e.target.value)}/>
                     :
                     <div>{orgWebsite}</div>
                     }
 
                     <div className="text-body mb-1 2xl:mt-10 mt-8">Organization Bio</div>
                     {isOwner ?
-                    <textarea className="bg-transparent border-b border-heading focus:outline-none w-3/5 min-h-[5rem]" value={orgBio} onChange={e => setOrgBio(e.target.value)}/>
+                    <textarea className="bg-transparent border-b border-heading focus:outline-none 2xl:w-1/2 w-3/5 min-h-[5rem]" value={orgBio} onChange={e => setOrgBio(e.target.value)}/>
                     :
                     <div className="w-3/5 min-h-[5rem]">{orgBio}</div>
                     }
@@ -182,7 +186,7 @@ export default function OrganizationOverview() {
 
                 </div>
                 {/* Team Section */}
-                <OrgTeam orgTeam={orgTeam || []} isOwner = {isOwner || false}/>
+                <OrgTeam userUUID= {userID} orgTeam={orgTeam} admins = {orgData === null ? [] : orgData.admins} isOwner={isOwner} orgID = {userOrgID}/>
             </div>
             {/* End Org info section */}
             <div className="mt-24">

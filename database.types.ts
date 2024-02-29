@@ -11,6 +11,7 @@ export type Database = {
     Tables: {
       organizations: {
         Row: {
+          admins: string[]
           bio: string | null
           email: string | null
           id: number
@@ -20,6 +21,7 @@ export type Database = {
           website: string | null
         }
         Insert: {
+          admins?: string[]
           bio?: string | null
           email?: string | null
           id?: number
@@ -29,6 +31,7 @@ export type Database = {
           website?: string | null
         }
         Update: {
+          admins?: string[]
           bio?: string | null
           email?: string | null
           id?: number
