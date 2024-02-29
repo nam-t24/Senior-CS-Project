@@ -70,14 +70,14 @@ export default function DashboardProfile() {
             {name.length == 0 && <p className="text-red-800 mt-1 2xl:text-base text-sm">Name cannot be empty</p>}
           </div>
           {/* Bio */}
-          <div className="h-44 text-wrap">
+          <div className="text-wrap">
             <div className="2xl:text-3xl text-2xl font-medium mb-4">
               Bio
             </div>
             <textarea required={true} value={bio} rows={4} onChange={(e) => { setBio(e.target.value) }} className="outline-none w-full bg-inherit 2xl:text-lg text-body resize-none border-b border-body" />
           </div>
           {/* Email */}
-          <div className="h-24 text-wrap">
+          <div className="text-wrap">
             <div className="2xl:text-3xl text-2xl font-medium mb-4">
               Display Email
             </div>
@@ -86,7 +86,7 @@ export default function DashboardProfile() {
             </div>
           </div>
           {/* Organization */}
-          <div className=" text-wrap">
+          <div className=" ext-wrap">
             <div className="2xl:text-3xl text-2xl font-medium mb-4">
               Organization
             </div>
@@ -95,7 +95,9 @@ export default function DashboardProfile() {
             </div>
           </div>
           {/* Update Profile */}
-          <button disabled={name.length == 0} onClick={() => handleUpdateProfile()} className="disabled:cursor-not-allowed bg-brown rounded-lg w-[200px] 2xl:h-16 h-12 hover:bg-maroon text-white text-2xl ">{!updating ? "Update Profile" : "Updating Profile..."}</button>
+          <div className="flex flex-row">
+            <button disabled={name.length == 0} onClick={() => handleUpdateProfile()} className="disabled:cursor-not-allowed bg-brown rounded-lg px-4 py-2 hover:bg-maroon text-white text-2xl ">{!updating ? "Update Profile" : "Updating Profile..."}</button>
+          </div>
         </div>
       }
     </div>
