@@ -74,3 +74,29 @@ theme: {
 Use Material UI icons found [here](https://mui.com/material-ui/material-icons/) for any svg icons
 
 Minted uses [shadcn/ui](https://ui.shadcn.com/) for UI components
+
+## Directory Navigation
+
+### Page navigation
+`/dashboard`  
+Contains pages split by the sidenav menu options
+
+`/login`  
+Contains only the login page
+
+`/auth/callback`  
+Handles user auth control from email or google sign in
+
+### API calls
+`/utils/scripts`  
+Contains all API calls and queries to the Supabase database. Calls are separated by the table/functionality it is associated with.
+
+### Shadcn components
+`/components/ui`  
+Reserved for all component files downloaded from shadcn
+
+### Database types
+`/database.types.ts`  
+Created and updated using Supabase CLI type generation. Makes it easier to recognize data from Supabase queries.  
+I just run the CLI command everytime we expand the database lol
+
