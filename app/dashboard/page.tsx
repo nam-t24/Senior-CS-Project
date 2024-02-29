@@ -95,7 +95,7 @@ export default function DashboardProfile() {
           </div>
           {/* Update Profile */}
           <div className="flex">
-            <button disabled={name.length == 0} onClick={() => handleUpdateProfile()} className="disabled:cursor-not-allowed w-auto bg-brown rounded-lg hover:bg-maroon text-primary 2xl:text-2xl text-xl py-2 px-4 mt-10">{!updating ? "Update Profile" : "Updating Profile..."}</button>
+            <button disabled={name.length == 0} onClick={() => handleUpdateProfile()} className="disabled:cursor-not-allowed w-auto bg-brown rounded-lg hover:bg-maroon text-primary 2xl:text-2xl text-xl py-2 px-4 2xl:mt-10 mt-2">{!updating ? "Update Profile" : "Updating Profile..."}</button>
           </div>
         </div>
       }

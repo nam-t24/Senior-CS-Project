@@ -160,3 +160,23 @@ export const removeUserFromOrg = async (userID: string, orgID: number) => {
     }
     return null;
 }
+
+export const addUserToOrgWithEmail = async(email: string, orgID: number) => {
+    const supabase = createClient();
+    const {data, error: resError} = await supabase.from('profiles').select('FK_organizations').eq('email', email);
+
+    if(data.length === 0){
+        return "nonexistent email"
+    }
+    const FK_organizations = data[0].FK_organizations;
+    if(FK_organizations !== null){
+        return "already in org"
+    }
+    const { error }= await supabase.from('profiles').update({FK_organizations: orgID}).eq('email', email);
+    if(error){
+        console.log(error)
+        return error;
+    }
+    return null;
+
+}

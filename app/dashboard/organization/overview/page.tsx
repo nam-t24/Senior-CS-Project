@@ -3,6 +3,7 @@ import PageHeading from "@/components/dashboard/PageHeading";
 import { useState, useEffect } from "react";
 import { getUserOrgData, updateOrg, getUserIDandOrgID, isUserOwner, getOrgTeam, removeUserFromOrg } from "@/utils/scripts/organization";
 import { useToast } from "@/components/ui/use-toast";
+import OrgInvite from "./orgInvite";
 import OrgTeam from "./orgTeam";
 import { useRouter } from "next/navigation";
 
@@ -194,6 +195,7 @@ export default function OrganizationOverview() {
                 <OrgTeam userUUID= {userID} orgTeam={orgTeam} admins = {orgData === null ? [] : orgData.admins} isOwner={isOwner} orgID = {userOrgID}/>
             </div>
             {/* End Org info section */}
+            {(isOwner || isAdmin) && <OrgInvite orgID={userOrgID}/>}
             <div className="mt-24">
                 <div className="text-2xl">Danger Zone</div>
                 <div className="w-96 border-b-[1px] border-body mt-1 mb-5"></div>
