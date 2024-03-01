@@ -93,44 +93,44 @@ export const changeOwners = async(userID: string, orgID: number) => {
     return null;
 }
 
-export const reloadTeam = async(orgID: number) => {
-    const supabase = createClient();
-    const ownerID = await getOrgOwner(orgID);
-    if(ownerID == null){
-        return [];
-    }
+// reload team section in dashboard for any reason, not flushed out needs to do error handling if ever implemented
+// export const reloadTeam = async(orgID: number) => {
+//     const supabase = createClient();
+//     const ownerID = await getOrgOwner(orgID);
+//     if(ownerID == null){
+//         return [];
+//     }
 
-    const {data: adminData, error: errorAdmin} = await supabase.from('organizations').select('admins').eq('id', orgID);
-    if(errorAdmin){
-        console.log(errorAdmin.message);
-        return [];
-    }
-    const admins = adminData[0].admins;
+//     const {data: adminData, error: errorAdmin} = await supabase.from('organizations').select('admins').eq('id', orgID);
+//     if(errorAdmin){
+//         console.log(errorAdmin.message);
+//         return [];
+//     }
+//     const admins = adminData[0].admins;
 
-    const { data, error } = await supabase.from('profiles').select('id, full_name, email').eq('FK_organizations', orgID);
-    if(error){
-        console.log(error.message);
-        return [];
-    }
+//     const { data, error } = await supabase.from('profiles').select('id, full_name, email').eq('FK_organizations', orgID);
+//     if(error){
+//         console.log(error.message);
+//         return [];
+//     }
 
-    let ownerArray = []
-    let adminArray = []
-    let memberArray = []
+//     let ownerArray = []
+//     let adminArray = []
+//     let memberArray = []
 
-    for (const profile of data){
-        if(profile.id == ownerID){
-            ownerArray.push(profile)
-        }
-        else if(admins.includes(profile.id)){
-            adminArray.push(profile)
-        }
-        else{
-            memberArray.push(profile)
-        }
-    }
+//     for (const profile of data){
+//         if(profile.id == ownerID){
+//             ownerArray.push(profile)
+//         }
+//         else if(admins.includes(profile.id)){
+//             adminArray.push(profile)
+//         }
+//         else{
+//             memberArray.push(profile)
+//         }
+//     }
 
-    const members = ownerArray.concat(adminArray, memberArray)
+//     const members = ownerArray.concat(adminArray, memberArray)
 
-    return members;
-
-}
+//     return members;
+// }

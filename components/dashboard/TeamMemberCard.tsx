@@ -109,7 +109,8 @@ export default function TeamMemberCard({memberInfo, isOwner, isAdmin, index, num
     
     return(
         <>
-        {!userKicked && <div className="w-[22rem] rounded-md px-4 py-2 flex items-center justify-between bg-gray-200 hover:bg-gray-300">
+        {!userKicked && 
+        <div className="w-full rounded-md px-4 py-2 flex items-center justify-between bg-gray-100 hover:bg-gray-200">
             <div>
                 <div className="flex items-center space-x-2 select-none">
                     <div>{memberInfo.full_name || ""}</div>

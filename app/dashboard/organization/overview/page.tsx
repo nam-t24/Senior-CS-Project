@@ -33,7 +33,7 @@ type orgDataType = {
 export default function OrganizationOverview() {
     const router = useRouter();
     const { toast } = useToast();
-    const [userID, setUserID] = useState(null);
+    const [userID, setUserID] = useState("");
     const [orgData, setOrgData] = useState<orgDataType>(null);
 
     const [orgName, setOrgName] = useState("");
@@ -43,7 +43,7 @@ export default function OrganizationOverview() {
     const [formError, setFormError] = useState(false);
     const [userOrgID, setUserOrgID] = useState(-1);
     const [loading, setLoading] = useState(true);
-    const [isOwner, setIsOwner] = useState(null);
+    const [isOwner, setIsOwner] = useState(false);
     const [orgTeam, setOrgTeam] = useState([]);
     const [isAdmin, setIsAdmin] = useState(false);
 
@@ -145,7 +145,7 @@ export default function OrganizationOverview() {
             </div> 
             :
             <div>
-            <div className="flex items-stretch mt-8 2xl:space-x-6 > * + * space-x-4 > * + * animate-in">
+            <div className="flex items-stretch mt-8 2xl:space-x-6 space-x-4 animate-in">
                 {/* Org Info Section */}
                 <div className="w-3/5 2xl:px-10 px-6 2xl:py-8 py-6 bg-lightmaroon/20 rounded-md 2xl:text-lg">
                     <div className="2xl:text-4xl text-3xl 2xl:mb-10 mb-4">Organization Info</div>
@@ -192,7 +192,10 @@ export default function OrganizationOverview() {
 
                 </div>
                 {/* Team Section */}
+                <div>
+                <div className="2xl:text-4xl text-3xl mb-2">Team</div>
                 <OrgTeam userUUID= {userID} orgTeam={orgTeam} admins = {orgData === null ? [] : orgData.admins} isOwner={isOwner} orgID = {userOrgID}/>
+                </div>
             </div>
             {/* End Org info section */}
             {(isOwner || isAdmin) && <OrgInvite orgID={userOrgID}/>}
