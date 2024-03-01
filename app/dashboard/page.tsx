@@ -42,7 +42,6 @@ export default function DashboardProfile() {
 
   useEffect(() => {
     getProfileByUserId().then((res) => {
-      console.log(res);
       setName(res?.full_name || "");
       setEmail(res?.email || "");
       setBio(res?.bio || "");
@@ -60,34 +59,34 @@ export default function DashboardProfile() {
           <div className="loadingAnimation"><div></div><div></div><div></div></div>
         </div>
         :
-        <div className="flex flex-col 2xl:gap-y-12 2xl:w-[1200px] gap-y-10 w-[600px]">
+        <div className="flex flex-col 2xl:gap-y-12 2xl:w-[45rem] gap-y-8 w-[30rem] animate-in">
           {/* Name */}
           <div className="h-20 text-wrap">
-            <div className="2xl:text-3xl text-2xl font-medium mb-4">
-              Name
+            <div className="2xl:text-3xl text-xl 2xl:font-medium 2xl:mb-4 mb-2">
+              Name*
             </div>
-            <input type="text" minLength={4} value={name} onChange={(e) => { setName(e.target.value) }} className="outline-none w-full bg-inherit 2xl:text-lg text-body border-b border-body" />
+            <input type="text" minLength={4} value={name} onChange={(e) => { setName(e.target.value) }} className="outline-none w-full bg-inherit 2xl:text-lg py-1 text-body border-b border-body" />
             {name.length == 0 && <p className="text-red-800 mt-1 2xl:text-base text-sm">Name cannot be empty</p>}
           </div>
           {/* Bio */}
-          <div className="h-44 text-wrap">
-            <div className="2xl:text-3xl text-2xl font-medium mb-4">
+          <div className="text-wrap">
+            <div className="2xl:text-3xl text-xl 2xl:font-medium 2xl:mb-4 mb-2">
               Bio
             </div>
-            <textarea required={true} value={bio} rows={4} onChange={(e) => { setBio(e.target.value) }} className="outline-none w-full bg-inherit 2xl:text-lg text-body resize-none border-b border-body" />
+            <textarea required={true} value={bio} rows={4} onChange={(e) => { setBio(e.target.value) }} className="outline-none w-full bg-inherit 2xl:text-lg py-1 text-body resize-none border-b border-body" />
           </div>
           {/* Email */}
-          <div className="h-24 text-wrap">
-            <div className="2xl:text-3xl text-2xl font-medium mb-4">
+          <div className="text-wrap">
+            <div className="2xl:text-3xl text-xl 2xl:font-medium 2xl:mb-4 mb-2">
               Display Email
             </div>
-            <div className="outline-none w-full bg-inherit 2xl:text-lg text-body " >
+            <div className="outline-none w-full bg-inherit 2xl:text-lg" >
               {email}
             </div>
           </div>
           {/* Organization */}
           <div className=" text-wrap">
-            <div className="2xl:text-3xl text-2xl font-medium mb-4">
+            <div className="2xl:text-3xl text-xl 2xl:font-medium 2xl:mb-4 mb-2">
               Organization
             </div>
             <div className="2xl:text-lg ">
@@ -95,7 +94,9 @@ export default function DashboardProfile() {
             </div>
           </div>
           {/* Update Profile */}
-          <button disabled={name.length == 0} onClick={() => handleUpdateProfile()} className="disabled:cursor-not-allowed bg-brown rounded-lg w-[200px] 2xl:h-16 h-12 hover:bg-maroon text-white text-2xl ">{!updating ? "Update Profile" : "Updating Profile..."}</button>
+          <div className="flex">
+            <button disabled={name.length == 0} onClick={() => handleUpdateProfile()} className="disabled:cursor-not-allowed w-auto bg-brown rounded-lg hover:bg-maroon text-primary 2xl:text-2xl text-xl py-2 px-4 2xl:mt-10 mt-2">{!updating ? "Update Profile" : "Updating Profile..."}</button>
+          </div>
         </div>
       }
     </div>

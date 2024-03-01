@@ -91,3 +91,5 @@ input:-webkit-autofill:active {
     height: 32px;
   }
 }
+
+:focus {outline:none !important;}
