@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { addUserToOrgWithEmail } from "@/utils/scripts/organization";
 import { useToast } from "@/components/ui/use-toast";
 import { inviteUser, uninviteUser, getInvitesOfOrg } from "@/utils/scripts/invites";
@@ -11,6 +11,7 @@ type inviteData = {
 }
 export default function OrgInvite({orgID}: {orgID: number}) {
     const { toast } = useToast();
+    const ref = useRef(null)
     const [email, setEmail] = useState("")
     const [error, setError] = useState(false)
     const [inviteList, setInviteList] = useState<Array<inviteData>>([]);
@@ -58,6 +59,7 @@ export default function OrgInvite({orgID}: {orgID: number}) {
             description: "Have them accept from the 'Organization Overview' tab",
         })
         getInvites();
+        ref.current.value="";
     }
     
     return(
@@ -66,9 +68,9 @@ export default function OrgInvite({orgID}: {orgID: number}) {
             <div className="text-body">Enter the email associated with the account you want to invite</div>
             <div className="w-[35rem] border-b-[1px] border-body mt-2 mb-5"></div>
             {/* Email input invite */}
-            <input className="border-[1px] border-body bg-transparent rounded-md px-2 py-1 w-[25rem]" placeholder="name@example.com" onChange={(e) => {setEmail(e.target.value)}}/>
+            <input ref={ref} className="border-[1px] border-body bg-transparent rounded-md px-2 py-1 w-[25rem]" placeholder="name@example.com" onChange={(e) => {setEmail(e.target.value)}}/>
             <div className="text-red-800 text-sm h-[1rem]">{error && email==="" ? "Email must not be empty" : ""}</div>
-            <button className="border-2 border-darkmaroon px-3 text-darkmaroon rounded-md 2xl:text-xl text-lg hover:bg-darkmaroon/20 transition duration-300 mt-3" onClick={()=>{handleInvite()}}>Invite user</button>
+            <button className="border-2 border-darkmaroon px-3 text-darkmaroon rounded-md 2xl:text-xl text-lg hover:bg-darkmaroon/20 transition duration-300 mt-3" onClick={()=>{handleInvite()}}>Invite User</button>
 
             {/* Invite Table */}
             {inviteList.length > 0 && 

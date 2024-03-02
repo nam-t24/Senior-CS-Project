@@ -13,8 +13,16 @@ export const inviteUser = async(email: string, orgID: number) => {
     if(FK_organizations !== null){
         return "already in org"
     }
-
     const userUUID = data[0].id;
+
+    const { count } = await supabase.from('invites').select('*', { count: 'exact', head: true }).eq('FK_profiles', userUUID).eq('FK_organizations', orgID);
+
+    // User already invited, tell owner/admin they invited the user again for satisfaction
+    if(count != 0){
+        console.log("User already invited");
+        return null;
+    }
+
     const { error } = await supabase.from('invites').upsert({ FK_profiles: userUUID, FK_organizations: orgID });
     if(error){
         console.log(error.message)

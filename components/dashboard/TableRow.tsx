@@ -33,7 +33,7 @@ export const TableRow = ({userUUID, name, email, orgID}: {userUUID: string, name
     }
     return(
         <>
-        {!uninvited && <div className="flex py-4 px-6 hover:bg-neutral-50 hover:text-darkmaroon border-b-[1px] border-neutral-200">
+        {!uninvited && <div className="flex py-4 px-6 bg-white hover:bg-neutral-50 hover:text-darkmaroon border-b-[1px] border-neutral-200">
             <div className="basis-80">{name}</div>
             <div className=" basis-96">{email}</div>
             <div className="basis-24 text-center ml-24">

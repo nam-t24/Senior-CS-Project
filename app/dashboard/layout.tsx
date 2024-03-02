@@ -20,7 +20,7 @@ export default async function DashboardLayout({
   return (
     <div className="w-full">
       <SideNav />
-      <main className="min-h-screen 2xl:ml-80 ml-64 2xl:px-28 px-14 2xl:py-16 py-10">{children}</main>
+      <main className="min-h-screen 2xl:ml-80 ml-64 2xl:px-28 px-16 2xl:py-16 py-10">{children}</main>
     </div>
   );
 }

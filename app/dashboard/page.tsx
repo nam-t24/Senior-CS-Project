@@ -45,7 +45,7 @@ export default function DashboardProfile() {
       setName(res?.full_name || "");
       setEmail(res?.email || "");
       setBio(res?.bio || "");
-      setOrg(res?.organizations?.name || "You are not a part of an organization. Go to \"Organization Overview\" to create or join an organization.");
+      setOrg(res?.organizations?.name || "You are not apart of an organization. Go to \"Organization Overview\" to create or join an organization.");
       setLoading(false);
     }).catch((error) => (displayErrorToast(error)));
   }, [])
@@ -59,10 +59,10 @@ export default function DashboardProfile() {
           <div className="loadingAnimation"><div></div><div></div><div></div></div>
         </div>
         :
-        <div className="flex flex-col 2xl:gap-y-12 2xl:w-[45rem] gap-y-8 w-[30rem] animate-in">
+        <div className="flex flex-col 2xl:gap-y-12 2xl:w-[45rem] gap-y-6 w-[30rem] animate-in">
           {/* Name */}
           <div className="h-20 text-wrap">
-            <div className="2xl:text-3xl text-xl 2xl:font-medium 2xl:mb-4 mb-2">
+            <div className="2xl:text-2xl text-lg 2xl:font-medium 2xl:mb-2 mb-1">
               Name*
             </div>
             <input type="text" minLength={4} value={name} onChange={(e) => { setName(e.target.value) }} className="outline-none w-full bg-inherit 2xl:text-lg py-1 text-body border-b border-body" />
@@ -70,14 +70,14 @@ export default function DashboardProfile() {
           </div>
           {/* Bio */}
           <div className="text-wrap">
-            <div className="2xl:text-3xl text-xl 2xl:font-medium 2xl:mb-4 mb-2">
+            <div className="2xl:text-2xl text-lg 2xl:font-medium 2xl:mb-2 mb-1">
               Bio
             </div>
-            <textarea required={true} value={bio} rows={4} onChange={(e) => { setBio(e.target.value) }} className="outline-none w-full bg-inherit 2xl:text-lg py-1 text-body resize-none border-b border-body" />
+            <textarea required={true} value={bio} rows={4} onChange={(e) => { setBio(e.target.value) }} placeholder="Tell us a little bit about yourself" className="outline-none w-full bg-inherit 2xl:text-lg py-1 text-body resize-none border-b border-body" />
           </div>
           {/* Email */}
           <div className="text-wrap">
-            <div className="2xl:text-3xl text-xl 2xl:font-medium 2xl:mb-4 mb-2">
+            <div className="2xl:text-2xl text-lg 2xl:font-medium 2xl:mb-2 mb-1">
               Display Email
             </div>
             <div className="outline-none w-full bg-inherit 2xl:text-lg" >
@@ -86,7 +86,7 @@ export default function DashboardProfile() {
           </div>
           {/* Organization */}
           <div className=" text-wrap">
-            <div className="2xl:text-3xl text-xl 2xl:font-medium 2xl:mb-4 mb-2">
+            <div className="2xl:text-2xl text-lg 2xl:font-medium 2xl:mb-2 mb-1">
               Organization
             </div>
             <div className="2xl:text-lg ">
