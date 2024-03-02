@@ -4,6 +4,7 @@ import { createOrganization, getUserIDandOrgID } from "@/utils/scripts/organizat
 import { useToast } from "@/components/ui/use-toast"
 import { useRouter } from 'next/navigation'
 import PageHeading from "@/components/dashboard/PageHeading";
+import InviteTable from "./inviteTable";
 
 // Displays if user is not part of an organization
 export default function OrgSignUpPage() {
@@ -17,6 +18,7 @@ export default function OrgSignUpPage() {
     const [orgType, setOrgType] = useState(0); //0 for non-profit, 1 for donor org
     const [formError, setFormError] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [userID, setUserID] = useState("");
 
     useEffect(() => {
         // redirect user to org overview if user is in org, user does not belong here
@@ -25,6 +27,7 @@ export default function OrgSignUpPage() {
             if(orgID !== null){
                 router.push("/dashboard/organization/overview")
             }
+            setUserID(userUUID);
         }
         getInititalData();
     }, [])
@@ -90,6 +93,9 @@ export default function OrgSignUpPage() {
 
         <h1 className="text-3xl 2xl:mt-20 mt-16 mb-2">Join an Organization</h1>
         <div className="2xl:text-lg text-body">To join an organization, have the organization owner send an invite.<br/>You will be able to accept the invite on this page.</div>
+        
+        
+        <InviteTable userID={userID}/>
         </div>
     );
 }

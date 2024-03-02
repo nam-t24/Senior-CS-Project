@@ -124,7 +124,7 @@ export default function OrganizationOverview() {
             console.log(error.message);
             toast({
             variant: "destructive",
-            title: "Unable to leave org",
+            title: "Unable to leave organization",
             description: "Check log for error",
             })
         }
@@ -133,6 +133,7 @@ export default function OrganizationOverview() {
             title: "Successfully Left Organization",
             })
             router.push("/dashboard/organization/overview/orgSignUp");
+            router.refresh()
         }
     }
     return(
@@ -208,7 +209,7 @@ export default function OrganizationOverview() {
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>
-                        <AlertDialogTitle>{(isOwner && orgTeam.length > 1) ? "Unable to leave org" : "Are you absolutely sure?"}</AlertDialogTitle>
+                        <AlertDialogTitle>{(isOwner && orgTeam.length > 1) ? "Unable to leave organization" : "Are you absolutely sure?"}</AlertDialogTitle>
                         <AlertDialogDescription>
                             {(isOwner && orgTeam.length > 1) ? "You must transfer ownership before leaving the organization" : "Click continue to leave organization"}
                         </AlertDialogDescription>

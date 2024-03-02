@@ -19,7 +19,13 @@ export const getUserIDandOrgID = async () => {
 export const createOrganization = async (orgName: string, orgEmail: string, orgBio: string, orgWebsite: string, orgType: number) => {
     const supabase = createClient();
     const { data: { user }} = await supabase.auth.getUser();
-    const userID = user?.id;
+    const userID = user.id;
+
+    const { error: deleteError } = await supabase.from('invites').delete().eq('FK_profiles', userID)
+    if(deleteError){
+        console.log(deleteError.message)
+        return deleteError;
+    }
 
     const isNonProfit = orgType == 0 ? true : false;
     orgBio = (orgBio === "" ? null : orgBio); //set orgBio to null if no org bio entered
@@ -69,7 +75,7 @@ export const getUserOrgData = async (orgID: number) => {
         owner: "",
         admins: [],
         }
-    if(orgData !== null){
+    if(orgData !== null && data !== undefined){
         orgData = data[0];
     }
     return {orgData, error};
