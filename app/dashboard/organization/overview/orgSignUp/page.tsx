@@ -68,19 +68,19 @@ export default function OrgSignUpPage() {
 
             <div className="mb-2">Organization Name*</div>
             <input className="bg-primary px-2 2xl:py-2 py-1 rounded-md focus:outline-none 2xl:w-1/2 w-3/5 text-base" placeholder="Org Name" onChange={e => setOrgName(e.target.value)}/>
-            {formError && orgName==="" && <div className="text-red-800 mt-1 text-base">Field required</div>}
+            {formError && orgName==="" && <div className="text-red-800 mt-1 text-sm">Field required</div>}
 
             <div className="mb-2 mt-4">Organization Email*</div>
             <input className="bg-primary px-2 2xl:py-2 py-1 rounded-md focus:outline-none 2xl:w-1/2 w-3/5 text-base" placeholder="Org Email" type="email" onChange={e => setOrgEmail(e.target.value)}/>
-            {formError && orgEmail==="" && <div className="text-red-800 mt-1 text-base">Field required</div>}
+            {formError && orgEmail==="" && <div className="text-red-800 mt-1 text-sm">Field required</div>}
 
             <div className="mt-4 mb-2">Organization Bio</div>
-            <textarea className="bg-primary rounded-md focus:outline-none 2xl:w-1/2 w-3/5 px-2 2xl:py-2 py-1 min-h-[5rem] text-base" onChange={e => setOrgBio(e.target.value)}/>
+            <textarea className="bg-primary rounded-md focus:outline-none 2xl:w-1/2 w-3/5 px-2 2xl:py-2 py-1 min-h-[5rem] text-base" placeholder="Tell us a little about your org" onChange={e => setOrgBio(e.target.value)}/>
 
             <div className="mt-4 mb-2">Organization Website</div>
             <input className="bg-primary px-2 2xl:py-2 py-1 rounded-md focus:outline-none 2xl:w-1/2 w-3/5 text-base" placeholder="Org Website" onChange={e => setOrgWebsite(e.target.value)}/>
 
-            <div className="text-body mb-2 mt-4">You are</div>
+            <div className="mb-2 mt-4">You are</div>
             <div className="flex inline-flex space-x-1 > * + * bg-primary p-1 rounded-md">
                 <button className={`py-1 px-2 rounded-md ${orgType == 0 ? "bg-neutral-200":"bg-primary"} transition duration-300`} onClick={() => setOrgType(0)}>Seeking Funding</button>
                 <button className={`py-1 px-2 rounded-md ${orgType == 1 ? "bg-neutral-200":"bg-primary"} transition duration-300`} onClick={() => setOrgType(1)}>Giving Funding</button>

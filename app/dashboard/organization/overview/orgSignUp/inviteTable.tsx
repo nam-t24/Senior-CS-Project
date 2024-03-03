@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import CheckIcon from '@mui/icons-material/Check';
-import { acceptInvite, getInvitesOfUser } from "@/utils/scripts/invites";
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { acceptInvite, getInvitesOfUser, uninviteUser } from "@/utils/scripts/invites";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import {
@@ -15,6 +16,8 @@ import {
 function TableRow({userID, name, email, orgID}: {userID: string, name:string, email:string, orgID:number}) {
     const router = useRouter();
     const { toast } = useToast();
+    const [rejected, setRejected] = useState(false);
+
     const handleAccept = async() => {
         const error = await acceptInvite(userID, orgID);
         if(error){
@@ -32,19 +35,38 @@ function TableRow({userID, name, email, orgID}: {userID: string, name:string, em
         setTimeout(() => {location.reload(); router.push("/dashboard/organization/overview");}, 500)
     }
 
+    const handleReject = async() => {
+        const error = await uninviteUser(userID, orgID);
+        if(error){
+            toast({
+                variant: "destructive",
+                title: "Unable to reject invite",
+                description: "Check log for error",
+            })
+            return;
+        }
+        toast({
+                title: "Invite rejected",
+            })
+        setRejected(true);
+    }
+
     return(
-        <div className="flex py-4 px-6 hover:bg-neutral-50 hover:text-darkmaroon border-b-[1px] border-neutral-200">
+        <>
+       {!rejected && <div className="flex py-4 px-6 hover:bg-neutral-50 hover:text-darkmaroon border-b-[1px] border-neutral-200">
             <div className="basis-80">{name}</div>
             <div className=" basis-96">{email}</div>
-            <div className="basis-24 text-center ml-24">
+            <div className="basis-28 text-center ml-24">
                 <DropdownMenu>
-                    <DropdownMenuTrigger><CheckIcon fontSize="inherit"/></DropdownMenuTrigger>
+                    <DropdownMenuTrigger><MoreHorizIcon fontSize="medium"/></DropdownMenuTrigger>
                     <DropdownMenuContent>
                         <DropdownMenuItem onClick={()=>{handleAccept()}}>Accept Invite</DropdownMenuItem>
+                        <DropdownMenuItem onClick={()=>{handleReject()}}>Reject Invite</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-        </div>
+        </div>}
+        </>
     )
 }
 export default function InviteTable({userID} : {userID: string}){
@@ -69,7 +91,7 @@ export default function InviteTable({userID} : {userID: string}){
             <div className="flex py-2 px-6 bg-neutral-100 rounded-t-md border-b-2 border-neautral-200 text-body text-sm">
                 <div className="basis-80">Organization Name</div>
                 <div className="basis-96">Organization Email</div>
-                <div className="basis-24 text-center ml-24">Accept Invite</div>
+                <div className="basis-28 text-center ml-24">Accept/Reject</div>
             </div>
             {/* Table rows */}
             <div className="max-h-[20rem] overflow-y-auto rounded-b-md ">
