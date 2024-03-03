@@ -148,7 +148,7 @@ export default function OrganizationOverview() {
             <div>
             <div className="flex items-stretch mt-8 2xl:space-x-6 space-x-4 animate-in">
                 {/* Org Info Section */}
-                <div className="w-3/5 2xl:px-10 px-6 2xl:py-8 py-6 bg-lightmaroon/20 rounded-md 2xl:text-lg">
+                <div className="w-3/5 2xl:px-10 px-6 2xl:py-8 py-6 bg-lightmaroon/20 rounded-md 2xl:text-lg border-[1px] border-darkmaroon/50">
                     <div className="2xl:text-4xl text-3xl 2xl:mb-10 mb-4">Organization Info</div>
 
                     <div className="text-body mb-1">Organization Name*</div>
@@ -186,7 +186,7 @@ export default function OrganizationOverview() {
 
                     {
                     (isOwner || isAdmin) &&
-                    <button className="block px-3 py-1 border-2 border-darkmaroon text-darkmaroon 2xl:text-xl text-lg rounded-xl 2xl:mt-14 mt-6 hover:bg-darkmaroon/20 transition duration-300" onClick={() => handleUpdateOrg()}>{
+                    <button className="block px-3 py-1 border-2 border-darkmaroon text-darkmaroon 2xl:text-xl text-lg rounded-lg 2xl:mt-14 mt-6 hover:bg-darkmaroon/20 transition duration-300" onClick={() => handleUpdateOrg()}>{
                         !loading ? "Update Info" : "Updating Info..."}
                     </button>
                     }

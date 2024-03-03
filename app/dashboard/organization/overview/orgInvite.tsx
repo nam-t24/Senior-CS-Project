@@ -76,7 +76,7 @@ export default function OrgInvite({orgID}: {orgID: number}) {
             {inviteList.length > 0 && 
             <>
                 <div className="mt-12 mb-2 2xl:text-2xl text-xl">Invited Users</div>
-                <div className="w-[60rem] border-[1px] border-neutral-300 rounded-md shadow bg-white overflow-hidden">
+                <div className="w-[60rem] border-[1px] border-neutral-300 rounded-md bg-white overflow-hidden">
                     {/* Table header */}
                     <div className="flex py-2 px-6 bg-neutral-100 rounded-t-md border-b-2 border-neautral-200 text-body text-sm">
                         <div className="basis-80">Name</div>
