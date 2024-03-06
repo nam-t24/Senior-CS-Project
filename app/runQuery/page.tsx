@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { createGrant } from "@/utils/scripts/grants";
 
 // Page for testing api queries written in /utils/scripts
@@ -9,6 +9,22 @@ import { createGrant } from "@/utils/scripts/grants";
 export default function RunQuery() {
     const [runningQuery, setRunningQuery] = useState(false);
     const [data, setData] = useState<any>();
+    const [baseUrl, setBaseUrl] = useState("http://localhost:3000")
+
+    // Make sure nobody can run queries in production
+    useEffect(() => {
+        const base_url = window.location.origin;
+        setBaseUrl(base_url);
+    }, [])
+
+    if(baseUrl !== "http://localhost:3000"){
+        return(
+            <div className="w-full min-h-screen bg-gray-800 text-slate-50 py-16">
+                <div className="2xl:text-5xl text-4xl font-medium text-center">Must be in local development</div>
+
+            </div>
+        )
+    }
 
     const runQuery = () => {
         const run = async() => {
