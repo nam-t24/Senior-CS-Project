@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState } from "react"
-import { createGrant } from "@/utils/scripts/grants";
+import { getGrantInfo } from "@/utils/scripts/grants";
 
 // Page for testing api queries written in /utils/scripts
 // Import your function you want to run
@@ -31,8 +31,8 @@ export default function RunQuery() {
             setRunningQuery(true);
 
             // Replace this function
-            // Example: const data = await createGrant("","","",7, new Date())
-            const data = await createGrant("","","",7, new Date())
+            // Example: const data = await getGrants();
+            const data = await getGrantInfo(2);
 
 
             console.log(data);
@@ -51,7 +51,7 @@ export default function RunQuery() {
             <button className="border-2 border-slate-50 px-6 py-2 rounded-md hover:bg-slate-600 2xl:mt-16 mt-10 text-lg" onClick={()=>runQuery()}>{runningQuery ? "Running Query ..." : "Run Query"}</button>
 
             <div className="border-b-2 border-slate-50 2xl:w-80 w-64 text-center 2xl:py-2 py-1 mt-16 2xl:text-lg">Query Result</div>
-            <div className="mt-6 2xl:max-w-[40rem] max-w-[30rem]"><pre>{JSON.stringify(data)}</pre></div>
+            <div className="mt-6 2xl:max-w-[60rem] max-w-[50rem] overflow-x-auto"><pre>{JSON.stringify(data, null, 2)}</pre></div>
 
         </div>
     )

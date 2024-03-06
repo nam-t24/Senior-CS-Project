@@ -23,3 +23,39 @@ export const createGrant = async(grantName: string, description: string, require
 
     return null;
 }
+
+export const getGrants = async() => {
+    const supabase = createClient();
+
+    const { data: { user }} = await supabase.auth.getUser();
+    const userUUID = user.id;
+
+    const { data, error } = await supabase.from('profiles').select('FK_organizations').eq('id', userUUID);
+    if(error){
+        console.log(error);
+        return null;
+    }
+
+    const orgID = data[0].FK_organizations;
+
+    const { data: grantData, error: grantError} = await supabase.from('grants').select().eq('FK_organizations', orgID);
+    if(grantError){
+        console.log(grantError);
+        return null;
+    }
+
+    // returns array of grants
+    return grantData;
+}
+
+export const getGrantInfo = async(grantID: number) => {
+    const supabase = createClient();
+    const { data, error } = await supabase.from('grants').select().eq('id', grantID);
+    if(error){
+        console.log(error);
+        return null;
+    }
+
+    return data[0]
+
+}
