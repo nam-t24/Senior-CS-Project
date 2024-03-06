@@ -9,6 +9,93 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      grants: {
+        Row: {
+          amount: number
+          created_at: string
+          deadline: string | null
+          description: string
+          FK_organizations: number
+          FK_orgFunded: number | null
+          id: number
+          isOpen: boolean
+          name: string
+          requirements: string | null
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          deadline?: string | null
+          description?: string
+          FK_organizations: number
+          FK_orgFunded?: number | null
+          id?: number
+          isOpen?: boolean
+          name?: string
+          requirements?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          deadline?: string | null
+          description?: string
+          FK_organizations?: number
+          FK_orgFunded?: number | null
+          id?: number
+          isOpen?: boolean
+          name?: string
+          requirements?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_grants_FK_organizations_fkey"
+            columns: ["FK_organizations"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_grants_FK_orgFunded_fkey"
+            columns: ["FK_orgFunded"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      invites: {
+        Row: {
+          FK_organizations: number
+          FK_profiles: string
+          id: number
+        }
+        Insert: {
+          FK_organizations: number
+          FK_profiles?: string
+          id?: number
+        }
+        Update: {
+          FK_organizations?: number
+          FK_profiles?: string
+          id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_invites_FK_organizations_fkey"
+            columns: ["FK_organizations"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_invites_FK_profiles_fkey"
+            columns: ["FK_profiles"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       organizations: {
         Row: {
           admins: string[]
