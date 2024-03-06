@@ -56,6 +56,6 @@ export const getGrantInfo = async(grantID: number) => {
         return null;
     }
 
-    return data[0]
+    return data;
 
 }
