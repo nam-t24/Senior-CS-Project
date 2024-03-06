@@ -38,7 +38,7 @@ export const getGrants = async() => {
 
     const orgID = data[0].FK_organizations;
 
-    const { data: grantData, error: grantError} = await supabase.from('grants').select().eq('FK_organizations', orgID);
+    const { data: grantData, error: grantError} = await supabase.from('grants').select().eq('FK_organizations', orgID).eq('isOpen', true);
     if(grantError){
         console.log(grantError);
         return null;

@@ -40,14 +40,17 @@ export default function OrganizationGrants() {
       </div> 
       :
       <section className="animate-in">
+        {grantList.length === 0 ? 
+        <div className="bg-blue-100 border-t-4 border-blue-500 text-blue-700 px-4 py-3 mt-4 2xl:w-1/3 w-1/2">
+          <p className="font-semibold">You currently do not have any grants open.</p>
+          <p className="text-sm">Create a new grant below</p>
+        </div>
+        :
         <div className="flex flex-wrap mt-10 space-around">
           {grantList.map((grant)=>{
             return(<GrantCard key={grant.id} grantID={grant.id} name={grant.name} amount={grant.amount} description={grant.description} createdDate={grant.created_at}/>);
           })}
-
-
-
-        </div>
+        </div>}
 
         
         <Link href="/dashboard/organization/grants/createGrant" className="inline-block text-darkmaroon border-2 border-darkmaroon rounded-md hover:bg-darkmaroon/20 py-1 px-2 mt-24 2xl:text-lg">

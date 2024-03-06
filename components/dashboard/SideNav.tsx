@@ -66,7 +66,7 @@ export default function SideNav() {
                     <div className="font-light 2xl:text-xl text-lg">
                         <NavLink href={isInOrg ? "/dashboard/organization/overview" : "/dashboard/organization/overview/orgSignUp"} exact={false} activeOptions="bg-lightmaroon" className="rounded-lg my-2 2xl:py-2 py-1 2xl:px-3 px-2 hoverRaise">Overview</NavLink>
                         {isInOrg && 
-                        <NavLink href={`/dashboard/organization/${isNonProfit ? "applications" : "grants"}`} exact={true} activeOptions="bg-lightmaroon" className="rounded-lg my-2 2xl:py-2 py-1 2xl:px-3 px-2 hoverRaise">{isNonProfit ? "Applications" : "Grants"}</NavLink>
+                        <NavLink href={`/dashboard/organization/${isNonProfit ? "applications" : "grants"}`} exact={false} activeOptions="bg-lightmaroon" className="rounded-lg my-2 2xl:py-2 py-1 2xl:px-3 px-2 hoverRaise">{isNonProfit ? "Applications" : "Grants"}</NavLink>
                         }
                         {isInOrg &&
                         <NavLink href="/dashboard/organization/history" exact={true} activeOptions="bg-lightmaroon" className="rounded-lg my-2 2xl:py-2 py-1 2xl:px-3 px-2 hoverRaise">History</NavLink>
