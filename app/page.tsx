@@ -1,54 +1,28 @@
-import DeployButton from "../components/DeployButton";
-import AuthButton from "../components/AuthButton";
-import { createClient } from "@/utils/supabase/server";
-import ConnectSupabaseSteps from "@/components/tutorial/ConnectSupabaseSteps";
-import SignUpUserSteps from "@/components/tutorial/SignUpUserSteps";
-import Header from "@/components/Header";
+import Link from "next/link";
+import { Caveat } from 'next/font/google';
+
+const caveat = Caveat({ subsets: ['latin'] })
 
 export default async function Index() {
-  const canInitSupabaseClient = () => {
-    // This function is just for the interactive tutorial.
-    // Feel free to remove it once you have Supabase connected.
-    try {
-      createClient();
-      return true;
-    } catch (e) {
-      return false;
-    }
-  };
-
-  const isSupabaseConnected = canInitSupabaseClient();
-
   return (
-    <div className="flex-1 w-full flex flex-col gap-20 items-center">
-      <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-        <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
-          <DeployButton />
-          {isSupabaseConnected && <AuthButton />}
+    <div className="2xl:bg-[url('/assets/backgrounds/homeBG_desktop.svg')] bg-[url('/assets/backgrounds/homeBG_laptop.svg')] bg-cover bg-center bg-no-repeat min-h-screen min-w-full relative flex justify-center items-center">
+      {/* Top Nav Bar */}
+      <div className="absolute top-0 w-screen 2xl:h-28 h-20 flex flex-row text-wrap">
+        {/* Minted Logo */}
+        <div className="2xl:pt-6 pt-4 2xl:pl-10 pl-6"><Link href="/" className={`${caveat.className} 2xl:text-6xl text-5xl text-black font-medium`}>Minted</Link></div>
+        {/* Headers (go nowhere) */}
+        <div className="2xl:pl-40 pl-20 2xl:space-x-20 space-x-12 flex flex-1 text-2xl text-heading items-center">
+          <Link href="/">About</Link>
+          <Link href="/">How It Works</Link>
+          <Link href="/">Why Minted</Link>
         </div>
-      </nav>
-
-      <div className="animate-in flex-1 flex flex-col gap-20 opacity-0 max-w-4xl px-3">
-        <Header />
-        <main className="flex-1 flex flex-col gap-6">
-          <h2 className="font-bold text-4xl mb-4">Next steps</h2>
-          {isSupabaseConnected ? <SignUpUserSteps /> : <ConnectSupabaseSteps />}
-        </main>
+        {/* Log in/out Button */}
+        <div className="flex flex-1 justify-end">
+          <button className="2xl:mt-6 mt-4 2xl:mr-10 mr-6 2xl:h-16 h-12 2xl:w-40 w-32 border-4 border-darkmaroon border-solid rounded-full">
+            <Link href="/login" className="2xl:text-xl text-lg text-darkmaroon font-semibold">Log In</Link>
+          </button>
+        </div>
       </div>
-
-      <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
-        <p>
-          Powered by{" "}
-          <a
-            href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-            target="_blank"
-            className="font-bold hover:underline"
-            rel="noreferrer"
-          >
-            Supabase
-          </a>
-        </p>
-      </footer>
     </div>
   );
 }
