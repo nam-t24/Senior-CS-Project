@@ -23,6 +23,22 @@ export default async function Index() {
           </button>
         </div>
       </div>
+
+      {/* Center Text */}
+      <div className="space-y-8 flex flex-col text-center">
+        <div className="space-y-8 2xl:text-8xl text-7xl text-darkmaroon font-semibold">
+          <div>Built for Non-Profits</div>
+          <div>Built for Change</div>
+        </div>
+        <div className="flex justify-center">
+          <div className="w-1/2 2xl:text-3xl text-2xl text-heading font-medium">Find opportunities to fund projects or start funding non-profits. We’re here to boost projects.</div>
+        </div>
+        {/* Bottom Buttons */}
+        <div className="space-x-10 2xl:text-2xl text-xl font-medium">
+          <button className="2xl:h-12 h-10 2xl:w-56 w-44 bg-darkmaroon rounded-full text-primary">Find Funding {'>'}</button>
+          <button className="2xl:h-12 h-10 2xl:w-56 w-44 text-darkmaroon">Fund Now {'>'}</button>
+        </div>
+      </div>
     </div>
   );
 }
