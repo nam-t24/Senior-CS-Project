@@ -59,7 +59,6 @@ export default function OrganizationOverview() {
 
             const res = await getUserOrgData(orgID);
             if(res.error){
-                displayErrorToast(res.error);
                 return;
             }
             setOrgData(res.orgData);
@@ -124,7 +123,7 @@ export default function OrganizationOverview() {
             console.log(error.message);
             toast({
             variant: "destructive",
-            title: "Unable to leave org",
+            title: "Unable to leave organization",
             description: "Check log for error",
             })
         }
@@ -132,7 +131,8 @@ export default function OrganizationOverview() {
             toast({
             title: "Successfully Left Organization",
             })
-            router.push("/dashboard/organization/overview/orgSignUp");
+            // Give time for supabase to update data before redirecting
+            setTimeout(()=> {location.reload();router.push("/dashboard/organization/overview/orgSignUp");}, 500)
         }
     }
     return(
@@ -147,7 +147,7 @@ export default function OrganizationOverview() {
             <div>
             <div className="flex items-stretch mt-8 2xl:space-x-6 space-x-4 animate-in">
                 {/* Org Info Section */}
-                <div className="w-3/5 2xl:px-10 px-6 2xl:py-8 py-6 bg-lightmaroon/20 rounded-md 2xl:text-lg">
+                <div className="w-3/5 2xl:px-10 px-6 2xl:py-8 py-6 bg-lightmaroon/20 rounded-md 2xl:text-lg border-[1px] border-darkmaroon/50">
                     <div className="2xl:text-4xl text-3xl 2xl:mb-10 mb-4">Organization Info</div>
 
                     <div className="text-body mb-1">Organization Name*</div>
@@ -185,7 +185,7 @@ export default function OrganizationOverview() {
 
                     {
                     (isOwner || isAdmin) &&
-                    <button className="block px-3 py-1 border-2 border-darkmaroon text-darkmaroon 2xl:text-xl text-lg rounded-xl 2xl:mt-14 mt-6 hover:bg-darkmaroon/20 transition duration-300" onClick={() => handleUpdateOrg()}>{
+                    <button className="block px-3 py-1 border-2 border-darkmaroon text-darkmaroon 2xl:text-xl text-lg rounded-lg 2xl:mt-14 mt-6 hover:bg-darkmaroon/20 transition duration-300" onClick={() => handleUpdateOrg()}>{
                         !loading ? "Update Info" : "Updating Info..."}
                     </button>
                     }
@@ -208,7 +208,7 @@ export default function OrganizationOverview() {
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>
-                        <AlertDialogTitle>{(isOwner && orgTeam.length > 1) ? "Unable to leave org" : "Are you absolutely sure?"}</AlertDialogTitle>
+                        <AlertDialogTitle>{(isOwner && orgTeam.length > 1) ? "Unable to leave organization" : "Are you absolutely sure?"}</AlertDialogTitle>
                         <AlertDialogDescription>
                             {(isOwner && orgTeam.length > 1) ? "You must transfer ownership before leaving the organization" : "Click continue to leave organization"}
                         </AlertDialogDescription>
