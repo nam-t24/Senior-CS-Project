@@ -35,14 +35,14 @@ export default function OrgInvite({orgID}: {orgID: number}) {
         if(errorMessage === "nonexistent email"){
             toast({
                 variant: "destructive",
-                title: "No account associated with given email",
+                title: "No user associated with given email",
             })
             return;
         }
         else if(errorMessage === "already in org"){
             toast({
                 variant: "destructive",
-                title: "Account is already in an organization",
+                title: "User is already in an organization",
             })
             return;
         }

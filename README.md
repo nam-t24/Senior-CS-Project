@@ -81,7 +81,7 @@ Minted uses [shadcn/ui](https://ui.shadcn.com/) for UI components
 `/app/dashboard`  
 Contains pages split by the sidenav menu options
 
-`app/login`  
+`/app/login`  
 Contains only the login page
 
 `/app/auth/callback`  

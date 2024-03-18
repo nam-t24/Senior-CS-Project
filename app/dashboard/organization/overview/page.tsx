@@ -59,7 +59,6 @@ export default function OrganizationOverview() {
 
             const res = await getUserOrgData(orgID);
             if(res.error){
-                displayErrorToast(res.error);
                 return;
             }
             setOrgData(res.orgData);
@@ -132,8 +131,8 @@ export default function OrganizationOverview() {
             toast({
             title: "Successfully Left Organization",
             })
-            router.push("/dashboard/organization/overview/orgSignUp");
-            router.refresh()
+            // Give time for supabase to update data before redirecting
+            setTimeout(()=> {location.reload();router.push("/dashboard/organization/overview/orgSignUp");}, 500)
         }
     }
     return(

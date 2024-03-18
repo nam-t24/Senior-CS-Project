@@ -45,7 +45,7 @@ export default function DashboardProfile() {
       setName(res?.full_name || "");
       setEmail(res?.email || "");
       setBio(res?.bio || "");
-      setOrg(res?.organizations?.name || "You are not apart of an organization. Go to \"Organization Overview\" to create or join an organization.");
+      setOrg(res?.organizations?.name || "You are not a part of an organization. Go to \"Organization Overview\" to create or join an organization.");
       setLoading(false);
     }).catch((error) => (displayErrorToast(error)));
   }, [])

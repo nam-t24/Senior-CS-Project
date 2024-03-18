@@ -75,7 +75,7 @@ export const getUserOrgData = async (orgID: number) => {
         owner: "",
         admins: [],
         }
-    if(orgData !== null && data !== undefined){
+    if(orgData !== null && data !== undefined && data !== null){
         orgData = data[0];
     }
     return {orgData, error};
