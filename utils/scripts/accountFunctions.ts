@@ -73,3 +73,9 @@ export const signOut = async () => {
     await supabase.auth.signOut();
     return redirect("/login");
 };
+
+export const getUser = async () => {
+  const supabase = createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  return user;
+}
