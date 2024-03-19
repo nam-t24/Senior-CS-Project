@@ -101,7 +101,7 @@ export default function TeamMemberCard({memberInfo, isOwner, isAdmin, index, num
             toast({
                 title: "Successfully transferred ownership",
             })
-            // Must reload page since user no long can have access to any owner functionalities
+            // Must reload page since user no longer can have access to any owner functionalities
             location.reload();
         }
         handleTransferOwnership();

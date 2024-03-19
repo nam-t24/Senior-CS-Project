@@ -1,7 +1,8 @@
 "use client"
+import { checkLoggedIn } from "@/utils/scripts/accountFunctions";
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Caveat } from 'next/font/google';
 import { signIn, signUp, signInWithGoogle } from "@/utils/scripts/accountFunctions";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
@@ -15,6 +16,11 @@ export default function Login({
 }: {
   searchParams: { message: string };
 }) {
+  // Redirect user out of login page to dashboard if logged in
+  useEffect(() => {
+    checkLoggedIn();
+  }, [])
+
   // Trigger between log in and create account
   const [login, setLogin] = useState(true);
   const LogInCard = useRef<any>(null);
