@@ -1,6 +1,6 @@
 "use server"
 import { createClient } from "@/utils/supabase/server";
-import { getOrgOwner } from "./organization"
+
 export const makeUserAdmin = async(userID: string, orgID: number) => {
     const supabase = createClient();
 

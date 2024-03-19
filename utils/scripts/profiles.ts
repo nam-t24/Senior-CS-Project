@@ -15,6 +15,9 @@ export const getProfileByUserId = async() => {
     const userUUID = user.id;
 
     const { data, error } = await supabase.from("profiles").select('full_name, email, bio, organizations(name)').eq("id", userUUID).returns<Profile>();
+    if(error){
+        console.log(error)
+    }
     return data[0];
 }
 

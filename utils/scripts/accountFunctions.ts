@@ -74,6 +74,14 @@ export const signOut = async () => {
     return redirect("/login");
 };
 
+export const checkLoggedIn = async () => {
+  const supabase = createClient();
+  const { data: { user } } = await supabase.auth.getUser()
+  if(user){
+    redirect("/dashboard");
+  }
+}
+
 export const getUser = async () => {
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
