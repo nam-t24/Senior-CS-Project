@@ -30,7 +30,7 @@ export default function CreateGrant() {
     const [submitting, setSubmitting] = useState(false);
 
     const handleSubmit = async () => {
-        if(grantName==="" || description==="" || amount===null || amount<=0 || deadline===null || (new Date() >= deadline)){
+        if(grantName==="" || description==="" || amount===null || amount<=0 || !deadline || (new Date() >= deadline || !/^\d+$/.test(amount.toString()))){
             setShowErrors(true);
             return;
         }
@@ -74,7 +74,7 @@ export default function CreateGrant() {
                 <div className="text-body mb-1 mt-6">
                     Requirements
                 </div>
-                <textarea className="rounded-md py-2 px-3 min-h-32 w-full bg-slate-100" placeholder="Any requirements orgs must meet to be able to apply" onChange={e=>setRequirements(e.target.value)}/>
+                <textarea className="rounded-md py-2 px-3 min-h-32 w-full bg-slate-100" placeholder="Requirements for applicants" onChange={e=>setRequirements(e.target.value)}/>
                 
                 <div className="text-body mb-1 mt-6">
                     Grant Amount*
@@ -83,7 +83,7 @@ export default function CreateGrant() {
                     <input className="rounded-md bg-slate-100 py-2 pl-6 pr-3" type="number" placeholder="Dollar Amount" onChange={e=>setAmount(+e.target.value)}/>
                     <div className="absolute left-3 top-1/2 -translate-y-1/2">$</div>
                 </div>
-                <div className="text-sm text-red-700 h-5">{showErrors && (amount === null ? "Field required" : (amount <= 0  && "Amount cannot be less than or equal to 0"))}</div>
+                <div className="text-sm text-red-700 h-5">{showErrors && (amount === null ? "Field required" : (amount <= 0  ? "Amount cannot be less than or equal to 0": (!/^\d+$/.test(amount.toString()) && "Amount must be a whole number")))}</div>
 
                 <div className="text-body mb-1 mt-6">
                     Deadline*
@@ -111,7 +111,7 @@ export default function CreateGrant() {
                         />
                     </PopoverContent>
                 </Popover>
-                <div className="text-sm text-red-700 h-5">{deadline!==null && (new Date() >= deadline) ? "Deadline must be after today's date" :(showErrors && deadline===null && "Field required")}</div>
+                <div className="text-sm text-red-700 h-5">{deadline && (new Date() >= deadline) ? "Deadline must be after today's date" :(showErrors && !deadline && "Field required")}</div>
 
                 <button className="block border-2 border-darkmaroon 2xl:text-lg text-darkmaroon hover:bg-darkmaroon/20 rounded-md py-1 px-2 mt-16" onClick={()=>handleSubmit()}>{submitting ? "Creating new grant..." : "Create New Grant"}</button>
           </div>

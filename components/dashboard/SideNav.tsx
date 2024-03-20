@@ -5,7 +5,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { signOut } from "../../utils/scripts/accountFunctions";
 import NavLink from "./NavLink"
 import { useEffect, useState } from "react";
-import { getUserIDandOrgID, getOrgAndOrgType } from "@/utils/scripts/organization";
+import { getUserIDandOrgID, getOrgType } from "@/utils/scripts/organization";
 import { hasInvites } from "@/utils/scripts/invites";
 
 const caveat = Caveat({
@@ -30,28 +30,25 @@ const NavSection = ({sectionName} : {sectionName: string}) => {
 export default function SideNav() {
     const [isInOrg, setIsInOrg] = useState(false);
     const [isNonProfit, setIsNonProfit] = useState(true);
-    const [userID, setUserID] = useState("");
     const [invites, setInvites] = useState(false);
 
     useEffect(() => {
         const getOrgData = async() => {
-            const orgData = await getOrgAndOrgType();
-            if(orgData){
+            const orgType = await getOrgType();
+            if(orgType){
                 setIsInOrg(true);
-                setIsNonProfit(orgData.isNonProfit)
+                setIsNonProfit(orgType.isNonProfit)
             }
         }
         getOrgData();
 
-        const getData = async()=> {
-            const {userUUID, orgID} = await getUserIDandOrgID();
-            setIsInOrg(orgID === null ? false : true); 
-            setUserID(userUUID);
+        const checkInvites = async()=> {
+            const {userUUID} = await getUserIDandOrgID();
             const userHasInvites = await hasInvites(userUUID);
             setInvites(userHasInvites);
         }
 
-        getData();
+        checkInvites();
     }, [])
     
 
