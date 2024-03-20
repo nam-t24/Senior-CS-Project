@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link";
 import { Caveat } from 'next/font/google';
-import { getUser, signOut } from "@/utils/scripts/accountFunctions";
+import { getUserEmail } from "@/utils/scripts/accountFunctions";
 import { useEffect, useState } from "react";
 
 const caveat = Caveat({ subsets: ['latin'] })
@@ -10,8 +10,8 @@ export default function Index() {
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    getUser().then((res) => {
-      setEmail(res?.email || "");
+    getUserEmail().then((res) => {
+      setEmail(res || "");
     });
   }, [])
 

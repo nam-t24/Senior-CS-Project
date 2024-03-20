@@ -82,8 +82,11 @@ export const checkLoggedIn = async () => {
   }
 }
 
-export const getUser = async () => {
+export const getUserEmail = async () => {
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  return user;
+  if(user) {
+    return user.email;
+  }
+  return null;
 }
