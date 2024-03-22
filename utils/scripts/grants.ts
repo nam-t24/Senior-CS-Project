@@ -48,9 +48,25 @@ export const getGrants = async() => {
     return grantData;
 }
 
+
+type grantInfoType = {
+    id: number,
+    created_at: string,
+    name: string,
+    amount: number,
+    description: string,
+    deadline: string,
+    FK_organizations: number,
+    isOpen: boolean;
+    FK_orgFunded: number | null,
+    requirements: string,
+    organizations: {
+        name: string,
+    }
+  }
 export const getGrantInfo = async(grantID: number) => {
     const supabase = createClient();
-    const { data, error } = await supabase.from('grants').select().eq('id', grantID);
+    const { data, error } = await supabase.from('grants').select("*, organizations:FK_organizations(id, name)").eq('id', grantID).returns<Array<grantInfoType>>();
     if(error){
         console.log(error);
         return null;
@@ -58,4 +74,14 @@ export const getGrantInfo = async(grantID: number) => {
 
     return data;
 
+}
+
+export const updateGrant = async(grantID: number, grantName: string, description: string, requirements: string, amount: number, deadline: Date) => {
+    const supabase = createClient();
+    const { error } = await supabase.from('grants').update({ name: grantName, description: description, requirements: requirements, amount: amount, deadline: deadline }).eq('id', grantID);
+    if(error){
+        console.log(error);
+        return error;
+    }
+    return null;
 }

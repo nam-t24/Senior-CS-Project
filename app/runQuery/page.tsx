@@ -32,7 +32,7 @@ export default function RunQuery() {
 
             // Replace this function
             // Example: const data = await getGrants();
-            const data = await getGrantInfo(3);
+            const data = await getGrantInfo(16);
 
 
             console.log(data);

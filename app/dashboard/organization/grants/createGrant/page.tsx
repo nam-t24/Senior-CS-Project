@@ -58,7 +58,7 @@ export default function CreateGrant() {
       <div className="">
           <PageHeading header="Create Grant" description="Create a new grant for organizations to apply to"/>
           {/* New Grant Form */}
-          <div className="border-[1px] border-gray-500 w-[50rem] rounded-lg mx-auto mt-8 py-8 px-16 bg-[#FFFEFE] animate-in">
+          <div className="border-2 border-gray-300 w-[50rem] rounded-lg mx-auto mt-8 py-8 px-16 bg-[#FFFEFE] animate-in">
                 <div className="flex flex-col items-center">
                     <input className="inline-block border-b-2 border-body text-center bg-transparent py-1 px-2 text-2xl w-3/5" placeholder="Grant Name*" onChange={e=>setGrantName(e.target.value)}/>
                     <div className="text-sm text-red-700 h-5">{showErrors && grantName==="" && "Field required"}</div>
