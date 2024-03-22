@@ -49,8 +49,8 @@ export default function Index() {
         </div>
         {/* Bottom Buttons */}
         <div className="space-x-10 flex flex-row justify-center 2xl:text-2xl text-xl font-medium">
-          <Link href={email ? "/dashboard/browse/opengrants" : "/login"} className="2xl:h-12 h-10 2xl:w-56 w-44 bg-darkmaroon rounded-full text-primary flex justify-center items-center">Find Funding {'>'}</Link>
-          <Link href={email ? "/dashboard/organization/grants" : "/login"} className="2xl:h-12 h-10 2xl:w-56 w-44 rounded-full text-darkmaroon flex justify-center items-center">Fund now {'>'}</Link>
+          <Link href={email ? "/dashboard/browse/opengrants" : "/login"} className="2xl:h-12 h-10 2xl:w-56 w-44 bg-darkmaroon rounded-full text-primary flex justify-center items-center hover:brightness-125">Find Funding {'>'}</Link>
+          <Link href={email ? "/dashboard/organization/grants" : "/login"} className="2xl:h-12 h-10 2xl:w-56 w-44 rounded-full text-darkmaroon flex justify-center items-center hover:brightness-125">Fund now {'>'}</Link>
         </div>
       </div>
     </div>
