@@ -81,3 +81,12 @@ export const checkLoggedIn = async () => {
     redirect("/dashboard");
   }
 }
+
+export const getUserEmail = async () => {
+  const supabase = createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if(user) {
+    return user.email;
+  }
+  return null;
+}
