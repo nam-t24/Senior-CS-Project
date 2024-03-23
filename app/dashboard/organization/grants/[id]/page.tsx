@@ -145,7 +145,7 @@ export default function GrantInfo({ params }: { params: { id: string } }) {
                 )}
 
                 {/* Grant document section */}
-                <div className="border-2 border-gray-300 w-[50rem] rounded-lg mx-auto 2xl:mt-16 mt-8 2xl:py-16 py-8 px-16 bg-[#FFFEFE] animate-in">
+                <div className="border-2 border-gray-200 w-[50rem] rounded-lg mx-auto 2xl:mt-16 mt-8 2xl:py-16 py-8 px-16 bg-[#FFFEFE] animate-in shadow">
                   <div className="2xl:text-4xl text-3xl font-medium text-center">
                     {grantName}
                   </div>
@@ -185,7 +185,7 @@ export default function GrantInfo({ params }: { params: { id: string } }) {
 
                 {/* Edit buttons */}
                 {canEditGrant && (
-                  <div className="w-[50rem] mx-auto flex space-x-8 justify-between items-center 2xl:mt-12 mt-8">
+                  <div className="w-[50rem] mx-auto flex space-x-8 justify-between items-center 2xl:mt-14 mt-10">
                     {/* Nondestructive buttons */}
                     <div className="flex space-x-4">
                       {/* Edit Button */}
