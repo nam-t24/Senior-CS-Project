@@ -2,7 +2,7 @@
 import PageHeading from "@/components/dashboard/PageHeading";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { createGrant } from "@/utils/scripts/grants";
+import { getGrantInfo, updateGrant, canEdit } from "@/utils/scripts/grants";
 
 import { useToast } from "@/components/ui/use-toast";
 import { format } from "date-fns";
@@ -15,7 +15,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { getGrantInfo, updateGrant } from "@/utils/scripts/grants";
+// TODO check if user can edit grant
 
 export default function EditGrant({ params }: { params: { grantID: string } }) {
   const router = useRouter();
@@ -34,6 +34,15 @@ export default function EditGrant({ params }: { params: { grantID: string } }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const checkRestriction = async () => {
+      const editRestriction = await canEdit(+params.grantID);
+      if(!editRestriction){
+        router.push("/dashboard/organization/grants");
+        return;
+      }
+    }
+    checkRestriction();
+
     const getData = async () => {
       const data = await getGrantInfo(+params.grantID);
       if (data === null || data.length === 0) {
@@ -53,7 +62,6 @@ export default function EditGrant({ params }: { params: { grantID: string } }) {
       setOrganization(grantData.organizations.name);
       setLoading(false);
     };
-
     getData();
   }, []);
 
@@ -200,7 +208,7 @@ export default function EditGrant({ params }: { params: { grantID: string } }) {
           <div className="text-heading">{organization}</div>
 
           <button
-            className="block border-2 border-darkmaroon 2xl:text-lg text-darkmaroon hover:bg-darkmaroon/20 rounded-md py-1 px-2 mt-16"
+            className="block border-2 border-darkmaroon 2xl:text-lg text-darkmaroon hover:bg-darkmaroon/20 rounded-md py-1 px-2 mt-16 font-medium"
             onClick={() => handleUpdate()}
           >
             {submitting ? "Editing grant..." : "Edit Grant"}

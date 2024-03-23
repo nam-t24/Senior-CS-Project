@@ -113,7 +113,7 @@ export default function CreateGrant() {
                 </Popover>
                 <div className="text-sm text-red-700 h-5">{deadline && (new Date() >= deadline) ? "Deadline must be after today's date" :(showErrors && !deadline && "Field required")}</div>
 
-                <button className="block border-2 border-darkmaroon 2xl:text-lg text-darkmaroon hover:bg-darkmaroon/20 rounded-md py-1 px-2 mt-16" onClick={()=>handleSubmit()}>{submitting ? "Creating new grant..." : "Create New Grant"}</button>
+                <button className="block border-2 border-darkmaroon 2xl:text-lg text-darkmaroon hover:bg-darkmaroon/20 rounded-md py-1 px-2 mt-16 font-medium" onClick={()=>handleSubmit()}>{submitting ? "Creating new grant..." : "Create New Grant"}</button>
           </div>
       </div>
     );

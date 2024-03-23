@@ -85,3 +85,23 @@ export const updateGrant = async(grantID: number, grantName: string, description
     }
     return null;
 }
+
+export const canEdit = async(grantID: number) => {
+    const supabase = createClient();
+    const { data: { user }} = await supabase.auth.getUser();
+    const userUUID = user.id;
+
+    const {data: userOrgID, error} = await supabase.from('profiles').select('FK_organizations').eq('id', userUUID);
+    if(error){
+        console.log(error);
+        return false;
+    }
+
+    const {data: grantOrgID, error: dataError} = await supabase.from('grants').select('FK_organizations').eq('id', grantID);
+    if(dataError){
+        console.log(dataError);
+        return false;
+    }
+
+    return userOrgID[0].FK_organizations === grantOrgID[0].FK_organizations;
+}

@@ -29,7 +29,6 @@ export default function GrantInfo({ params }: { params: { id: string } }) {
         "10": "October",
         "11": "November",
         "12": "December",
-
     }
 
     useEffect(() => {
@@ -82,10 +81,8 @@ export default function GrantInfo({ params }: { params: { id: string } }) {
                 <div className="text-sm text-body 2xl:mt-10 mt-6 mb-1">Date Posted:</div>
                 <div className="">{datePosted}</div>
 
-                <div className="text-body mb-1 mt-6">
-                    Organization:
-                </div>
-                <div className="text-heading">{organization}</div>
+                <div className="text-sm text-body 2xl:mt-10 mt-6 mb-1">Organization:</div>
+                <div className="">{organization}</div>
                 
             </div>
             }
