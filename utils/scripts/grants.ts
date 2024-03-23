@@ -105,3 +105,13 @@ export const canEdit = async(grantID: number) => {
 
     return userOrgID[0].FK_organizations === grantOrgID[0].FK_organizations;
 }
+
+export const deleteGrant = async(grantID: number) => {
+    const supabase = createClient();
+    const { error } = await supabase.from('grants').delete().eq('id', grantID);
+
+    if(error){
+        return error;
+    }
+    return null;
+}
