@@ -111,6 +111,17 @@ export const deleteGrant = async(grantID: number) => {
     const { error } = await supabase.from('grants').delete().eq('id', grantID);
 
     if(error){
+        console.log(error);
+        return error;
+    }
+    return null;
+}
+
+export const closeGrant = async(grantID: number) => {
+    const supabase = createClient();
+    const { error } = await supabase.from('grants').update({ isOpen: false }).eq('id', grantID);
+    if(error){
+        console.log(error);
         return error;
     }
     return null;

@@ -1,7 +1,7 @@
 "use client"
 import PageHeading from "@/components/dashboard/PageHeading";
 import { useState, useEffect } from "react";
-import { getGrantInfo, canEdit, deleteGrant } from "@/utils/scripts/grants";
+import { getGrantInfo, canEdit, deleteGrant, closeGrant } from "@/utils/scripts/grants";
 import EditIcon from "@mui/icons-material/Edit";
 import Link from "next/link";
 import { useToast } from "@/components/ui/use-toast";
@@ -101,6 +101,23 @@ export default function GrantInfo({ params }: { params: { id: string } }) {
         return;
     }
 
+    const handleClose = async () => {
+      const error = await closeGrant(+params.id);
+      if (error) {
+        toast({
+          variant: "destructive",
+          title: "Unable to close grant",
+          description: "Check log for error",
+        });
+        return;
+      }
+      toast({
+        title: "Grant closed",
+      });
+      router.push("/dashboard/organization/grants");
+      return;
+    }
+
     
     return (
       <div className="">
@@ -122,7 +139,7 @@ export default function GrantInfo({ params }: { params: { id: string } }) {
                     href="/dashboard/organization/grants"
                     className="flex items-center 2xl:mt-8 mt-6 2xl:text-lg"
                   >
-                    <ChevronLeftIcon/>
+                    <ChevronLeftIcon />
                     Go back to grants
                   </Link>
                 )}
@@ -168,18 +185,51 @@ export default function GrantInfo({ params }: { params: { id: string } }) {
 
                 {/* Edit buttons */}
                 {canEditGrant && (
-                  <div className="w-[50rem] mx-auto flex space-x-8 items-center 2xl:mt-12 mt-8">
-                    {/* Edit Button */}
-                    <Link
-                      href={`/dashboard/organization/grants/editGrant/${params.id}`}
-                      className="flex items-center space-x-2 border-2 border-darkmaroon 2xl:text-lg text-darkmaroon hover:bg-darkmaroon/20 rounded-md py-1 px-3 font-medium"
-                    >
-                      <EditIcon fontSize="inherit" />
-                      <p>Edit Grant</p>
-                    </Link>
+                  <div className="w-[50rem] mx-auto flex space-x-8 justify-between items-center 2xl:mt-12 mt-8">
+                    {/* Nondestructive buttons */}
+                    <div className="flex space-x-4">
+                      {/* Edit Button */}
+                      <Link
+                        href={`/dashboard/organization/grants/editGrant/${params.id}`}
+                        className="flex items-center space-x-2 2xl:text-lg text-primary hover:brightness-125 bg-darkmaroon rounded-md py-1 px-3 font-medium"
+                      >
+                        <EditIcon fontSize="inherit" />
+                        <p>Edit Grant</p>
+                      </Link>
+
+                      {/* Close Grant */}
+                      <AlertDialog>
+                        <AlertDialogTrigger>
+                          <div className="2xl:text-lg text-darkmaroon rounded-md py-1 px-3 bg-maroon/20 hover:bg-maroon/30 font-medium">
+                            Close Grant
+                          </div>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              Are you absolutely sure?
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Closed grants will permanently no longer accept
+                              applications or be able to choose a recipient. The
+                              grant can still be viewed under your organization
+                              history.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={() => handleClose()}>
+                              Close Grant
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </div>
+
+                    {/* Delete Button */}
                     <AlertDialog>
                       <AlertDialogTrigger>
-                        <div className="text-darkmaroon rounded-md py-1 px-3 hover:bg-red-100 border-2 border-transparent hover:border-red-400 text-red-700">
+                        <div className="text-darkmaroon rounded-md py-1 px-3 hover:bg-red-100 border-2 border-red-400 text-red-700">
                           Delete Grant
                         </div>
                       </AlertDialogTrigger>
