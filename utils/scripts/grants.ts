@@ -70,7 +70,10 @@ type closedGrantType = {
     isOpen: false,
     FK_orgFunded: number,
     requirements: string,
-    organizations: {
+    ownerOrgName: {
+      name: string
+    } | null
+    orgFundedName: {
       name: string
     } | null
 }
@@ -87,7 +90,7 @@ export const getClosedGrants = async() => {
     }
 
     const orgID = data[0].FK_organizations;
-    const { data: grantData, error: grantError} = await supabase.from('grants').select('*, organizations:FK_orgFunded(name)').eq('FK_organizations', orgID).eq('isOpen', false).returns<Array<closedGrantType>>();
+    const { data: grantData, error: grantError} = await supabase.from('grants').select('*, orgFundedName:FK_orgFunded(name), ownerOrgName:FK_organizations(name)').eq('FK_organizations', orgID).eq('isOpen', false).returns<Array<closedGrantType>>();
     if(grantError){
         console.log(grantError);
         return null;
@@ -95,4 +98,20 @@ export const getClosedGrants = async() => {
 
     // returns array of grants
     return grantData;
+}
+
+export const getClosedGrantByID = async(id: number): Promise<closedGrantType> => {
+    const supabase = createClient();
+
+    const { data: grantData, error: grantError} = await supabase.from('grants').select('*, orgFundedName:FK_orgFunded(name), ownerOrgName:FK_organizations(name)').eq('id', id).eq('isOpen', false).returns<Array<closedGrantType>>();
+    if(grantError){
+        console.log(grantError);
+        return null;
+    }
+    if(grantData.length === 0){
+        return null;
+    }
+
+    // returns array of grants
+    return grantData[0];
 }

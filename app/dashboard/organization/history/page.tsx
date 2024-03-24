@@ -7,6 +7,7 @@ import BlockIcon from "@mui/icons-material/Block";
 import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import Link from "next/link";
 
 export default function OrganizationHistory() {
   const { toast } = useToast();
@@ -44,7 +45,7 @@ export default function OrganizationHistory() {
       var total = 0;
       var orgCount = 0;
       for (const grant of data) {
-        if (grant.organizations) {
+        if (grant.FK_orgFunded) {
           // Only count amount that funded an org
           total += grant.amount;
           orgCount += 1;
@@ -109,7 +110,7 @@ export default function OrganizationHistory() {
     setAmountFilter(false);
     setAmountLeastToGreatest(false);
     // Sort
-    if (nameLeastToGreatest) {
+    if (dateLeastToGreatest) {
       let sortedArray = grantList;
       sortedArray.sort((a, b) =>
         new Date(a.created_at) > new Date(b.created_at)
@@ -134,11 +135,13 @@ export default function OrganizationHistory() {
   };
 
   function TableRow({
+    id,
     name,
     amount,
     orgFunded,
     date,
   }: {
+    id: number;
     name: string;
     amount: number;
     orgFunded: { name: string } | null;
@@ -147,7 +150,7 @@ export default function OrganizationHistory() {
     const dateString =
       date.slice(5, 7) + "/" + date.slice(8, 10) + "/" + date.slice(0, 4);
     return (
-      <div className="flex py-4 px-6 even:bg-white odd:bg-gray-100 hover:bg-gray-200 2xl:text-base text-sm">
+      <Link href={`/dashboard/organization/history/closedGrant/${id}`} className="flex py-4 px-6 even:bg-white odd:bg-gray-100 hover:bg-gray-200 2xl:text-base text-sm">
         <div className="basis-1/3">{name}</div>
         <div className="basis-1/6">${amount}</div>
         <div className="basis-1/3">
@@ -158,7 +161,7 @@ export default function OrganizationHistory() {
           )}
         </div>
         <div className="basis-1/6">{dateString}</div>
-      </div>
+      </Link>
     );
   }
 
@@ -166,7 +169,7 @@ export default function OrganizationHistory() {
     <div className="">
       <PageHeading
         header="Grant History"
-        description="History of previous grants given"
+        description="History of previous grants opened"
       />
       {loading ? (
         <div className="text-center 2xl:mt-72 mt-52 text-darkmaroon">
@@ -187,7 +190,7 @@ export default function OrganizationHistory() {
             </div>
           ) : (
             // Main section
-            <div className="mt-8 w-[60rem] mx-auto">
+            <div className="2xl:mt-16 mt-8 2xl:w-[70rem] w-[60rem] mx-auto">
               {/* History Table */}
               <div className="border-2 border-neutral-400 rounded-md overflow-hidden">
                 {/* Heading */}
@@ -231,14 +234,15 @@ export default function OrganizationHistory() {
                   </div>
                 </div>
                 {/* Table Rows */}
-                <div className="min-h-[25rem] max-h-[25rem] overflow-y-auto">
+                <div className="2xl:min-h-[35rem] 2xl:max-h-[35rem] min-h-[25rem] max-h-[25rem] overflow-y-auto">
                   {grantList.map((grant) => {
                     return (
                       <TableRow
                         key={grant.id}
+                        id= {grant.id}
                         name={grant.name}
                         amount={grant.amount}
-                        orgFunded={grant.organizations}
+                        orgFunded={grant.orgFundedName}
                         date={grant.created_at}
                       />
                     );
@@ -247,7 +251,7 @@ export default function OrganizationHistory() {
               </div>
 
               {/* Stats */}
-              <div className="flex justify-around 2xl:mt-12 mt-10">
+              <div className="flex justify-around 2xl:mt-16 mt-10">
                 <div className="text-center">
                   <div className="text-5xl font-semibold text-maroon">
                     {grantList.length}
