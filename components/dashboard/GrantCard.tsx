@@ -15,7 +15,6 @@ export default function GrantCard({grantID, name, amount, description, createdDa
         "10": "October",
         "11": "November",
         "12": "December",
-
     }
 
     const date = months[createdDate.slice(5, 7)] + " " + createdDate.slice(8, 10) + ", " + createdDate.slice(0, 4);
