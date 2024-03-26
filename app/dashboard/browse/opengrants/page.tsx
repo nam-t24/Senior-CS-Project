@@ -7,7 +7,8 @@ import BrowseGrantCard from "@/components/dashboard/BrowseGrantCard";
 export default function BrowseGrants() {
 
   const [grants, setGrants] = useState([]);
-  const [search, setSearch] = useState("");
+  const [filteredGrants, setFilteredGrants] = useState([]);
+  const [search, setSearch] = useState('');
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -21,11 +22,31 @@ export default function BrowseGrants() {
         return;
       }
       setGrants(grantData);
+      setFilteredGrants(grantData);
       setLoading(false);
     }
 
     fetchGrants();
   }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if(search !== ''){
+        const newFiltered = grants.filter((grant) => {
+          return grant.name.toLowerCase().includes(search.toLowerCase());
+        })
+        setFilteredGrants(newFiltered);
+      } else {
+        setFilteredGrants(grants);
+      }
+
+    }, 750);
+
+    return (() => {
+      clearTimeout(timer);
+    })
+    
+  }, [search]);
 
   return (
     <div className="">
@@ -51,7 +72,7 @@ export default function BrowseGrants() {
 
         {/* Grant lists */}
         <section className="grid grid-cols-4 gap-3 animateDown">
-          {grants.map((grant) => {
+          {filteredGrants.map((grant) => {
             return(<BrowseGrantCard key={grant.id} id={grant.id} name={grant.name} amount={grant.amount} description={grant.description} deadline={grant.deadline} />);
           })}
         </section>
