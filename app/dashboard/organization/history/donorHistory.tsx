@@ -1,7 +1,7 @@
 "use client";
 import PageHeading from "@/components/dashboard/PageHeading";
 import { useState, useEffect } from "react";
-import { getClosedGrants } from "@/utils/scripts/grants";
+import { getClosedGrantsByOrgID } from "@/utils/scripts/grants";
 import { useToast } from "@/components/ui/use-toast";
 import BlockIcon from "@mui/icons-material/Block";
 import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
@@ -9,7 +9,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import Link from "next/link";
 
-export default function DonorHistory() {
+export default function DonorHistory({orgID} : {orgID: number}) {
   const { toast } = useToast();
 
   const [loading, setLoading] = useState(true);
@@ -29,7 +29,7 @@ export default function DonorHistory() {
 
   useEffect(() => {
     const getData = async () => {
-      const data = await getClosedGrants();
+      const data = await getClosedGrantsByOrgID(orgID);
 
       if (data === null) {
         toast({
@@ -58,6 +58,7 @@ export default function DonorHistory() {
     getData();
   }, []);
 
+  // Sorting functions
   const handleNameSort = () => {
     // Resetting other filters
     setNameFilter(true);
@@ -103,7 +104,7 @@ export default function DonorHistory() {
   };
 
   const handleDateSort = () => {
-    // Restting other filters
+    // Resetting other filters
     setDateFilter(true);
     setNameFilter(false);
     setNameLeastToGreatest(false);

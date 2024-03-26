@@ -70,6 +70,7 @@ type closedGrantType = {
     isOpen: false,
     FK_orgFunded: number,
     requirements: string,
+    acceptedDate: string,
     ownerOrgName: {
       name: string
     } | null
@@ -77,20 +78,24 @@ type closedGrantType = {
       name: string
     } | null
 }
-export const getClosedGrants = async() => {
+export const getClosedGrantsByOrgID = async(orgID: number) => {
     const supabase = createClient();
 
-    const { data: { user }} = await supabase.auth.getUser();
-    const userUUID = user.id;
-
-    const { data, error } = await supabase.from('profiles').select('FK_organizations').eq('id', userUUID);
-    if(error){
-        console.log(error);
+    const { data: grantData, error: grantError} = await supabase.from('grants').select('*, orgFundedName:FK_orgFunded(name), ownerOrgName:FK_organizations(name)').eq('FK_organizations', orgID).eq('isOpen', false).returns<Array<closedGrantType>>();
+    if(grantError){
+        console.log(grantError);
         return null;
     }
 
-    const orgID = data[0].FK_organizations;
-    const { data: grantData, error: grantError} = await supabase.from('grants').select('*, orgFundedName:FK_orgFunded(name), ownerOrgName:FK_organizations(name)').eq('FK_organizations', orgID).eq('isOpen', false).returns<Array<closedGrantType>>();
+    // returns array of grants
+    return grantData;
+}
+
+// Gets grants received by an organization(FK_orgFunded has value)
+export const getGrantsReceivedByOrgID = async(orgID: number) => {
+    const supabase = createClient();
+
+    const { data: grantData, error: grantError} = await supabase.from('grants').select('*, orgFundedName:FK_orgFunded(name), ownerOrgName:FK_organizations(name)').eq('FK_orgFunded', orgID).eq('isOpen', false).returns<Array<closedGrantType>>();
     if(grantError){
         console.log(grantError);
         return null;
@@ -112,6 +117,6 @@ export const getClosedGrantByID = async(id: number): Promise<closedGrantType> =>
         return null;
     }
 
-    // returns array of grants
+    // returns grant object
     return grantData[0];
 }
