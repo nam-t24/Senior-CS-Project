@@ -1,5 +1,6 @@
 "use server"
 import { createClient } from "@/utils/supabase/server";
+import { demoteAdmin } from "./team";
 
 // SQL functions for organizations table
 
@@ -18,7 +19,13 @@ export const getUserIDandOrgID = async () => {
 export const createOrganization = async (orgName: string, orgEmail: string, orgBio: string, orgWebsite: string, orgType: number) => {
     const supabase = createClient();
     const { data: { user }} = await supabase.auth.getUser();
-    const userID = user?.id;
+    const userID = user.id;
+
+    const { error: deleteError } = await supabase.from('invites').delete().eq('FK_profiles', userID)
+    if(deleteError){
+        console.log(deleteError.message)
+        return deleteError;
+    }
 
     const isNonProfit = orgType == 0 ? true : false;
     orgBio = (orgBio === "" ? null : orgBio); //set orgBio to null if no org bio entered
@@ -46,12 +53,32 @@ export const createOrganization = async (orgName: string, orgEmail: string, orgB
     }
 }
 
+type orgDataType = {
+    name: string;
+    email: string;
+    bio: string | null;
+    website: string | null;
+    isNonProfit: boolean;
+    owner: string;
+    admins: Array<string>;
+}
 export const getUserOrgData = async (orgID: number) => {
     const supabase = createClient();
 
-    const data = supabase.from('organizations').select('name, email, bio, website, isNonProfit').eq('id', orgID);
-
-    return data;
+    const {data, error} = await supabase.from('organizations').select('name, email, bio, website, owner, isNonProfit, admins').eq('id', orgID).returns<orgDataType>();
+    let orgData={
+        name: "",
+        email: "",
+        bio: null,
+        website: null,
+        isNonProfit: false,
+        owner: "",
+        admins: [],
+        }
+    if(orgData !== null && data !== undefined && data !== null){
+        orgData = data[0];
+    }
+    return {orgData, error};
 }
 
 export const updateOrg = async (orgName: string, orgEmail: string, orgBio: string, orgWebsite: string, orgID: number) => {
@@ -71,7 +98,7 @@ export const updateOrg = async (orgName: string, orgEmail: string, orgBio: strin
 }
 
 // Return id of the org owner of user's current org
-const getOrgOwner = async (orgID: number) => {
+export const getOrgOwner = async (orgID: number) => {
     const supabase = createClient();
 
     const { data, error } = await supabase.from('organizations').select('owner').eq('id', orgID);
@@ -96,25 +123,85 @@ export const isUserOwner = async (userID: string, orgID: number) => {
     return ownerID === userID;
 }
 
-export const getOrgTeam = async (orgID: number) => {
+export const getOrgTeam = async (orgID: number, admins: Array<string>) => {
     const supabase = createClient();
     const ownerID = await getOrgOwner(orgID);
 
     const { data, error } = await supabase.from('profiles').select('id, full_name, email').eq('FK_organizations', orgID);
 
-    const getOwnerIndex = () => {
-        let index = 0;
-        for (const profile of data){
-            if(profile.id == ownerID){
-                return index;
-            }
-            index++;
+    let ownerArray = []
+    let adminArray = []
+    let memberArray = []
+
+    for (const profile of data){
+        if(profile.id == ownerID){
+            ownerArray.push(profile)
+        }
+        else if(admins.includes(profile.id)){
+            adminArray.push(profile)
+        }
+        else{
+            memberArray.push(profile)
         }
     }
 
-    const ownerIndex = getOwnerIndex();
+    const members = ownerArray.concat(adminArray, memberArray)
 
-    [data[0], data[ownerIndex]] = [data[ownerIndex], data[0]]
+    return members;
+}
 
-    return data;
+export const removeUserFromOrg = async (userID: string, orgID: number) => {
+    const supabase = createClient();
+
+    const error = await demoteAdmin(userID, orgID);
+    if(error){
+        console.log(error)
+        return error;
+    }
+
+    const {error: updateError} = await supabase.from('profiles').update({FK_organizations: null}).eq('id', userID);
+    if(updateError){
+        console.log(updateError)
+        return updateError;
+    }
+    return null;
+}
+
+export const addUserToOrgWithEmail = async(email: string, orgID: number) => {
+    const supabase = createClient();
+    const {data, error: resError} = await supabase.from('profiles').select('FK_organizations').eq('email', email);
+
+    if(data.length === 0){
+        return "nonexistent email"
+    }
+    const FK_organizations = data[0].FK_organizations;
+    if(FK_organizations !== null){
+        return "already in org"
+    }
+    const { error }= await supabase.from('profiles').update({FK_organizations: orgID}).eq('email', email);
+    if(error){
+        console.log(error)
+        return error;
+    }
+    return null;
+
+}
+
+type OrgAndOrgType = {
+    organizations: {
+        isNonProfit: boolean
+    }
+}
+export const getOrgType = async () => {
+    const supabase = createClient();
+    const { data: { user }} = await supabase.auth.getUser();
+    const userUUID = user.id;
+
+    const { data } = await supabase.from("profiles").select('organizations(isNonProfit)').eq("id", userUUID).returns<OrgAndOrgType>();
+    if(data){
+        return data[0].organizations;
+    }
+    else {
+        return null;
+    }
 }

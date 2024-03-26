@@ -5,7 +5,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { signOut } from "../../utils/scripts/accountFunctions";
 import NavLink from "./NavLink"
 import { useEffect, useState } from "react";
-import { getUserIDandOrgID } from "@/utils/scripts/organization";
+import { getUserIDandOrgID, getOrgType } from "@/utils/scripts/organization";
+import { hasInvites } from "@/utils/scripts/invites";
 
 const caveat = Caveat({
     subsets: ['latin'],
@@ -28,9 +29,26 @@ const NavSection = ({sectionName} : {sectionName: string}) => {
 
 export default function SideNav() {
     const [isInOrg, setIsInOrg] = useState(false);
+    const [isNonProfit, setIsNonProfit] = useState(true);
+    const [invites, setInvites] = useState(false);
 
     useEffect(() => {
-        getUserIDandOrgID().then(({orgID}) => {setIsInOrg(orgID === null ? false : true)});
+        const getOrgData = async() => {
+            const orgType = await getOrgType();
+            if(orgType){
+                setIsInOrg(true);
+                setIsNonProfit(orgType.isNonProfit)
+            }
+        }
+        getOrgData();
+
+        const checkInvites = async()=> {
+            const {userUUID} = await getUserIDandOrgID();
+            const userHasInvites = await hasInvites(userUUID);
+            setInvites(userHasInvites);
+        }
+
+        checkInvites();
     }, [])
     
 
@@ -55,9 +73,9 @@ export default function SideNav() {
                     <NavSection sectionName="Organization"/>
                     <HorizontalLine/>
                     <div className="font-light 2xl:text-xl text-lg">
-                        <NavLink href={isInOrg ? "/dashboard/organization/overview" : "/dashboard/organization/overview/orgSignUp"} exact={false} activeOptions="bg-lightmaroon" className="rounded-lg my-2 2xl:py-2 py-1 2xl:px-3 px-2 hoverRaise">Overview</NavLink>
+                        <NavLink href={isInOrg ? "/dashboard/organization/overview" : "/dashboard/organization/overview/orgSignUp"} exact={false} activeOptions="bg-lightmaroon" className="rounded-lg my-2 2xl:py-2 py-1 2xl:px-3 px-2 hoverRaise" notification={invites}>Overview</NavLink>
                         {isInOrg && 
-                        <NavLink href="/dashboard/organization/grants" exact={true} activeOptions="bg-lightmaroon" className="rounded-lg my-2 2xl:py-2 py-1 2xl:px-3 px-2 hoverRaise">Grants</NavLink>
+                        <NavLink href={`/dashboard/organization/${isNonProfit ? "applications" : "grants"}`} exact={false} activeOptions="bg-lightmaroon" className="rounded-lg my-2 2xl:py-2 py-1 2xl:px-3 px-2 hoverRaise">{isNonProfit ? "Applications" : "Grants"}</NavLink>
                         }
                         {isInOrg &&
                         <NavLink href="/dashboard/organization/history" exact={true} activeOptions="bg-lightmaroon" className="rounded-lg my-2 2xl:py-2 py-1 2xl:px-3 px-2 hoverRaise">History</NavLink>
