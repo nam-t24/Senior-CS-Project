@@ -29,7 +29,7 @@
    NEXT_PUBLIC_SUPABASE_URL=your-project-url
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
    ```
-   Don't populate in .env.example and upload online lol
+   Don't populate in `.env.example` and upload online lol
 
 ### Running the Project
 
@@ -97,6 +97,4 @@ Reserved for all component files downloaded from shadcn
 
 ### Database types
 `/database.types.ts`  
-Created and updated using Supabase CLI type generation. Makes it easier to recognize data from Supabase queries.  
-I just run the CLI command everytime we expand the database lol
-
+Created and updated using Supabase CLI type generation. Makes it easier to recognize data from Supabase queries.

@@ -81,6 +81,7 @@ export default function ClosedGrant({ params }: { params: { id: string } }) {
             Grant does not exist or an error occured, check log for error
           </div>
         ) : (
+          // Grant doc
           <div className="border-2 border-gray-200 w-[50rem] rounded-lg mx-auto 2xl:mt-16 mt-8 2xl:py-16 py-8 px-16 bg-[#FFFEFE] animate-in shadow">
             <div className="2xl:text-4xl text-3xl font-medium text-center">
               {grantName}
