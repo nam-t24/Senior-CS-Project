@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState } from "react"
-import { getGrantInfo } from "@/utils/scripts/grants";
+import { canEdit } from "@/utils/scripts/grants";
 
 // Page for testing api queries written in /utils/scripts
 // Import your function you want to run
@@ -32,7 +32,7 @@ export default function RunQuery() {
 
             // Replace this function
             // Example: const data = await getGrants();
-            const data = await getGrantInfo(3);
+            const data = await canEdit(17);
 
 
             console.log(data);
