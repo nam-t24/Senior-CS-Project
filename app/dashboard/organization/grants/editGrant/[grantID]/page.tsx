@@ -17,8 +17,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-// TODO check if user can edit grant
 
+// Page to edit grant with grantID as ID
 export default function EditGrant({ params }: { params: { grantID: string } }) {
   const router = useRouter();
   const { toast } = useToast();

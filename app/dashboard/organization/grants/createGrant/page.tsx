@@ -18,6 +18,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
+// Page to create a grant
 export default function CreateGrant() {
     const router = useRouter();
     const { toast } = useToast();

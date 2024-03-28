@@ -6,6 +6,7 @@ import { getGrants } from "@/utils/scripts/grants";
 import { useToast } from "@/components/ui/use-toast";
 import GrantCard from "@/components/dashboard/GrantCard";
 
+// Page to view all grants for an organization
 export default function OrganizationGrants() {
   const { toast } = useToast();
   const [grantList, setGrantList] = useState([]);
