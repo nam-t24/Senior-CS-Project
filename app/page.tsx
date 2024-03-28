@@ -1,54 +1,59 @@
-import DeployButton from "../components/DeployButton";
-import AuthButton from "../components/AuthButton";
-import { createClient } from "@/utils/supabase/server";
-import ConnectSupabaseSteps from "@/components/tutorial/ConnectSupabaseSteps";
-import SignUpUserSteps from "@/components/tutorial/SignUpUserSteps";
-import Header from "@/components/Header";
+"use client"
+import Link from "next/link";
+import { Caveat } from 'next/font/google';
+import { getUserEmail } from "@/utils/scripts/accountFunctions";
+import { useEffect, useState } from "react";
+import { getOrgType } from "@/utils/scripts/organization";
 
-export default async function Index() {
-  const canInitSupabaseClient = () => {
-    // This function is just for the interactive tutorial.
-    // Feel free to remove it once you have Supabase connected.
-    try {
-      createClient();
-      return true;
-    } catch (e) {
-      return false;
-    }
-  };
+const caveat = Caveat({ subsets: ['latin'] })
 
-  const isSupabaseConnected = canInitSupabaseClient();
+export default function Index() {
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    getUserEmail().then((res) => {
+      setEmail(res || "");
+    });
+  }, [])
 
   return (
-    <div className="flex-1 w-full flex flex-col gap-20 items-center">
-      <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-        <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
-          <DeployButton />
-          {isSupabaseConnected && <AuthButton />}
+    <div className="2xl:bg-[url('/assets/backgrounds/homeBG_desktop.svg')] bg-[url('/assets/backgrounds/homeBG_laptop.svg')] bg-cover bg-center bg-no-repeat min-h-screen min-w-full relative flex justify-center items-center">
+      {/* Top Nav Bar */}
+      <div className="absolute top-0 w-screen 2xl:h-28 h-20 flex flex-row text-wrap">
+        {/* Minted Logo */}
+        <div className="2xl:pt-6 pt-4 2xl:pl-10 pl-6"><Link href="/" className={`${caveat.className} 2xl:text-6xl text-5xl text-black font-medium`}>Minted</Link></div>
+        {/* Header Tabs */}
+        <div className="2xl:px-40 px-20 2xl:space-x-20 space-x-12 flex flex-row 2xl:text-2xl text-lg text-heading items-center">
+          <Link href="/about">About</Link>
+          <Link href="/how_it_works">How It Works</Link>
+          <Link href="/why_minted">Why Minted</Link>
         </div>
-      </nav>
-
-      <div className="animate-in flex-1 flex flex-col gap-20 opacity-0 max-w-4xl px-3">
-        <Header />
-        <main className="flex-1 flex flex-col gap-6">
-          <h2 className="font-bold text-4xl mb-4">Next steps</h2>
-          {isSupabaseConnected ? <SignUpUserSteps /> : <ConnectSupabaseSteps />}
-        </main>
+        {/* Log In and Dashboard Button */}
+        <div className="flex flex-row flex-1 text-heading justify-end items-center">
+          {email && <div className="2xl:pr-10 pr-6 2xl:text-xl text-base 2xl:font-medium font-normal">Hey, {email}!</div>}
+          {email ?
+          <Link href="/dashboard" className="2xl:mr-10 mr-6 2xl:h-14 h-12 2xl:w-40 w-32 2xl:border-4 border-2 border-darkmaroon border-solid rounded-full text-darkmaroon 2xl:text-xl text-lg 2xl:font-semibold font-medium flex justify-center items-center hover:bg-darkmaroon hover:text-primary transition duration-300">Dashboard</Link>
+          :
+          <Link href="/login" className="2xl:mr-10 mr-6 2xl:h-14 h-12 2xl:w-40 w-32 2xl:border-4 border-2 border-darkmaroon border-solid rounded-full text-darkmaroon 2xl:text-xl text-lg 2xl:font-semibold font-medium flex justify-center items-center hover:bg-darkmaroon hover:text-primary transition duration-300">Log In</Link>
+          }
+        </div>
       </div>
 
-      <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
-        <p>
-          Powered by{" "}
-          <a
-            href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-            target="_blank"
-            className="font-bold hover:underline"
-            rel="noreferrer"
-          >
-            Supabase
-          </a>
-        </p>
-      </footer>
+      {/* Center Text */}
+      <div className="relative space-y-12 flex flex-col text-center animate-in">
+        <div className="space-y-4 2xl:text-8xl text-7xl text-darkmaroon font-semibold">
+          <div>Built for Non-Profits</div>
+          <div>Built for Change</div>
+        </div>
+        <div className="flex justify-center">
+          <div className="w-1/2 2xl:text-3xl text-2xl text-heading 2xl:font-medium font-normal">Find opportunities to fund projects or start funding non-profits. We’re here to boost projects.</div>
+        </div>
+        {/* Bottom Buttons */}
+        <div className="space-x-10 flex flex-row justify-center 2xl:text-2xl text-xl font-medium">
+          <Link href={email ? "/dashboard/browse/opengrants" : "/login"} className="2xl:h-12 h-10 2xl:w-56 w-44 bg-darkmaroon rounded-full text-primary flex justify-center items-center hover:brightness-125">Find Funding {'>'}</Link>
+          <Link href={email ? "/dashboard/organization/grants" : "/login"} className="2xl:h-12 h-10 2xl:w-56 w-44 rounded-full text-darkmaroon flex justify-center items-center hover:brightness-125">Fund now {'>'}</Link>
+        </div>
+      </div>
     </div>
   );
 }
