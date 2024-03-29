@@ -2,6 +2,7 @@
 import PageHeading from "@/components/dashboard/PageHeading";
 import { useState, useEffect } from "react";
 import { getClosedGrantByID } from "@/utils/scripts/grants";
+import { formatDate } from "@/utils/helperFunctions";
 
 export default function ClosedGrant({ params }: { params: { id: string } }) {
   const [grantName, setGrantName] = useState("");
@@ -16,21 +17,6 @@ export default function ClosedGrant({ params }: { params: { id: string } }) {
   const [noData, setNoData] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const months = {
-    "01": "January",
-    "02": "February",
-    "03": "March",
-    "04": "April",
-    "05": "May",
-    "06": "June",
-    "07": "July",
-    "08": "August",
-    "09": "September",
-    "10": "October",
-    "11": "November",
-    "12": "December",
-  };
-
   useEffect(() => {
     const getData = async () => {
       const data = await getClosedGrantByID(+params.id);
@@ -44,22 +30,8 @@ export default function ClosedGrant({ params }: { params: { id: string } }) {
       setDescription(data.description);
       setRequirements(data.requirements);
       setAmount(data.amount);
-      const date = data.deadline;
-      setDeadline(
-        months[date.slice(5, 7)] +
-          " " +
-          date.slice(8, 10) +
-          ", " +
-          date.slice(0, 4)
-      );
-      const createdDate = data.created_at;
-      setDatePosted(
-        months[createdDate.slice(5, 7)] +
-          " " +
-          createdDate.slice(8, 10) +
-          ", " +
-          createdDate.slice(0, 4)
-      );
+      setDeadline(formatDate(data.deadline));
+      setDatePosted(formatDate(data.created_at));
       setOwnerOrg(data.ownerOrgName.name);
       if (data.orgFundedName) {
         setOrgFunded(data.orgFundedName.name);

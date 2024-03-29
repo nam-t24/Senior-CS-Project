@@ -1,3 +1,4 @@
+"use client"
 import PageHeading from "@/components/dashboard/PageHeading";
 import { useState, useEffect } from "react";
 import { getGrantsReceivedByOrgID } from "@/utils/scripts/grants";
