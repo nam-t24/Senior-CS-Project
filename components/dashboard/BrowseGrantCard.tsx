@@ -1,5 +1,6 @@
 import Link from "next/link";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { formatDate } from "@/utils/helperFunctions";
 
 export default function BrowseGrantCard({
   id,
@@ -14,28 +15,6 @@ export default function BrowseGrantCard({
   description: string;
   deadline: string;
 }) {
-  const months = {
-    "01": "January",
-    "02": "February",
-    "03": "March",
-    "04": "April",
-    "05": "May",
-    "06": "June",
-    "07": "July",
-    "08": "August",
-    "09": "September",
-    "10": "October",
-    "11": "November",
-    "12": "December",
-  };
-
-  const date =
-    months[deadline.slice(5, 7)] +
-    " " +
-    deadline.slice(8) +
-    ", " +
-    deadline.slice(0, 4);
-
   return (
     <div className="flex flex-col justify-between bg-[#FFFEFE] border-2 border-neutral-400 px-3 py-3 rounded-lg group hover:text-darkmaroon hover:border-darkmaroon transition duration-500 overflow-x-hidden">
       <div>
@@ -48,9 +27,10 @@ export default function BrowseGrantCard({
             : description}
         </div>
 
-        <div className="text-sm font-medium">Deadline: {date}</div>
+        <div className="text-sm font-medium">Deadline: {formatDate(deadline)}</div>
       </div>
       <div>
+        {/* TODO Redireect user to actual application page when we get to the application feature */}
         <Link
           href={`/dashboard/organization/grants/${id}`}
           className="inline-flex space-x-1 justify-center items-center bg-darkmaroon text-primary text-sm py-1 px-4 rounded-full mt-3 hoverRaise"
