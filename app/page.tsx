@@ -3,7 +3,6 @@ import Link from "next/link";
 import { Caveat } from 'next/font/google';
 import { getUserEmail } from "@/utils/scripts/accountFunctions";
 import { useEffect, useState } from "react";
-import { getOrgType } from "@/utils/scripts/organization";
 
 const caveat = Caveat({ subsets: ['latin'] })
 

@@ -187,17 +187,18 @@ export const addUserToOrgWithEmail = async(email: string, orgID: number) => {
 
 }
 
-type OrgAndOrgType = {
+type IDandOrgType = {
     organizations: {
+        id: number,
         isNonProfit: boolean
     }
 }
-export const getOrgType = async () => {
+export const getIDandOrgType = async (): Promise<{id: number, isNonProfit: boolean}> => {
     const supabase = createClient();
     const { data: { user }} = await supabase.auth.getUser();
     const userUUID = user.id;
 
-    const { data } = await supabase.from("profiles").select('organizations(isNonProfit)').eq("id", userUUID).returns<OrgAndOrgType>();
+    const { data } = await supabase.from("profiles").select('organizations(id, isNonProfit)').eq("id", userUUID).returns<Array<IDandOrgType>>();
     if(data){
         return data[0].organizations;
     }

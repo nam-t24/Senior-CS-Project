@@ -12,6 +12,8 @@ import Link from "next/link";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import { formatDate } from "@/utils/helperFunctions";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -41,21 +43,6 @@ export default function GrantInfo({ params }: { params: { id: string } }) {
   const [noData, setNoData] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const months = {
-    "01": "January",
-    "02": "February",
-    "03": "March",
-    "04": "April",
-    "05": "May",
-    "06": "June",
-    "07": "July",
-    "08": "August",
-    "09": "September",
-    "10": "October",
-    "11": "November",
-    "12": "December",
-  };
-
   useEffect(() => {
     const getData = async () => {
       const data = await getGrantInfo(+params.id);
@@ -69,22 +56,8 @@ export default function GrantInfo({ params }: { params: { id: string } }) {
       setDescription(grantData.description);
       setRequirements(grantData.requirements);
       setAmount(grantData.amount);
-      const date = grantData.deadline;
-      setDeadline(
-        months[date.slice(5, 7)] +
-          " " +
-          date.slice(8, 10) +
-          ", " +
-          date.slice(0, 4)
-      );
-      const createdDate = grantData.created_at;
-      setDatePosted(
-        months[createdDate.slice(5, 7)] +
-          " " +
-          createdDate.slice(8, 10) +
-          ", " +
-          createdDate.slice(0, 4)
-      );
+      setDeadline(formatDate(grantData.deadline));
+      setDatePosted(formatDate(grantData.created_at));
       setOrganization(grantData.organizations.name);
       setLoading(false);
     };
