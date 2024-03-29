@@ -83,7 +83,7 @@ type closedGrantType = {
     description: string,
     deadline: string,
     FK_organizations: number,
-    isOpen: false,
+    isOpen: boolean,
     FK_orgFunded: number,
     requirements: string,
     acceptedDate: string,

@@ -70,13 +70,13 @@ export default function DonorHistory({orgID} : {orgID: number}) {
     if (nameLeastToGreatest) {
       let sortedArray = grantList;
       sortedArray.sort((a, b) =>
-        b.name > a.name ? 1 : a.name > b.name ? -1 : 0
+        a.name > b.name ? 1 : b.name > a.name ? -1 : 0
       );
       setGrantList(sortedArray);
     } else {
       let sortedArray = grantList;
       sortedArray.sort((a, b) =>
-        a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+        b.name > a.name ? 1 : a.name > b.name ? -1 : 0
       );
       setGrantList(sortedArray);
     }
@@ -93,11 +93,11 @@ export default function DonorHistory({orgID} : {orgID: number}) {
     // Sort
     if (amountLeastToGreatest) {
       let sortedArray = grantList;
-      sortedArray.sort((a, b) => b.amount - a.amount);
+      sortedArray.sort((a, b) => a.amount - b.amount);
       setGrantList(sortedArray);
     } else {
       let sortedArray = grantList;
-      sortedArray.sort((a, b) => a.amount - b.amount);
+      sortedArray.sort((a, b) => b.amount - a.amount);
       setGrantList(sortedArray);
     }
     setAmountLeastToGreatest(!amountLeastToGreatest);
