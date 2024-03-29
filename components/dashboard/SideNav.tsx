@@ -5,7 +5,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { signOut } from "../../utils/scripts/accountFunctions";
 import NavLink from "./NavLink"
 import { useEffect, useState } from "react";
-import { getUserIDandOrgID, getOrgType } from "@/utils/scripts/organization";
+import { getUserIDandOrgID, getIDandOrgType } from "@/utils/scripts/organization";
 import { hasInvites } from "@/utils/scripts/invites";
 
 const caveat = Caveat({
@@ -34,7 +34,7 @@ export default function SideNav() {
 
     useEffect(() => {
         const getOrgData = async() => {
-            const orgType = await getOrgType();
+            const orgType = await getIDandOrgType();
             if(orgType){
                 setIsInOrg(true);
                 setIsNonProfit(orgType.isNonProfit)

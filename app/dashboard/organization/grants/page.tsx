@@ -6,6 +6,7 @@ import { getGrants } from "@/utils/scripts/grants";
 import { useToast } from "@/components/ui/use-toast";
 import GrantCard from "@/components/dashboard/GrantCard";
 
+// Page to view all grants for an organization
 export default function OrganizationGrants() {
   const { toast } = useToast();
   const [grantList, setGrantList] = useState([]);
@@ -53,7 +54,7 @@ export default function OrganizationGrants() {
         </div>}
 
         
-        <Link href="/dashboard/organization/grants/createGrant" className="inline-block text-darkmaroon border-2 border-darkmaroon rounded-md hover:bg-darkmaroon/20 py-1 px-2 mt-24 2xl:text-lg">
+        <Link href="/dashboard/organization/grants/createGrant" className="inline-block text-darkmaroon border-2 border-darkmaroon rounded-md hover:bg-darkmaroon/20 py-1 px-2 mt-24 2xl:text-lg font-medium">
           Create New Grant
         </Link>
       </section>}

@@ -11,6 +11,7 @@ export type Database = {
     Tables: {
       grants: {
         Row: {
+          acceptedDate: string | null
           amount: number
           created_at: string
           deadline: string | null
@@ -23,6 +24,7 @@ export type Database = {
           requirements: string | null
         }
         Insert: {
+          acceptedDate?: string | null
           amount?: number
           created_at?: string
           deadline?: string | null
@@ -35,6 +37,7 @@ export type Database = {
           requirements?: string | null
         }
         Update: {
+          acceptedDate?: string | null
           amount?: number
           created_at?: string
           deadline?: string | null
