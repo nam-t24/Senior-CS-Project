@@ -75,6 +75,18 @@ export const getGrantInfo = async(grantID: number) => {
     return data;
 }
 
+
+export const getAllOpenGrants = async() => {
+    const supabase = createClient();
+
+    const { data, error } = await supabase.from('grants').select('*, orgName:FK_organizations(name)').eq('isOpen', true);
+    if(error){
+        console.log(error);
+        return null;
+    }
+    return data;
+}
+
 type closedGrantType = {
     id: number,
     created_at: string,
