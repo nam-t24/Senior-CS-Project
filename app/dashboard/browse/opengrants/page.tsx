@@ -26,9 +26,11 @@ export default function BrowseGrants() {
   const [sortType, setSortType] = useState('');
   const [resetSelect, setResetSelect] = useState(0);
 
+
   // Fetch grants
   useEffect(() => {
     const fetchGrants = async () => {
+
       const grantData = await getAllOpenGrants();
       if(grantData === null){
         setError(true);
@@ -52,7 +54,9 @@ export default function BrowseGrants() {
         })
         setFilteredGrants(newFiltered);
       } else {
-        setFilteredGrants(grants);
+        if(!loading){
+          setFilteredGrants(grants);
+        }
       }
       setResetSelect(resetSelect === 0 ? 1 : 0);
       setSortType('');
@@ -107,7 +111,7 @@ export default function BrowseGrants() {
       {!loading &&
         (error ? (
           <div className="mt-8 text-center">
-            There was an error retrieving grant history. Reload or try again
+            There was an error retrieving grants. Reload or try again
             later.
           </div>
         ) : (
