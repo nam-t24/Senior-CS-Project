@@ -16,11 +16,9 @@ export default function HowItWorks() {
                 Create your <p className="text-maroon inline">organization</p>
               </div>
               <div className="text-gray-500 mt-4 text-lg">
-                Create your organization and invite your team members to join.
-                If you are your own organization, create an organization to
-                manage your grants or applications. Organizations receiving
-                funding can apply to grants and those providing funding can
-                create grants.
+                Create your organization with your team to manage your grants or
+                applications. Organizations receiving funding can apply to grants
+                and those providing funding can create grants.
               </div>
             </div>
             {/* Image */}
@@ -69,10 +67,8 @@ export default function HowItWorks() {
               </div>
               <div className="text-gray-500 mt-4 text-lg">
                 Review applications submitted by non-profits and choose a
-                recipient for your grant. After choosing a recipient you will be
-                able to create an appointment time to set up communications with
-                the non-profit organization on how to proceed. Non-profits can
-                track the status of their applications.
+                recipient for your grant. Non-profits can track the status of
+                their applications.
               </div>
             </div>
             {/* Image */}
@@ -119,9 +115,7 @@ export default function HowItWorks() {
             <ul className="list-disc">
               <li>Secure login authentication</li>
               <li>Manage your user profile</li>
-              <li>
-                Manage your team by promoting, demoting, and kicking members
-              </li>
+              <li>Manage your organization</li>
               <li>
                 Keep track of all your current applications or open grants
               </li>
