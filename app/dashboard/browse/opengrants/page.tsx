@@ -24,6 +24,7 @@ export default function BrowseGrants() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [sortType, setSortType] = useState('');
+  const [resetSelect, setResetSelect] = useState(0);
 
   // Fetch grants
   useEffect(() => {
@@ -53,7 +54,8 @@ export default function BrowseGrants() {
       } else {
         setFilteredGrants(grants);
       }
-
+      setResetSelect(resetSelect === 0 ? 1 : 0);
+      setSortType('');
     }, 750);
 
     return (() => {
@@ -123,6 +125,7 @@ export default function BrowseGrants() {
               <div className="font-medium">Sort by:</div>
               {/* Select items */}
               <Select
+                key={resetSelect}
                 onValueChange={(value) => {
                   setSortType(value);
                 }}

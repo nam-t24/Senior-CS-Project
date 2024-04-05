@@ -23,7 +23,7 @@ export default function BrowseGrantCard({
         {/* Description */}
         <div className="text-body 2xl:text-sm text-xs mt-2 mb-1 min-h-[3.5rem] group-hover:text-darkmaroon xl:w-11/12">
           {description.length > 75
-            ? description.slice(0, 75) + " ..."
+            ? description.slice(0, 75) + "..."
             : description}
         </div>
 
