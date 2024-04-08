@@ -86,7 +86,7 @@ export default function OrgSignUpPage() {
             <input className="bg-primary px-2 2xl:py-2 py-1 rounded-md focus:outline-none 2xl:w-1/2 w-3/5 text-base" placeholder="Org Website" onChange={e => setOrgWebsite(e.target.value)}/>
             
             <div className="mb-2 mt-4">You are</div>
-            <div className="flex inline-flex space-x-1 > * + * bg-primary p-1 rounded-md">
+            <div className="inline-flex space-x-1 > * + * bg-primary p-1 rounded-md">
                 <button className={`py-1 px-2 rounded-md ${orgType == 0 ? "bg-neutral-200":"bg-primary"} transition duration-300`} onClick={() => setOrgType(0)}>Seeking Funding</button>
                 <button className={`py-1 px-2 rounded-md ${orgType == 1 ? "bg-neutral-200":"bg-primary"} transition duration-300`} onClick={() => setOrgType(1)}>Giving Funding</button>
             </div>
