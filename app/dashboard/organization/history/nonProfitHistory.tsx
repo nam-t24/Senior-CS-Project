@@ -150,10 +150,10 @@ export default function NonProfitHistory({orgID} : {orgID: number}) {
         href={`/dashboard/organization/history/closedGrant/${id}`}
         className="flex py-4 px-6 even:bg-white odd:bg-gray-100 hover:bg-gray-200 2xl:text-base text-sm"
       >
-        <div className="basis-1/3">{name}</div>
+        <div className="basis-1/3 truncate">{name}</div>
         <div className="basis-1/6">${amount}</div>
-        <div className="basis-1/3">{orgDonor.name}</div>
-        <div className="basis-1/6">{dateString}</div>
+        <div className="basis-1/4 truncate">{orgDonor.name}</div>
+        <div className="basis-1/4">{dateString}</div>
       </Link>
     );
   }
@@ -187,7 +187,7 @@ export default function NonProfitHistory({orgID} : {orgID: number}) {
               {/* History Table */}
               <div className="border-2 border-neutral-400 rounded-md overflow-hidden">
                 {/* Heading */}
-                <div className="flex py-2 px-6 font-medium text-lg border-b-2 border-neutral-400 bg-white">
+                <div className="flex py-2 px-6 font-medium text-lg border-b-2 border-neutral-400 bg-white items-center">
                   {/* Name section */}
                   <div className="basis-1/3 flex items-center space-x-2">
                     <div>Name</div>
@@ -215,9 +215,9 @@ export default function NonProfitHistory({orgID} : {orgID: number}) {
                     </button>
                   </div>
                   {/* Org funded section */}
-                  <div className="basis-1/3">Grant Owner</div>
+                  <div className="basis-1/4">Grant Owner</div>
                   {/* Date section */}
-                  <div className="basis-1/6 flex items-center space-x-2">
+                  <div className="basis-1/4 flex items-center space-x-2">
                     <div>Date Accepted</div>
                     <button onClick={() => handleDateSort()}>
                       {!dateFilter ? (

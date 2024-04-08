@@ -156,9 +156,9 @@ export default function DonorHistory({orgID} : {orgID: number}) {
         href={`/dashboard/organization/history/closedGrant/${id}`}
         className="flex py-4 px-6 even:bg-white odd:bg-gray-100 hover:bg-gray-200 2xl:text-base text-sm"
       >
-        <div className="basis-1/3">{name}</div>
+        <div className="basis-1/3 truncate">{name}</div>
         <div className="basis-1/6">${amount}</div>
-        <div className="basis-1/3">
+        <div className="basis-1/3 truncate">
           {orgFunded === null ? (
             <BlockIcon fontSize="inherit" />
           ) : (
