@@ -1,8 +1,8 @@
 "use client"
 import Link from "next/link";
 import { Caveat } from 'next/font/google';
-import { getUserEmail } from "@/utils/scripts/accountFunctions";
-import { useEffect, useState } from "react";
+import { checkLoggedIn } from "@/utils/scripts/accountFunctions";
+import { useEffect } from "react";
 import HowItWorks from "@/components/homepage/howItWorks";
 import WhyMinted from "@/components/homepage/whyMinted";
 import About from "@/components/homepage/about";
@@ -11,12 +11,9 @@ import Footer from "@/components/homepage/footer";
 const caveat = Caveat({ subsets: ['latin'] })
 
 export default function Index() {
-  const [email, setEmail] = useState("");
-
   useEffect(() => {
-    getUserEmail().then((res) => {
-      setEmail(res || "");
-    });
+    // Redirect user to dashboard if logged in
+    checkLoggedIn();
   }, [])
 
   return (
@@ -41,28 +38,14 @@ export default function Index() {
             <Link href="#WhyMinted">Why Minted</Link>
             <Link href="#About">About</Link>
           </div>
-          {/* Log In and Dashboard Button */}
+          {/* Log In Button */}
           <div className="flex flex-row flex-1 text-heading justify-end items-center">
-            {email && (
-              <div className="2xl:pr-10 pr-6 2xl:text-xl text-base 2xl:font-medium font-normal">
-                Hey, {email}!
-              </div>
-            )}
-            {email ? (
-              <Link
-                href="/dashboard"
-                className="2xl:mr-10 mr-6 2xl:h-14 h-12 2xl:w-40 w-32 2xl:border-4 border-2 border-darkmaroon border-solid rounded-full text-darkmaroon 2xl:text-xl text-lg 2xl:font-semibold font-medium flex justify-center items-center hover:bg-darkmaroon hover:text-primary transition duration-300"
-              >
-                Dashboard
-              </Link>
-            ) : (
-              <Link
-                href="/login"
-                className="2xl:mr-10 mr-6 2xl:h-14 h-12 2xl:w-40 w-32 2xl:border-4 border-2 border-darkmaroon border-solid rounded-full text-darkmaroon 2xl:text-xl text-lg 2xl:font-semibold font-medium flex justify-center items-center hover:bg-darkmaroon hover:text-primary transition duration-300"
-              >
-                Log In
-              </Link>
-            )}
+            <Link
+              href="/login"
+              className="2xl:mr-10 mr-6 2xl:h-14 h-12 2xl:w-40 w-32 2xl:border-4 border-2 border-darkmaroon border-solid rounded-full text-darkmaroon 2xl:text-xl text-lg 2xl:font-semibold font-medium flex justify-center items-center hover:bg-darkmaroon hover:text-primary transition duration-300"
+            >
+              Log In
+            </Link>
           </div>
         </div>
 
@@ -81,13 +64,13 @@ export default function Index() {
           {/* Bottom Buttons */}
           <div className="space-x-10 flex flex-row justify-center 2xl:text-2xl text-xl font-medium">
             <Link
-              href={email ? "/dashboard/browse/opengrants" : "/login"}
+              href="/login"
               className="2xl:h-12 h-10 2xl:w-56 w-44 bg-darkmaroon rounded-full text-primary flex justify-center items-center hover:brightness-125"
             >
               Find Funding {">"}
             </Link>
             <Link
-              href={email ? "/dashboard/organization/grants" : "/login"}
+              href="/login"
               className="2xl:h-12 h-10 2xl:w-56 w-44 rounded-full text-darkmaroon flex justify-center items-center hover:brightness-125"
             >
               Fund Now {">"}
