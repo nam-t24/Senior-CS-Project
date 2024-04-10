@@ -1,8 +1,6 @@
-"use client"
 import Link from "next/link";
 import { Caveat } from 'next/font/google';
 import { checkLoggedIn } from "@/utils/scripts/accountFunctions";
-import { useEffect } from "react";
 import HowItWorks from "@/components/homepage/howItWorks";
 import WhyMinted from "@/components/homepage/whyMinted";
 import About from "@/components/homepage/about";
@@ -10,11 +8,9 @@ import Footer from "@/components/homepage/footer";
 
 const caveat = Caveat({ subsets: ['latin'] })
 
-export default function Index() {
-  useEffect(() => {
-    // Redirect user to dashboard if logged in
-    checkLoggedIn();
-  }, [])
+export default async function Index() {
+  // Redirect user to dashboard if logged in
+  await checkLoggedIn();
 
   return (
     <>
