@@ -68,8 +68,8 @@ export default function Apply({ params }: { params: { id: string } }) {
             ) : (
                 <>
                     <div className="border-2 border-gray-200 w-[50rem] rounded-lg mx-auto mt-8 py-8 px-16 bg-[#FFFEFE] animate-in shadow">
-                        <div className="flex flex-col items-center">
-                            <div className="inline-block border-b-2 border-body text-center bg-transparent py-1 px-2 text-2xl w-3/5">{grantName}</div>
+                        <div className="2xl:text-4xl text-3xl font-medium text-center">
+                            {grantName}
                         </div>
 
                         <div className="text-body mb-1 mt-16">Description*</div>
