@@ -9,6 +9,64 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      applications: {
+        Row: {
+          created_at: string
+          description: string
+          FK_grantID: number
+          FK_orgApply: number
+          FK_orgGrant: number
+          id: number
+          purpose: string
+          status: string | null
+          timeline: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          FK_grantID: number
+          FK_orgApply: number
+          FK_orgGrant: number
+          id?: number
+          purpose?: string
+          status?: string | null
+          timeline?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          FK_grantID?: number
+          FK_orgApply?: number
+          FK_orgGrant?: number
+          id?: number
+          purpose?: string
+          status?: string | null
+          timeline?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_applications_FK_grantID_fkey"
+            columns: ["FK_grantID"]
+            isOneToOne: false
+            referencedRelation: "grants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_applications_FK_orgApply_fkey"
+            columns: ["FK_orgApply"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_applications_FK_orgGrant_fkey"
+            columns: ["FK_orgGrant"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       grants: {
         Row: {
           acceptedDate: string | null
@@ -19,6 +77,7 @@ export type Database = {
           FK_organizations: number
           FK_orgFunded: number | null
           id: number
+          inReview: boolean | null
           isOpen: boolean
           name: string
           requirements: string | null
@@ -32,6 +91,7 @@ export type Database = {
           FK_organizations: number
           FK_orgFunded?: number | null
           id?: number
+          inReview?: boolean | null
           isOpen?: boolean
           name?: string
           requirements?: string | null
@@ -45,6 +105,7 @@ export type Database = {
           FK_organizations?: number
           FK_orgFunded?: number | null
           id?: number
+          inReview?: boolean | null
           isOpen?: boolean
           name?: string
           requirements?: string | null
