@@ -7,6 +7,7 @@ import {
   deleteGrant,
   closeGrant,
 } from "@/utils/scripts/grants";
+import { getIDandOrgType } from "@/utils/scripts/organization";
 import EditIcon from "@mui/icons-material/Edit";
 import Link from "next/link";
 import { useToast } from "@/components/ui/use-toast";
@@ -39,6 +40,7 @@ export default function GrantInfo({ params }: { params: { id: string } }) {
   const [datePosted, setDatePosted] = useState("");
   const [organization, setOrganization] = useState("");
   const [canEditGrant, setCanEditGrant] = useState(false);
+  const [isNonProfit, setIsNonProfit] = useState(false);
 
   const [noData, setNoData] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -70,6 +72,21 @@ export default function GrantInfo({ params }: { params: { id: string } }) {
       setCanEditGrant(editRestriction);
     };
     checkRestriction();
+
+    // Checking if user org is a non-profit
+    const checkNonProfit = async () => {
+      const IDandOrgType = await getIDandOrgType();
+      if(IDandOrgType === null) {
+        toast({
+          variant: "destructive",
+          title: "Unable to check organization",
+          description: "Try again later and check log for error",
+        });
+        return;
+      }
+      setIsNonProfit(IDandOrgType.isNonProfit);
+    };
+    checkNonProfit();
   }, []);
 
   const handleDelete = async () => {
@@ -174,6 +191,14 @@ export default function GrantInfo({ params }: { params: { id: string } }) {
                     className="inline-block text-lg 2xl:mt-12 mt-10 px-4 py-1 border-2 border-darkmaroon text-darkmaroon hover:bg-darkmaroon/20 rounded-md font-medium"
                   >
                     View Applications
+                  </Link>
+                )}
+                {isNonProfit && (
+                  <Link
+                    href={`/dashboard/organization/grants/apply/${params.id}`}
+                    className="inline-block text-lg 2xl:mt-12 mt-10 px-4 py-1 border-2 border-darkmaroon text-darkmaroon hover:bg-darkmaroon/20 rounded-md font-medium"
+                  >
+                    Apply
                   </Link>
                 )}
               </div>
