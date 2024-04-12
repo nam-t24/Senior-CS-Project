@@ -39,6 +39,19 @@ input:-webkit-autofill:active {
   }
 }
 
+.animateAppear {
+  animation: animateAppear 0.3s ease 0.15s both;
+}
+
+@keyframes animateAppear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .hoverRaise:hover{
   animation: raise 0.7s ease-out;
 }

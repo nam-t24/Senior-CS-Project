@@ -15,7 +15,7 @@ export const createGrant = async(grantName: string, description: string, require
 
     const orgID = data[0].FK_organizations;
 
-    const { error: insertError } = await supabase.from('grants').insert({ name: grantName, amount: amount, description: description, deadline: deadline, requirements: requirements, FK_organizations: orgID})
+    const { error: insertError } = await supabase.from('grants').insert({ name: grantName, amount: amount, description: description, deadline: deadline.toISOString().slice(0,10), requirements: requirements, FK_organizations: orgID})
     if(insertError){
         console.log(insertError);
         return insertError;
@@ -24,21 +24,24 @@ export const createGrant = async(grantName: string, description: string, require
     return null;
 }
 
-export const getGrants = async() => {
+export const getGrantsByOrgID = async(orgID: number) => {
     const supabase = createClient();
 
-    const { data: { user }} = await supabase.auth.getUser();
-    const userUUID = user.id;
-
-    const { data, error } = await supabase.from('profiles').select('FK_organizations').eq('id', userUUID);
-    if(error){
-        console.log(error);
+    const { data: grantData, error: grantError} = await supabase.from('grants').select().eq('FK_organizations', orgID).eq('isOpen', true).eq('inReview', true);
+    if(grantError){
+        console.log(grantError);
         return null;
     }
 
-    const orgID = data[0].FK_organizations;
+    // returns array of grants
+    return grantData;
+}
 
-    const { data: grantData, error: grantError} = await supabase.from('grants').select().eq('FK_organizations', orgID).eq('isOpen', true);
+// Grants are closed(past deadline) and are in review
+export const getGrantsInReviewByOrgID = async(orgID: number) => {
+    const supabase = createClient();
+
+    const { data: grantData, error: grantError} = await supabase.from('grants').select().eq('FK_organizations', orgID).eq('isOpen', false).eq('inReview', true);
     if(grantError){
         console.log(grantError);
         return null;
@@ -57,7 +60,8 @@ type grantInfoType = {
     description: string,
     deadline: string,
     FK_organizations: number,
-    isOpen: boolean;
+    isOpen: boolean,
+    InReview: boolean,
     FK_orgFunded: number | null,
     requirements: string,
     organizations: {
@@ -99,6 +103,7 @@ type closedGrantType = {
     FK_orgFunded: number,
     requirements: string,
     acceptedDate: string,
+    inReview: boolean,
     ownerOrgName: {
       name: string
     } | null
@@ -109,7 +114,7 @@ type closedGrantType = {
 export const getClosedGrantsByOrgID = async(orgID: number) => {
     const supabase = createClient();
 
-    const { data: grantData, error: grantError} = await supabase.from('grants').select('*, orgFundedName:FK_orgFunded(name), ownerOrgName:FK_organizations(name)').eq('FK_organizations', orgID).eq('isOpen', false).returns<Array<closedGrantType>>();
+    const { data: grantData, error: grantError} = await supabase.from('grants').select('*, orgFundedName:FK_orgFunded(name), ownerOrgName:FK_organizations(name)').eq('FK_organizations', orgID).eq('isOpen', false).eq('inReview', false).returns<Array<closedGrantType>>();
     if(grantError){
         console.log(grantError);
         return null;
@@ -123,7 +128,7 @@ export const getClosedGrantsByOrgID = async(orgID: number) => {
 export const getGrantsReceivedByOrgID = async(orgID: number) => {
     const supabase = createClient();
 
-    const { data: grantData, error: grantError} = await supabase.from('grants').select('*, orgFundedName:FK_orgFunded(name), ownerOrgName:FK_organizations(name)').eq('FK_orgFunded', orgID).eq('isOpen', false).returns<Array<closedGrantType>>();
+    const { data: grantData, error: grantError} = await supabase.from('grants').select('*, orgFundedName:FK_orgFunded(name), ownerOrgName:FK_organizations(name)').eq('FK_orgFunded', orgID).eq('isOpen', false).eq('inReview', false).returns<Array<closedGrantType>>();
     if(grantError){
         console.log(grantError);
         return null;
@@ -152,7 +157,7 @@ export const getClosedGrantByID = async(id: number): Promise<closedGrantType> =>
 
 export const updateGrant = async(grantID: number, grantName: string, description: string, requirements: string, amount: number, deadline: Date) => {
     const supabase = createClient();
-    const { error } = await supabase.from('grants').update({ name: grantName, description: description, requirements: requirements, amount: amount, deadline: deadline }).eq('id', grantID);
+    const { error } = await supabase.from('grants').update({ name: grantName, description: description, requirements: requirements, amount: amount, deadline: deadline.toISOString().slice(0,10) }).eq('id', grantID);
     if(error){
         console.log(error);
         return error;
@@ -193,7 +198,7 @@ export const deleteGrant = async(grantID: number) => {
 
 export const closeGrant = async(grantID: number) => {
     const supabase = createClient();
-    const { error } = await supabase.from('grants').update({ isOpen: false }).eq('id', grantID);
+    const { error } = await supabase.from('grants').update({ isOpen: false, inReview: false }).eq('id', grantID);
     if(error){
         console.log(error);
         return error;
