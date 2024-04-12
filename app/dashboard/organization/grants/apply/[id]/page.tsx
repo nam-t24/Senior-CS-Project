@@ -82,7 +82,7 @@ export default function Apply({ params }: { params: { id: string } }) {
                             {showErrors && description === "" && "Field required"}
                         </div>
 
-                        <div className="text-body mb-1 mt-6">Purpose</div>
+                        <div className="text-body mb-1 mt-6">Purpose*</div>
                         <textarea
                             className="rounded-md py-2 px-3 min-h-32 w-full bg-slate-100"
                             placeholder="Tell us about your project"
@@ -92,7 +92,7 @@ export default function Apply({ params }: { params: { id: string } }) {
                             {showErrors && purpose === "" && "Field required"}
                         </div>
 
-                        <div className="text-body mb-1 mt-6">Timeline</div>
+                        <div className="text-body mb-1 mt-6">Timeline*</div>
                         <textarea
                             className="rounded-md py-2 px-3 min-h-32 w-full bg-slate-100"
                             placeholder="Give us a timeline of your project"
