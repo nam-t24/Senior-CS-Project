@@ -68,11 +68,11 @@ export default function Apply({ params }: { params: { id: string } }) {
             ) : (
                 <>
                     <div className="border-2 border-gray-200 w-[50rem] rounded-lg mx-auto mt-8 py-8 px-16 bg-[#FFFEFE] animate-in shadow">
-                        <div className="2xl:text-4xl text-3xl font-medium text-center">
+                        <div className="2xl:text-4xl text-3xl py-8 font-medium text-center">
                             {grantName}
                         </div>
 
-                        <div className="text-body mb-1 mt-16">Description*</div>
+                        <div className="text-body mb-1 mt-6">Description*</div>
                         <textarea
                             className="rounded-md py-2 px-3 min-h-32 w-full bg-slate-100"
                             placeholder="Tell us about your organization"
