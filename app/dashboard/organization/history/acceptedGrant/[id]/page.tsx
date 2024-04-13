@@ -7,7 +7,6 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Link from "next/link";
 import { getAcceptedGrantData, getAcceptedApplicationByGrantID } from "@/utils/scripts/applications";
 import { useToast } from "@/components/ui/use-toast";
-import { set } from "date-fns";
 
 export default function ReviewedGrant({ params }: { params: { id: string } }) {
   const { toast } = useToast();
@@ -82,7 +81,7 @@ export default function ReviewedGrant({ params }: { params: { id: string } }) {
           <h1 className="text-lg pb-1 border-b-2 border-gray-400 w-[30rem]">
             Email Organization Accepted
           </h1>
-          <div className="mt-6 2xl:w-[50rem] w-[40rem]">
+          <div className="mt-6 2xl:w-2/3 w-[40rem]">
             <div className="mb-1">Subject:</div>
             <input
               className="bg-slate-200 border border-slate-300 w-full rounded-md px-4 py-2"

@@ -76,7 +76,7 @@ export const updateApplicationStatus = async (applicationID: number, status: str
 export const finishReviewForGrantID = async(grantID: number, acceptedOrg: number | null) => {
     const supabase = createClient();
     // mark all pending applications as rejected
-    const { error } = await supabase.from('applications').update({status: 'rejected'}).eq('FK_grantID', grantID).eq('status', 'pending');
+    const { error } = await supabase.from('applications').update({status: 'Rejected'}).eq('FK_grantID', grantID).eq('status', 'Pending');
     if(error){
         console.log(error);
         return error;
@@ -115,7 +115,7 @@ export const getAcceptedGrantData = async (grantID: number) => {
 export const getAcceptedApplicationByGrantID = async (grantID: number) => {
     const supabase = createClient();
 
-    const { data, error } = await supabase.from('applications').select('*').eq('FK_grantID', grantID).eq('status', 'accepted');
+    const { data, error } = await supabase.from('applications').select('*').eq('FK_grantID', grantID).eq('status', 'Accepted');
     
     if(error){
         console.log(error);

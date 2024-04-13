@@ -34,15 +34,15 @@ export default function ViewApplications({
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
   const statusColors = {
-    accepted: {
+    Accepted: {
       bg: "bg-[#84DF58]/25",
       text: "text-[#409019]",
     },
-    rejected: {
+    Rejected: {
       bg: "bg-[#EA609C]/25",
       text: "text-[#872852]",
     },
-    pending: {
+    Pending: {
       bg: "bg-[#FFDF85]/25",
       text: "text-[#ED5C16]",
     },
@@ -107,8 +107,8 @@ export default function ViewApplications({
     const apps = [...applicationList];
     // Only allow for one accepted application
     for (const app of apps) {
-      if (app.status === "accepted") {
-        const error = await updateApplicationStatus(app.id, "pending");
+      if (app.status === "Accepted") {
+        const error = await updateApplicationStatus(app.id, "Pending");
         if (error) {
           toast({
             variant: "destructive",
@@ -117,11 +117,11 @@ export default function ViewApplications({
           });
           return;
         }
-        app.status = "pending";
+        app.status = "Pending";
       }
     }
 
-    const error = await updateApplicationStatus(apps[currentIdx].id, "accepted");
+    const error = await updateApplicationStatus(apps[currentIdx].id, "Accepted");
     if (error) {
       toast({
         variant: "destructive",
@@ -130,14 +130,14 @@ export default function ViewApplications({
       });
       return;
     }
-    apps[currentIdx].status = "accepted";
+    apps[currentIdx].status = "Accepted";
     setApplicationList(apps);
-    setStatus("accepted");
+    setStatus("Accepted");
   };
 
   const handleReject = async() => {
     const apps = [...applicationList];
-    const error = await updateApplicationStatus(apps[currentIdx].id, "rejected");
+    const error = await updateApplicationStatus(apps[currentIdx].id, "Rejected");
     if (error) {
       toast({
         variant: "destructive",
@@ -146,15 +146,15 @@ export default function ViewApplications({
       });
       return;
     }
-    apps[currentIdx].status = "rejected";
+    apps[currentIdx].status = "Rejected";
     setApplicationList(apps);
-    setStatus("rejected");
+    setStatus("Rejected");
   };
 
   const handleFinishReview = async() => {
     let acceptedOrg = null;
     for (const app of applicationList) {
-      if (app.status === "accepted") {
+      if (app.status === "Accepted") {
         acceptedOrg = app.FK_orgApply;
       }
     }
@@ -178,7 +178,7 @@ export default function ViewApplications({
   };
 
   const containsAccepted = () =>
-    applicationList.some((app) => app.status === "accepted");
+    applicationList.some((app) => app.status === "Accepted");
 
   return (
     <>

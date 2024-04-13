@@ -106,13 +106,6 @@ export default function OrganizationGrants() {
                 </div>
               </>
             )}
-
-            <Link
-              href="/dashboard/organization/grants/createGrant"
-              className="inline-block text-darkmaroon border-2 border-darkmaroon rounded-md hover:bg-darkmaroon/20 py-1 px-2 mt-8 2xl:text-lg font-medium"
-            >
-              Create New Grant
-            </Link>
           </section>
           {/* Closed grants but in review */}
           {grantsInReview.length > 0 && (
@@ -136,6 +129,12 @@ export default function OrganizationGrants() {
               </div>
             </section>
           )}
+          <Link
+            href="/dashboard/organization/grants/createGrant"
+            className="inline-block text-darkmaroon border-2 border-darkmaroon rounded-md hover:bg-darkmaroon/20 py-1 px-2 mt-8 2xl:text-lg font-medium"
+          >
+            Create New Grant
+          </Link>
         </>
       )}
     </div>
