@@ -125,7 +125,7 @@ export default function EditGrant({ params }: { params: { grantID: string } }) {
         <>
           <Link
             href={`/dashboard/organization/grants/${params.grantID}`}
-            className="flex items-center 2xl:mt-8 mt-6 2xl:text-lg"
+            className="inline-flex items-center 2xl:mt-8 mt-6 2xl:text-lg"
           >
             <ChevronLeftIcon />
             Go back to view grant info

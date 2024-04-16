@@ -141,7 +141,7 @@ export default function GrantInfo({ params }: { params: { id: string } }) {
               {canEditGrant && (
                 <Link
                   href="/dashboard/organization/grants"
-                  className="flex items-center 2xl:mt-8 mt-6 2xl:text-lg"
+                  className="inline-flex items-center 2xl:mt-8 mt-6 2xl:text-lg"
                 >
                   <ChevronLeftIcon />
                   Go back to grants

@@ -153,7 +153,11 @@ export default function DonorHistory({orgID} : {orgID: number}) {
       date.slice(5, 7) + "/" + date.slice(8, 10) + "/" + date.slice(0, 4);
     return (
       <Link
-        href={`/dashboard/organization/history/closedGrant/${id}`}
+        href={
+          orgFunded
+            ? `/dashboard/organization/history/acceptedGrant/${id}`
+            : `/dashboard/organization/history/closedGrant/${id}`
+        }
         className="flex py-4 px-6 even:bg-white odd:bg-gray-100 hover:bg-gray-200 2xl:text-base text-sm"
       >
         <div className="basis-1/3 truncate">{name}</div>
