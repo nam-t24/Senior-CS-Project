@@ -3,8 +3,10 @@ import { useEffect, useState } from "react";
 import PageHeading from "@/components/dashboard/PageHeading";
 import { getProfileByUserId, updateProfile } from "@/utils/scripts/profiles";
 import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 // Profile page, default dashboard page
 export default function DashboardProfile() {
+  const router = useRouter();
   const { toast } = useToast();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -42,6 +44,9 @@ export default function DashboardProfile() {
 
   useEffect(() => {
     getProfileByUserId().then((res) => {
+      if (!res?.full_name) {
+        router.push("/createAccount")
+      }
       setName(res?.full_name || "");
       setEmail(res?.email || "");
       setBio(res?.bio || "");
