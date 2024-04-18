@@ -42,7 +42,7 @@ export default function Apply({ params }: { params: { id: string } }) {
             toast({
                 variant: "destructive",
                 title: "Unable to apply",
-                description: "Check log for error",
+                description: "Organization may have existing application, check log for error",
             })
             setSubmitting(false);
             return;

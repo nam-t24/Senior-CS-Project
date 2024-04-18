@@ -15,6 +15,12 @@ export const createApplication = async (description: string, purpose: string, ti
 
     const orgApplyID = data[0].FK_organizations;
 
+    const { count } = await supabase.from('applications').select('*', {count: 'exact', head: true}).eq('FK_orgApply', orgApplyID).eq('FK_grantID', grantID);
+    if(count != 0) {
+        console.log("Organization has existing application");
+        return 1;
+    }
+
     const { data: grantData, error: grantError } = await supabase.from('grants').select('FK_organizations').eq('id', grantID);
     if(grantError) {
         console.log(grantError);
