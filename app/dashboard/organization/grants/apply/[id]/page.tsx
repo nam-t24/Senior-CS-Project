@@ -38,11 +38,20 @@ export default function Apply({ params }: { params: { id: string } }) {
         setSubmitting(true);
 
         const error = await createApplication(description, purpose, timeline, +params.id);
-        if (error) {
+        if(error === 'application exists') {
             toast({
                 variant: "destructive",
                 title: "Unable to apply",
-                description: "Organization may have existing application, check log for error",
+                description: "Organization has existing application",
+            })
+            setSubmitting(false);
+            return;
+        }
+        else if (error) {
+            toast({
+                variant: "destructive",
+                title: "Unable to apply",
+                description: "Check log for error",
             })
             setSubmitting(false);
             return;
