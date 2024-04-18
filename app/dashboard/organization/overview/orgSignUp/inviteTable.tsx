@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-function TableRow({userID, name, email, orgID}: {userID: string, name:string, email:string, orgID:number}) {
+function TableRow({userID, name, email, orgID, inviteList}: {userID: string, name: string, email: string, orgID: number, inviteList: any[]}) {
     const router = useRouter();
     const { toast } = useToast();
     const [rejected, setRejected] = useState(false);
@@ -49,6 +49,9 @@ function TableRow({userID, name, email, orgID}: {userID: string, name:string, em
                 title: "Invite rejected",
             })
         setRejected(true);
+
+        // remove invite from invite list
+        inviteList.splice(inviteList.findIndex(invite => (invite.id === orgID)), 1);
     }
 
     return(
@@ -96,7 +99,7 @@ export default function InviteTable({userID} : {userID: string}){
             {/* Table rows */}
             <div className="max-h-[20rem] overflow-y-auto rounded-b-md ">
                 {inviteList.map((org) => 
-                    {return(<TableRow key={org.id} userID={userID} name={org.name} email={org.email} orgID={org.id}/>)}
+                    {return(<TableRow key={org.id} userID={userID} name={org.name} email={org.email} orgID={org.id} inviteList={inviteList}/>)}
                 )}
             </div>
         </div>

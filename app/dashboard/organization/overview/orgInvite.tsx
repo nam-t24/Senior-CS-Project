@@ -86,7 +86,7 @@ export default function OrgInvite({orgID}: {orgID: number}) {
                     {/* Table rows */}
                     <div className="max-h-[20rem] overflow-y-auto rounded-b-md ">
                         {inviteList.map((profile) => 
-                            {return(<TableRow key={profile.id} userUUID={profile.id} name={profile.full_name} email={profile.email} orgID={orgID}/>)}
+                            {return(<TableRow key={profile.id} userUUID={profile.id} name={profile.full_name} email={profile.email} orgID={orgID} inviteList={inviteList}/>)}
                         )}
                     </div>
                 </div>

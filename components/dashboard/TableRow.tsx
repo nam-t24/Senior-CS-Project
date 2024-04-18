@@ -12,7 +12,7 @@ import {
 import { useState } from "react";
 
 // For table row in invites table under organization overview
-export const TableRow = ({userUUID, name, email, orgID}: {userUUID: string, name: string, email: string, orgID: number}) => {
+export const TableRow = ({userUUID, name, email, orgID, inviteList}: {userUUID: string, name: string, email: string, orgID: number, inviteList: any[]}) => {
     const { toast } = useToast();
     const [uninvited, setUninvited] = useState(false);
 
@@ -30,6 +30,9 @@ export const TableRow = ({userUUID, name, email, orgID}: {userUUID: string, name
             title: "User uninvited",
         })
         setUninvited(true);
+
+        // remove invite from invite list
+        inviteList.splice(inviteList.findIndex(invite => (invite.id === orgID)), 1);
     }
     return(
         <>
