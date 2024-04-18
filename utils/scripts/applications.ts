@@ -123,3 +123,35 @@ export const getAcceptedApplicationByGrantID = async (grantID: number) => {
     }
     return data;
 }
+
+export const getApplicationsByOrgID = async (orgID: number) => {
+    const supabase = createClient();
+
+    const { data, error } = await supabase.from('applications').select('id, created_at, FK_grantID(name, amount, description)').eq('FK_orgApply', orgID).eq('status', 'Pending');
+    if(error) {
+        console.log(error);
+        return null;
+    }
+    return data;
+}
+
+type ApplicationInfo = {
+    created_at: string,
+    description: string,
+    purpose: string,
+    timeline: string,
+    status: string,
+    FK_grantID: {
+        name: string,
+    }
+}
+export const getApplicationInfo = async (appID: number) => {
+    const supabase = createClient();
+
+    const { data, error } = await supabase.from('applications').select('created_at, description, purpose, timeline, status, FK_grantID(name)').eq('id', appID).returns<ApplicationInfo []>();
+    if(error) {
+        console.log(error);
+        return null;
+    }
+    return data;
+}
