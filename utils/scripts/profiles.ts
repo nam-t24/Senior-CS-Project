@@ -34,3 +34,17 @@ export const updateProfile = async(userName: string, userEmail: string, userBio:
     }
     return null;
 }
+
+export const createProfile = async(userName: string, userBio: string) => {
+    const supabase = createClient();
+    const {data: {user}} = await supabase.auth.getUser();
+    const userUUID = user.id;
+
+    const { error } = await supabase.from("profiles").update({full_name: userName, bio: userBio}).eq('id', userUUID);
+
+    if (error) {
+        console.log(error.message);
+        return error;
+    }
+    return null;
+}
