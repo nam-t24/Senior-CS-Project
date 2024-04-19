@@ -15,11 +15,6 @@ export const createApplication = async (description: string, purpose: string, ti
 
     const orgApplyID = data[0].FK_organizations;
 
-    const { count } = await supabase.from('applications').select('*', {count: 'exact', head: true}).eq('FK_orgApply', orgApplyID).eq('FK_grantID', grantID);
-    if(count != 0) {
-        return 'application exists';
-    }
-
     const { data: grantData, error: grantError } = await supabase.from('grants').select('FK_organizations').eq('id', grantID);
     if(grantError) {
         console.log(grantError);
@@ -132,7 +127,8 @@ export const getAcceptedApplicationByGrantID = async (grantID: number) => {
 export const getApplicationsByOrgID = async (orgID: number) => {
     const supabase = createClient();
 
-    const { data, error } = await supabase.from('applications').select('id, created_at, FK_grantID(name, amount, description)').eq('FK_orgApply', orgID).eq('status', 'Pending');
+    // return applications for grants in review
+    const { data, error } = await supabase.from('applications').select('id, created_at, grants!inner(name, amount, description)').eq('FK_orgApply', orgID).eq('grants.inReview', true);
     if(error) {
         console.log(error);
         return null;
@@ -159,4 +155,25 @@ export const getApplicationInfo = async (appID: number) => {
         return null;
     }
     return data;
+}
+
+export const hasExistingApplication = async (grantID: number) => {
+    const supabase = createClient();
+
+    const { data: { user } } = await supabase.auth.getUser();
+    const userUUID = user.id;
+
+    const { data, error } = await supabase.from('profiles').select('FK_organizations').eq('id', userUUID);
+    if(error) {
+        console.log(error)
+        return error;
+    }
+
+    const orgApplyID = data[0].FK_organizations;
+
+    const { count } = await supabase.from('applications').select('*', {count: 'exact', head: true}).eq('FK_orgApply', orgApplyID).eq('FK_grantID', grantID);
+    if(count != 0) {
+        return true;
+    }
+    return false;
 }

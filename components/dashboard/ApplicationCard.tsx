@@ -6,7 +6,7 @@ export default function ApplicationCard({appID, name, amount, description, creat
 
     const date = formatDate(createdDate);
     return (
-      <div className="flex flex-col justify-between border-2 border-neutral-400 px-4 py-4 rounded-lg bg-[#FFFEFE] 2xl:w-[28rem] w-[20rem] 2xl:mr-6 mr-6 2xl:my-4 my-3 group hover:text-darkmaroon hover:border-darkmaroon transition duration-500">
+      <div className="flex flex-col justify-between border-2 border-neutral-400 px-4 py-4 rounded-lg bg-[#FFFEFE] 2xl:w-[27rem] w-[20rem] 2xl:mr-6 mr-6 2xl:my-4 my-3 group hover:text-darkmaroon hover:border-darkmaroon transition duration-500">
         <div className="">
           <div className="flex justify-between items-start">
             <div className="2xl:text-2xl text-lg font-semibold">{name}</div>
@@ -14,7 +14,7 @@ export default function ApplicationCard({appID, name, amount, description, creat
               href={`/dashboard/organization/applications/${appID}`}
               className="flex items-center justify-end text-sm space-x-1 hoverRaise min-w-28"
             >
-              <p>View Application</p> <ChevronRightIcon fontSize="inherit" />
+              <p>View App</p> <ChevronRightIcon fontSize="inherit" />
             </Link>
           </div>
           <div className="2xl:text-xl text-lg font-medium 2xl:mt-1">

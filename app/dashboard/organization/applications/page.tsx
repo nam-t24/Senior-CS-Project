@@ -69,7 +69,7 @@ export default function OrganizationApplications() {
             ) : (
               <>
                 <h2 className="text-xl mt-10 border-b-2 border-body pb-2 w-[30rem]">
-                  Applications currently pending
+                  Applications in review
                 </h2>
                 <div className="flex flex-wrap mt-4 space-around">
                   {pendingAppList.map((app) => {
@@ -77,9 +77,9 @@ export default function OrganizationApplications() {
                       <ApplicationCard
                         key={app.id}
                         appID={app.id}
-                        name={app.FK_grantID.name}
-                        amount={app.FK_grantID.amount}
-                        description={app.FK_grantID.description}
+                        name={app.grants.name}
+                        amount={app.grants.amount}
+                        description={app.grants.description}
                         createdDate={app.created_at}
                       />
                     );
