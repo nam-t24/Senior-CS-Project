@@ -1,7 +1,7 @@
 "use client"
 import PageHeading from "@/components/dashboard/PageHeading";
 import { useToast } from "@/components/ui/use-toast";
-import { createApplication } from "@/utils/scripts/applications";
+import { hasExistingApplication, createApplication } from "@/utils/scripts/applications";
 import { getGrantInfo } from "@/utils/scripts/grants";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -19,6 +19,18 @@ export default function Apply({ params }: { params: { id: string } }) {
     const [timeline, setTimeline] = useState("");
 
     useEffect(() => {
+        const checkApplication = async () => {
+            const exists = await hasExistingApplication(+params.id);
+            if(exists) {
+                toast({
+                    variant: "destructive",
+                    title: "Unable to apply",
+                    description: "Organization has existing application",
+                })
+                setTimeout(() => { router.push('/dashboard/organization/applications') }, 500)
+            }
+        }
+
         const getGrantData = async () => {
             const data = await getGrantInfo(+params.id);
             if (data === null || data.length === 0) {
@@ -27,6 +39,8 @@ export default function Apply({ params }: { params: { id: string } }) {
             }
             setGrantName(data[0].name);
         }
+
+        checkApplication();
         getGrantData();
     }, [])
 
