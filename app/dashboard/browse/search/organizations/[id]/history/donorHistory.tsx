@@ -2,28 +2,15 @@
 import PageHeading from "@/components/dashboard/PageHeading";
 import { useState, useEffect } from "react";
 import { getClosedGrantsByOrgID } from "@/utils/scripts/grants";
-import { getUserOrgData } from "@/utils/scripts/organization";
 import { useToast } from "@/components/ui/use-toast";
 import BlockIcon from "@mui/icons-material/Block";
 import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import Link from "next/link";
-
-type orgDataType = {
-  name: string;
-  email: string;
-  bio: string | null;
-  website: string | null;
-  isNonProfit: boolean;
-  owner: string;
-  admins: Array<string>;
-}
 
 export default function DonorHistory({orgID} : {orgID: number}) {
   const { toast } = useToast();
 
-  const [userOrg, setUserOrg] = useState<orgDataType>()
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -41,18 +28,6 @@ export default function DonorHistory({orgID} : {orgID: number}) {
 
   useEffect(() => {
     const getData = async () => {
-      const res = await getUserOrgData(orgID);
-      if (res.error) {
-        toast({
-          variant: "destructive",
-          title: "Unable to retrieve user org data",
-          description: "Reload page or check another time",
-        });
-        setLoading(false);
-        setError(true);
-        return;
-      }
-      setUserOrg(res.orgData)
       const data = await getClosedGrantsByOrgID(orgID);
 
       if (data === null) {
@@ -176,12 +151,7 @@ export default function DonorHistory({orgID} : {orgID: number}) {
     const dateString =
       date.slice(5, 7) + "/" + date.slice(8, 10) + "/" + date.slice(0, 4);
     return (
-      <Link
-      href={
-        orgFunded?.name === userOrg.name
-          ? `/dashboard/organization/history/acceptedGrant/${id}`
-          : `/dashboard/organization/history/closedGrant/${id}`
-      }
+      <div
         className="flex py-4 px-6 even:bg-white odd:bg-gray-100 hover:bg-gray-200 2xl:text-base text-sm"
       >
         <div className="basis-1/3 truncate">{name}</div>
@@ -194,7 +164,7 @@ export default function DonorHistory({orgID} : {orgID: number}) {
           )}
         </div>
         <div className="basis-1/6">{dateString}</div>
-      </Link>
+      </div>
     );
   }
 
