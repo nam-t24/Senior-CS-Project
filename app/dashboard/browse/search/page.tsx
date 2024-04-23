@@ -88,7 +88,7 @@ export default function BrowseSearch() {
         href={`/dashboard/browse/search/${
           type === 0 ? "profiles" : "organizations"
         }/${id}`}
-        className="border-2 border-neutral-400 2xl:w-72 w-64 py-3 2xl:px-5 px-4 2xl:mr-5 mr-4 2xl:mb-4 mb-3 rounded-lg group hover:text-darkmaroon hover:border-darkmaroon transition duration-500"
+        className="border-2 border-neutral-400 bg-[#FFFEFE] 2xl:w-72 w-64 py-3 2xl:px-5 px-4 2xl:mr-5 mr-4 2xl:mb-4 mb-3 rounded-lg group hover:text-darkmaroon hover:border-darkmaroon transition duration-500"
       >
         <div className="font-semibold truncate">{name}</div>
         <div className="text-sm text-body truncate group-hover:text-darkmaroon transition duration-500">

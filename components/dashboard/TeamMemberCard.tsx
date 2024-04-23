@@ -10,6 +10,7 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { makeUserAdmin, demoteAdmin, removeMember, changeOwners } from '@/utils/scripts/team'
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 type MemberInfo = {
     full_name: string | null;
@@ -20,6 +21,8 @@ type MemberInfo = {
 // the isOwner and isAdmin props refer to the current user, you, not the member of this current card
 export default function TeamMemberCard({memberInfo, isOwner, isAdmin, index, numOfAdmins, orgID}: {memberInfo: MemberInfo, isOwner: boolean, isAdmin: boolean, index: number, numOfAdmins: number, orgID: number}) {
     const { toast } = useToast();
+    const router = useRouter();
+
     const [memberIsAdmin, setMemberIsAdmin] = useState(false);
     const [userKicked, setUserKicked] = useState(false);
 
@@ -127,7 +130,7 @@ export default function TeamMemberCard({memberInfo, isOwner, isAdmin, index, num
                     </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                    <DropdownMenuItem>View Profile</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => {router.push(`/dashboard/browse/search/profiles/${memberInfo.id}`)}}>View Profile</DropdownMenuItem>
                     <DropdownMenuItem onClick={() => {navigator.clipboard.writeText(memberInfo.email)}}>Copy Email</DropdownMenuItem>
 
                     {(isOwner || isAdmin) && 
