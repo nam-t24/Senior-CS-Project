@@ -177,3 +177,34 @@ export const hasExistingApplication = async (grantID: number) => {
     }
     return false;
 }
+
+export const canDelete = async (appID: number) => {
+    const supabase = createClient();
+
+    const { data: { user }} = await supabase.auth.getUser();
+    const userUUID = user.id;
+
+    const {data: userOrgID, error} = await supabase.from('profiles').select('FK_organizations').eq('id', userUUID);
+    if(error) {
+        console.log(error);
+        return false;
+    }
+
+    const {data: appOrgID, error: dataError} = await supabase.from('applications').select('FK_orgApply').eq('id', appID);
+    if(dataError) {
+        console.log(dataError);
+        return false;
+    }
+    return userOrgID[0].FK_organizations === appOrgID[0].FK_orgApply;
+}
+
+export const deleteApplication = async (appID: number) => {
+    const supabase = createClient();
+    
+    const { error } = await supabase.from('applications').delete().eq('id', appID);
+    if(error){
+        console.log(error);
+        return error;
+    }
+    return null;
+}
