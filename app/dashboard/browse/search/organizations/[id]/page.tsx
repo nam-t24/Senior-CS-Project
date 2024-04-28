@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default function OrganizationPage({ params }: { params: { id: number } }) {
 
-  const { toast } = useToast;
+  const { toast } = useToast();
 
   const [errorFetching, setErrorFetching] = useState(false);
   const [email, setEmail] = useState('');
