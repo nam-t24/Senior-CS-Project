@@ -66,3 +66,13 @@ export const getSingleOrg = async (id: number) => {
     }
     return data[0];
 }
+
+export const getOrgProfiles = async (id: number) => {
+    const supabase = createClient();
+    const { data, error } = await supabase.from('profiles').select('id, full_name, email').neq('full_name', null).eq('FK_organizations', id);
+    if (error) {
+        console.log(error);
+        return null;
+    }
+    return data;
+}
