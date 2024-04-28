@@ -39,6 +39,19 @@ input:-webkit-autofill:active {
   }
 }
 
+.animateAppear {
+  animation: animateAppear 0.3s ease 0.15s both;
+}
+
+@keyframes animateAppear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .hoverRaise:hover{
   animation: raise 0.7s ease-out;
 }
@@ -90,4 +103,18 @@ input:-webkit-autofill:active {
     top: 24px;
     height: 32px;
   }
+}
+
+:focus {outline:none !important;}
+
+.shadow {
+  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+
+.simpleShadow {
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+input::-ms-clear, input::-ms-reveal {
+  display: none;
 }

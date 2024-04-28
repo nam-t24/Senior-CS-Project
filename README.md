@@ -2,6 +2,10 @@
 
 #### Bridging the gap between non-profits and donors to fund projects.
 
+Demo the project on [mintd.vercel.app](https://mintd.vercel.app/).
+
+To run and demo the project locally (same as the deployed version on [mintd.vercel.app](https://mintd.vercel.app/)), view the steps [here](/DEMO.md).
+
 ## Tech Stack
 ### Front End
 - Next.js 14
@@ -14,7 +18,7 @@
 ### Deployment
 - Vercel
 
-## Initialization
+## Initialization for Developers
 ### Connecting to Supabase Database
 
 1. Get Project Keys
@@ -29,7 +33,7 @@
    NEXT_PUBLIC_SUPABASE_URL=your-project-url
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
    ```
-   Don't populate in .env.example and upload online lol
+   Don't populate in `.env.example` and upload online lol
 
 ### Running the Project
 
@@ -74,3 +78,34 @@ theme: {
 Use Material UI icons found [here](https://mui.com/material-ui/material-icons/) for any svg icons
 
 Minted uses [shadcn/ui](https://ui.shadcn.com/) for UI components
+
+## Directory Navigation
+
+### Page navigation
+`/app`  
+Contains all path files for website
+
+`/app/dashboard`  
+Contains pages split by the sidenav menu options
+
+`/app/login`  
+Contains only the login page
+
+`/app/auth/callback`  
+Handles user auth control from email or google sign in
+
+### Supabase connection
+`/utils/supabase`  
+Handles the integration of Supabase with the project.
+
+### API calls
+`/utils/scripts`  
+Contains all API calls and queries to the Supabase database. Calls are separated by the table/functionality it is associated with.
+
+### Shadcn components
+`/components/ui`  
+Reserved for all component files installed from shadcn
+
+### Database types
+`/database.types.ts`  
+Establishes types of database objects. Created and updated using Supabase CLI type generation. Allows typescript to recognize data from Supabase queries.
