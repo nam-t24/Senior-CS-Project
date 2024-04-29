@@ -110,7 +110,7 @@ export default function BrowseSearch() {
             There was an error retrieving grants. Reload or try again later.
           </div>
         ) : (
-          // Successfull fetch
+          // Successful fetch
           <section className="animateDown">
             {/* Search bar */}
             <input
