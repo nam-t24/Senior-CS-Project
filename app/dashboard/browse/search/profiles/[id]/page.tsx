@@ -30,8 +30,9 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
       setName(profileData.full_name);
       setEmail(profileData.email);
       setBio(profileData.bio);
-      setOrgName(profileData.FK_organizations.name);
-
+      if (profileData.FK_organizations === null) {
+        setOrgName('This user is currently not in any organization');
+      } else { setOrgName(profileData.FK_organizations.name); }
     }
 
     fetchData();
@@ -46,14 +47,13 @@ export default function ProfilePage({ params }: { params: { id: string } }) {
           There was an error retrieving profile. Reload or try again later.
         </div>
       ) : (
-        <div className="flex mt-8">
-          <div className="2xl:w-[50vw] w-[50vw] 2xl:h-[65vh] h-[55vh] 2xl:px-10 px-6 2xl:py-8 py-6 bg-[url('/assets/backgrounds/section_background.svg')] bg-no-repeat bg-cover bg-bottom rounded-3xl shadow-inner shadow-xl">
-            <div className="2xl:text-5xl text-4xl 2xl:ml-7 ml-5 2xl:mt-7 mt-5 2xl:mb-7 mb-2 font-semibold text-darkmaroon">{name}</div>
-            <div className="2xl:text-2xl text-2xl 2xl:ml-7 ml-5 2xl:mb-7 mb-4 ">{email}</div>
-            <div className="2xl:w-96 w-80 py-3 2xl:text-lg text-lg 2xl:ml-7 ml-5 2xl:mb-12 mb-4 ">{bio}</div>
-            <div className="2xl:text-xl text-xl 2xl:ml-7 ml-5 2xl:mb-2 mb-2 font-medium">Organization</div>
-            <div className="border-b border-body 2xl:w-72 w-96 2xl:ml-7 ml-5 2xl:mb-px mb-px"></div>
-            <div className="2xl:w-96 w-80 py-3 2xl:text-md text-md 2xl:ml-7 ml-5 2xl:mb-12 mb-4">{orgName}</div>
+        <div className="mt-8 2xl:max-h-[700px]">
+          <div className="2xl:w-[920px] w-[760px] 2xl:min-w-[920px] min-w-[760px] 2xl:h-[575px] 2xl:min-h-[575px] h-[510px] 2xl:px-12 px-10 2xl:py-8 py-6 mb-4 bg-[url('/assets/backgrounds/section_background.svg')] bg-no-repeat bg-cover bg-bottom rounded-3xl shadow-inner shadow-xl">
+            <div className="2xl:text-4xl text-3xl 2xl:mb-2 mb-2 font-semibold text-darkmaroon">{name}</div>
+            <div className="2xl:text-2xl text-xl 2xl:mb-10 mb-8">{email}</div>
+            <div className="2xl:w-[30rem] w-[30rem] 2xl:text-base text-sm 2xl:mb-20 mb-10 2xl:h-[130px] h-[120px]">{bio}</div>
+            <div className="2xl:text-xl text-base 2xl:mb-2 mb-2 font-medium 2xl:w-72 w-64 border-b border-body border-black pb-2">Organization</div>
+            <div className="2xl:w-96 w-80 2xl:text-base text-sm 2xl:mb-18 mb-14">{orgName}</div>
           </div>
         </div>
       )}

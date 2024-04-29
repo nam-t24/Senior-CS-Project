@@ -1,6 +1,5 @@
 "use server"
 import { createClient } from "@/utils/supabase/server"
-import { PostgrestError, PostgrestSingleResponse } from "@supabase/supabase-js";
 
 export const getProfiles = async () => {
     const supabase = createClient();
@@ -33,18 +32,11 @@ type singleProfile = {
 
 export const getSingleProfile = async (id: string) => {
     const supabase = createClient();
-    const { data, error } = await supabase.from('profiles').select('id, full_name, email, bio, FK_organizations, FK_organizations(name)').eq('id', id).returns<singleProfile[]>();
+    const { data, error } = await supabase.from('profiles').select('id, full_name, email, bio, FK_organizations(name)').eq('id', id).returns<singleProfile[]>();
     if (error) {
         console.log(error);
         return null;
     }
-    // var tempData = data[0];
-    // var { x, y } = await supabase.from('organizations').select('name').eq('id', tempData[0].FK_organizations)
-    // if (error) {
-    //     console.log(error);
-    //     return null;
-    // }
-    // const data = { full_name: userData[0].name, email: userData[0].email, bio: userData[0].bio, orgName: orgData[0].name }
     return data[0];
 }
 
