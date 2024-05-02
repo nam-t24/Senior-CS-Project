@@ -84,13 +84,15 @@ export default function OrganizationPage({ params }: { params: { id: number } })
             <div className="2xl:w-[30rem] w-[30rem] 2xl:text-base text-sm 2xl:mb-20 mb-10 2xl:h-[130px] h-[120px]">{bio}</div>
             <div className="2xl:text-xl text-base 2xl:mb-2 mb-2 font-medium 2xl:w-72 w-64 border-b border-body border-black pb-2">Org Type</div>
             <div className="2xl:w-96 w-80 2xl:text-base text-sm 2xl:mb-18 mb-14">{orgType ? ('Seeking Funding') : ('Giving Funding')}</div>
-            <div>
-              <Link
-                href={`/dashboard/browse/search/organizations/${params.id}/history`}
-                className="bg-[#944E63] 2xl:w-48 w-32 py-3 2xl:px-6 px-4 2xl:mb-4 mb-3 rounded-lg group hover:text-black hover:border-darkmaroon transition duration-500 text-white 2xl:text-xl text-base"
-              >View History
-              </Link>
-            </div>
+            {!orgType &&
+              <div>
+                <Link
+                  href={`/dashboard/browse/search/organizations/${params.id}/history`}
+                  className="bg-[#944E63] 2xl:w-48 w-32 py-3 2xl:px-6 px-4 2xl:mb-4 mb-3 rounded-lg group hover:text-black hover:border-darkmaroon transition duration-500 text-white 2xl:text-xl text-base"
+                >View History
+                </Link>
+              </div>
+            }
           </div>
           <div className="2xl:text-2xl text-2xl 2xl:mb-px 2xl:mt-12 mt-12 mb-px font-medium">Team</div>
           <div className="flex flex-wrap mt-4">
